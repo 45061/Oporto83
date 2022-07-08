@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import AppLayout from "../../components/AppLayout";
 import NavBar from "../../components/Navbar";
 import styles from "../../styles/Home.module.scss";
@@ -9,6 +10,11 @@ export default function rooms() {
       <NavBar />
       <AppLayout>
         <h1>Estas son las Habitaciones</h1>
+        <Link href="/rooms/room">
+          <a>
+            <p>Room</p>
+          </a>
+        </Link>
       </AppLayout>
       <footer className={styles.footer}>
         <a
