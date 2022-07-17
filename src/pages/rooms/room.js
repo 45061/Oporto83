@@ -35,6 +35,7 @@ export default function rooms() {
         onClose={() => dispatch(showFormAction())}
         size={largeScreen ? "50%" : "90%"}
       >
+
         <GetEmail />
       </PublicModal>
     </div>
