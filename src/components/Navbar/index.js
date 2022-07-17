@@ -1,8 +1,27 @@
 import Link from "next/link";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "@mantine/hooks";
+import {
+  hiddeRegisterForm,
+  showLoginForm,
+  hiddeLoginForm,
+  hiddeRecoverPassword,
+} from "../../store/actions/modalAction";
+import Register from "../../components/RegisterForm";
+import Login from "../LoginForm";
 import { colors } from "../../styles/theme";
-import Hamburger from "../Hamburger";
+import PublicModal from "../PublicModal";
+import GetEmail from "../GetEmail";
 
 export default function NavBar() {
+  const dispatch = useDispatch();
+  const largeScreen = useMediaQuery("(min-width: 1024px)");
+  const { showingRegisterForm, showingLoginForm, showRecoverPassword } =
+    useSelector((state) => state.modalReducer);
+  const handleClick = () => {
+    dispatch(showLoginForm());
+  };
   return (
     <>
       <navbar>
@@ -44,9 +63,30 @@ export default function NavBar() {
                 <h3>Empresarial</h3>
               </a>
             </Link>
-            <Hamburger />
+
+            <button onClick={handleClick}>Login</button>
           </div>
         </nav>
+        <PublicModal
+          opened={showingRegisterForm}
+          onClose={() => dispatch(hiddeRegisterForm())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <Register />
+        </PublicModal>
+        <PublicModal
+          opened={showingLoginForm}
+          onClose={() => dispatch(hiddeLoginForm())}
+          size={largeScreen ? "30%" : "90%"}
+        >
+          <Login />
+        </PublicModal>
+        <PublicModal
+          opened={showRecoverPassword}
+          onClose={() => dispatch(hiddeRecoverPassword())}
+        >
+          <GetEmail />
+        </PublicModal>
       </navbar>
       <style jsx>
         {`
@@ -89,6 +129,19 @@ export default function NavBar() {
           }
           h3 {
             color: ${colors.secondary};
+          }
+          button {
+            border: none;
+            background: white;
+            color: ${colors.secondary};
+            display: block;
+            font-size: 1.17em;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+            cursor: pointer;
           }
         `}
       </style>
