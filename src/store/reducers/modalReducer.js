@@ -21,7 +21,7 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showingRegisterForm: true,
-      };
+
     case HIDDE_REGISTER_FORM:
       return {
         ...state,
@@ -46,7 +46,7 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showRecoverPassword: true,
-      };
+
     case HIDDE_RECOVER_PASSWORD:
       return {
         ...state,

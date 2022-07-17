@@ -7,6 +7,8 @@ import AppLayout from "../../components/AppLayout";
 import NavBar from "../../components/Navbar";
 import PublicModal from "../../components/PublicModal";
 
+import GetEmail from "../../components/GetEmail";
+
 export default function rooms() {
   const dispatch = useDispatch();
   const largeScreen = useMediaQuery("(min-width: 1024px)");
@@ -33,7 +35,8 @@ export default function rooms() {
         onClose={() => dispatch(showFormAction())}
         size={largeScreen ? "50%" : "90%"}
       >
-        <h1>Hola</h1>
+
+        <GetEmail />
       </PublicModal>
     </div>
   );

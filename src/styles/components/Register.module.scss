@@ -1,0 +1,91 @@
+@import "../abstract/mixins";
+
+.register__header {
+  padding: 1rem 0;
+}
+
+.register__brand {
+  position: absolute;
+  top: 10px;
+  left: 40%;
+  height: 80px;
+  img {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.register__brand__icon {
+  display: block;
+  height: 100%;
+  transform: scale(0, 2, 0.2);
+}
+
+.register__brand__letter {
+  display: block;
+  height: 100%;
+}
+
+.register__title {
+  margin: 0;
+  color: #343a40;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.register__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+
+  @include celphone {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.register__input {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+}
+
+.register__input:focus {
+  outline-color: #0d6efd;
+}
+
+.register__input--span {
+  // @include tabletAndDesktop() {
+  //   grid-column: span 2;
+  // }
+}
+
+.register__link {
+  border: none;
+  color: #174ea6;
+  background-color: white;
+  font-size: 0.8rem;
+  @include celphone() {
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+
+.register__footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.btn_action {
+  justify-content: center;
+  flex-grow: 0.5;
+  padding: 6px 10px;
+  margin: 0px 10px;
+  border: 1px solid #174ea6;
+  border-radius: 2px;
+  color: white;
+  background-color: #174ea6;
+}
