@@ -1,27 +1,10 @@
 import Link from "next/link";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useMediaQuery } from "@mantine/hooks";
-import {
-  hiddeRegisterForm,
-  showLoginForm,
-  hiddeLoginForm,
-  hiddeRecoverPassword,
-} from "../../store/actions/modalAction";
-import Register from "../../components/RegisterForm";
-import Login from "../LoginForm";
 import { colors } from "../../styles/theme";
-import PublicModal from "../PublicModal";
-import GetEmail from "../GetEmail";
+
+import MenuNavbar from "../MenuNavbar";
 
 export default function NavBar() {
-  const dispatch = useDispatch();
-  const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const { showingRegisterForm, showingLoginForm, showRecoverPassword } =
-    useSelector((state) => state.modalReducer);
-  const handleClick = () => {
-    dispatch(showLoginForm());
-  };
   return (
     <>
       <navbar>
@@ -32,61 +15,28 @@ export default function NavBar() {
         <nav>
           <logo>
             <Link href="/">
-              <a>
-                <img src="/oporto.png" alt="oporto83" />
-              </a>
+              <img src="/oporto.png" alt="oporto83" />
             </Link>
           </logo>
           <div>
             <Link href="/rooms">
-              <a>
-                <h3>Descripción</h3>
-              </a>
+              <h3>Descripción</h3>
             </Link>
             <Link href="/rooms">
-              <a>
-                <h3>Ofertas</h3>
-              </a>
+              <h3>Ofertas</h3>
             </Link>
             <Link href="/rooms">
-              <a>
-                <h3>Cosas por hacer</h3>
-              </a>
+              <h3>Cosas por hacer</h3>
             </Link>
             <Link href="/rooms">
-              <a>
-                <h3>Contactanos</h3>
-              </a>
+              <h3>Contactanos</h3>
             </Link>
             <Link href="/rooms">
-              <a>
-                <h3>Empresarial</h3>
-              </a>
+              <h3>Empresarial</h3>
             </Link>
-
-            <button onClick={handleClick}>Login</button>
+            <MenuNavbar />
           </div>
         </nav>
-        <PublicModal
-          opened={showingRegisterForm}
-          onClose={() => dispatch(hiddeRegisterForm())}
-          size={largeScreen ? "50%" : "90%"}
-        >
-          <Register />
-        </PublicModal>
-        <PublicModal
-          opened={showingLoginForm}
-          onClose={() => dispatch(hiddeLoginForm())}
-          size={largeScreen ? "30%" : "90%"}
-        >
-          <Login />
-        </PublicModal>
-        <PublicModal
-          opened={showRecoverPassword}
-          onClose={() => dispatch(hiddeRecoverPassword())}
-        >
-          <GetEmail />
-        </PublicModal>
       </navbar>
       <style jsx>
         {`
@@ -115,6 +65,7 @@ export default function NavBar() {
           }
           img {
             width: 110px;
+            cursor: pointer;
           }
           contact {
             display: flex;
@@ -129,6 +80,7 @@ export default function NavBar() {
           }
           h3 {
             color: ${colors.secondary};
+            cursor: pointer;
           }
           button {
             border: none;
@@ -142,7 +94,7 @@ export default function NavBar() {
             margin-inline-end: 0px;
             font-weight: bold;
             cursor: pointer;
-          }
+
         `}
       </style>
     </>

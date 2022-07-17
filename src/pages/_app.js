@@ -1,13 +1,35 @@
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import Head from "next/head";
+import Cookies from "universal-cookie";
 import { wrapper, store } from "../store/store";
-
+import AppLayout from "../components/AppLayout";
+import NavBar from "../components/Navbar";
 import "../styles/globals.scss";
+import { getUerData } from "../store/actions/authAction";
 
 function MyApp({ Component, pageProps }) {
+  const dispatch = useDispatch();
+
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+  useEffect(() => {
+    if (token) {
+      dispatch(getUerData(token));
+    }
+  }, [token, dispatch]);
   return (
     <>
+      <Head>
+        <title>Oporto 83</title>
+        <meta name="oporto83" content="About that Oporto83" />
+        <link rel="icon" href="/oporto.png" />
+      </Head>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <NavBar />
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
       </Provider>
     </>
   );

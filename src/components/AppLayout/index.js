@@ -13,7 +13,7 @@ export default function AppLayout({ children }) {
         {`
           div {
             display: grid;
-            height: 150vh;
+            height: 100%;
             place-items: center;
           }
           main {
@@ -26,8 +26,8 @@ export default function AppLayout({ children }) {
           }
           @media (min-width: ${breakpoints.mobile}) {
             main {
-              margin-top: 140px;
-              height: 300vh;
+              margin-top: 180px;
+              height: 96%;
               width: 82%;
             }
           }
