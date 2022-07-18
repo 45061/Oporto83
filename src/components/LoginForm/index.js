@@ -8,6 +8,7 @@ import {
   showRecoverPassword,
   showRegisterForm,
 } from "../../store/actions/modalAction";
+import { login } from "../../store/actions/authAction";
 
 function Login() {
   const [loginData, setLoginData] = useState({
@@ -25,12 +26,12 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // dispatch(
-    //   authUser({
-    //     email: loginData.email,
-    //     password: loginData.password,
-    //   })
-    // );
+    dispatch(
+      login({
+        email: loginData.email,
+        password: loginData.password,
+      })
+    );
   };
 
   return (
@@ -88,7 +89,7 @@ function Login() {
         <button
           className={styles.btn_action}
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
         >
           Acceder
         </button>

@@ -9,16 +9,19 @@ import {
 import InputValidator from "../ImputValidator";
 
 import styles from "../../styles/components/Register.module.scss";
-// import { register } from '../store/reducers/Auth.actionCreator';
+
+import { register } from "../../store/actions/authAction";
 
 export default function Register() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumer: "",
+
+    numer: "",
     password: "",
     confirmPassword: "",
+    typeUser: "User",
   });
 
   const dispatch = useDispatch();
@@ -33,7 +36,9 @@ export default function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // dispatch(register(formData));
+
+    dispatch(register(formData));
+
     dispatch(hiddeRegisterForm());
   };
 
@@ -81,7 +86,7 @@ export default function Register() {
           />
         </div>
         <InputValidator
-          name="phoneNumer"
+          name="numer"
           value={formData.name}
           type="text"
           classname={styles.register__input}
@@ -124,7 +129,7 @@ export default function Register() {
         <button
           className={styles.btn_action}
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
         >
           Registrarse
         </button>

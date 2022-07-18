@@ -1,0 +1,32 @@
+.image_item {
+  display: flex;
+  margin: 10px 0;
+}
+.image_item__btn_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.upload__image_wrapper {
+  button {
+    justify-content: center;
+    flex-grow: 0.5;
+    padding: 3px 6px;
+    margin: 2px 2px;
+    border: 1px solid #174ea6;
+    border-radius: 4px;
+    color: white;
+    background-color: #174ea6;
+  }
+}
+
+.upload__image_button {
+  display: flex;
+}
+
+.image_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 10px;
+}
