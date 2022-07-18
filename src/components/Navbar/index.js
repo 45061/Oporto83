@@ -34,6 +34,7 @@ export default function NavBar() {
             <Link href="/rooms">
               <h3>Empresarial</h3>
             </Link>
+
             <MenuNavbar />
           </div>
         </nav>
@@ -94,7 +95,7 @@ export default function NavBar() {
             margin-inline-end: 0px;
             font-weight: bold;
             cursor: pointer;
-
+          }
         `}
       </style>
     </>

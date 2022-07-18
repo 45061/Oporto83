@@ -9,6 +9,7 @@ import {
 import InputValidator from "../ImputValidator";
 
 import styles from "../../styles/components/Register.module.scss";
+
 import { register } from "../../store/actions/authAction";
 
 export default function Register() {
@@ -16,6 +17,7 @@ export default function Register() {
     firstName: "",
     lastName: "",
     email: "",
+
     numer: "",
     password: "",
     confirmPassword: "",
@@ -34,7 +36,9 @@ export default function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     dispatch(register(formData));
+
     dispatch(hiddeRegisterForm());
   };
 
