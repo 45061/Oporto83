@@ -2,14 +2,14 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/destructuring-assignment */
 
-import styles from "../../styles/room.module.scss";
+import styles from "../../styles/promo.module.scss";
 
 import Slideshow from "../../components/Slideshow";
 import { colors } from "../../styles/theme";
 import CollapseButton from "../../components/CollapseButton";
 
-export default function Room(roomInfo) {
-  if (roomInfo.roomInfo === 0) {
+export default function Promo(promoInfo) {
+  if (promoInfo.promoInfo === 0) {
     return (
       <>
         <h1>404</h1>
@@ -29,7 +29,7 @@ export default function Room(roomInfo) {
   // const dispatch = useDispatch();
   // const sampleListData = useSelector((state) => state.sampleData);
   // const { sample } = sampleListData;
-  const thisRoom = roomInfo.roomInfo;
+  const thisPromo = promoInfo.promoInfo;
 
   // const handleClcik = () => {
   //   dispatch(showFormAction());
@@ -39,16 +39,16 @@ export default function Room(roomInfo) {
   // }, [dispatch]);
   return (
     <>
-      <div className={styles.title__room}>
-        <h1>Disfruta de nuestra habitación</h1>
+      <div className={styles.title__promo}>
+        <h1>Disfruta de nuestra promoción</h1>
       </div>
-      <div className={styles.room__title}>
-        <h1>{`${thisRoom.roomNumer}`}</h1>
+      <div className={styles.promo__title}>
+        <h1>{`${thisPromo.namePromo}`}</h1>
       </div>
       <div className={styles.room__container}>
         <container className={styles.container__slide}>
           <Slideshow controles autoplay velocidad="5000" intervalo="7000">
-            {thisRoom.images.map((image) => (
+            {thisPromo.images.map((image) => (
               <slide className={styles.oporto__slide} key={image}>
                 <img src={image} alt="room Oporto 83" />
               </slide>
@@ -57,102 +57,23 @@ export default function Room(roomInfo) {
         </container>
       </div>
       <div className={styles.room__oporto}>
-        <p> {thisRoom.description}</p>
+        <p> {thisPromo.description}</p>
+        <div className={styles.description__room}>
+          <table className={styles.room__list}>
+            <caption>Que incluye la promo:</caption>
+            <ul>
+              {thisPromo.gift.map((don) => (
+                <tr key={don}>
+                  <td>
+                    <li>{don}</li>
+                  </td>
+                </tr>
+              ))}
+            </ul>
+          </table>
+        </div>
         <div className={styles.oporto__description}>
-          <div className={styles.description__bath}>
-            <table className={styles.bath__list}>
-              <caption>En el baño encuentras:</caption>
-              <ul>
-                <tr>
-                  <td>
-                    <li>Toallas</li>
-                  </td>
-                  <td>
-                    <li>Artículos de aseo gratis</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>Bidet</li>
-                  </td>
-                  <td>
-                    <li>Aseo adicional</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>WC</li>
-                  </td>
-                  <td>
-                    <li>Toallas / sábanas (por un suplemento)</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>Ducha de Agua Caliente</li>
-                  </td>
-                  <td>
-                    <li>Papel higiénico</li>
-                  </td>
-                </tr>
-              </ul>
-            </table>
-          </div>
-          <div className={styles.description__room}>
-            <table className={styles.room__list}>
-              <caption>Equipamento Habitación:</caption>
-              <ul>
-                <tr>
-                  <td>
-                    <li>Escritorio</li>
-                  </td>
-                  <td>
-                    <li>Ropa de cama</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>TV de pantalla plana</li>
-                  </td>
-                  <td>
-                    <li>Muebles de exterior</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>Zona de comedor exterior</li>
-                  </td>
-                  <td>
-                    <li>Suelo de madera o parquet</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>Perchero</li>
-                  </td>
-                  <td>
-                    <li>Servicio de despertador</li>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <li>Equipo de planchado</li>
-                  </td>
-                  <td>
-                    <li>Recepción 24h</li>
-                  </td>
-                </tr>
-                {/* <tr>
-              <td><li></li></td>
-              <td><li></li></td>
-            </tr>
-            <tr>
-              <td><li></li></td>
-              <td><li></li></td>
-            </tr> */}
-              </ul>
-            </table>
-          </div>
+          <h2>Precio: ${thisPromo.price}</h2>
         </div>
       </div>
       <div className={styles.oporto__service}>
@@ -216,20 +137,19 @@ export default function Room(roomInfo) {
 
 export async function getServerSideProps(context) {
   // const router = useRouter();
-  const { room } = context.query;
-  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+  const { promo } = context.query;
+  const apiPromo = await fetch(`http://localhost:3000/api/promo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const dataRooms = await apiRooms.json();
-
-  const { rooms } = dataRooms;
-  const dataRoom = rooms.filter((roomId) => roomId._id === room);
-  if (dataRoom.length === 0) {
-    dataRoom[0] = 0;
+  const dataPromos = await apiPromo.json();
+  const { promos } = dataPromos;
+  const dataPromo = promos.filter((promoId) => promoId._id === promo);
+  if (dataPromo.length === 0) {
+    dataPromo[0] = 0;
   }
-  const roomInfo = dataRoom[0];
-  return { props: { roomInfo } };
+  const promoInfo = dataPromo[0];
+  return { props: { promoInfo } };
 }

@@ -1,4 +1,5 @@
 import {
+  SHOW_PROMO,
   HIDDE_REGISTER_FORM,
   SHOW_REGISTER_FORM,
   SHOW_LOGIN_FORM,
@@ -13,6 +14,7 @@ const initialState = {
   showingLoginForm: false,
   showForm: false,
   showRecoverPassword: false,
+  showPromo: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -41,6 +43,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showForm: !state.showForm,
+      };
+    case SHOW_PROMO:
+      return {
+        ...state,
+        showPromo: !state.showPromo,
       };
     case HIDDE_LOGIN_FORM:
       return {

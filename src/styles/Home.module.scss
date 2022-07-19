@@ -222,11 +222,15 @@
   h2 {
     color: #1c5480;
     font-size: 28px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 
   p {
     font-size: 18px;
     text-align: justify;
+  }
+  img {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -273,6 +277,7 @@
   h4 {
     color: #1c5480;
     margin: 0;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -283,6 +288,7 @@
     color: #1c5480;
     font-size: 28px;
     margin-left: 80px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -299,6 +305,7 @@
     margin: 0;
     color: #1c5480;
     font-size: 28px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -314,5 +321,6 @@
 
   h2 {
     color: #1c5480;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
 }

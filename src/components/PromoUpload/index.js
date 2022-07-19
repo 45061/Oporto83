@@ -5,43 +5,45 @@ import { useDispatch } from "react-redux";
 import ImageUploading from "react-images-uploading";
 
 import InputValidator from "../ImputValidator";
-import { postRoom } from "../../store/actions/roomAction";
+import { postPromo } from "../../store/actions/roomAction";
 import styles from "../../styles/components/ImageUploadForm.module.scss";
 
-function ImageUploadForm() {
+export default function PromoUpload() {
   const [images, setImages] = useState([]);
   const maxNumber = 69;
   const onChanged = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    // console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 
-  const [roomData, setRoomData] = useState({
-    roomNumer: "",
+  const [promoData, setPromoData] = useState({
+    namePromo: "",
     description: "",
     price: "",
+    gift: [],
   });
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    setRoomData({
-      ...roomData,
+    setPromoData({
+      ...promoData,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const giftData = promoData.gift.split(",");
     const data = {
-      roomNumer: roomData.roomNumer,
-      description: roomData.description,
-      price: roomData.price,
+      namePromo: promoData.namePromo,
+      description: promoData.description,
+      price: promoData.price,
+      gift: giftData,
       images,
     };
-
-    dispatch(postRoom(data));
+    console.log(data);
+    dispatch(postPromo(data));
   };
 
   return (
@@ -109,12 +111,12 @@ function ImageUploadForm() {
       </header>
       <div className="videoform__content">
         <InputValidator
-          name="roomNumer"
-          id="roomNumer"
-          value={roomData.title}
+          name="namePromo"
+          id="namePromo"
+          value={promoData.namePromo}
           type="text"
           classname={styles.image_upload_form__input}
-          placeholder="Numero de Room"
+          placeholder="Nombre Promoción"
           onChange={onChange}
           errorMessage="El titulo es obligatorio "
           required
@@ -122,7 +124,7 @@ function ImageUploadForm() {
         <InputValidator
           name="description"
           id="description"
-          value={roomData.description}
+          value={promoData.description}
           type="text"
           classname={styles.image_upload_form__input}
           placeholder="Descripcion de la habitación"
@@ -133,10 +135,19 @@ function ImageUploadForm() {
         <InputValidator
           name="price"
           id="price"
-          value={roomData.price}
+          value={promoData.price}
           type="text"
           classname={styles.image_upload_form__input}
           placeholder="Precio"
+          onChange={onChange}
+        />
+        <InputValidator
+          name="gift"
+          id="gift"
+          value={promoData.gift}
+          type="text"
+          classname={styles.image_upload_form__input}
+          placeholder="Que incluye: objeto 1, objeto 2"
           onChange={onChange}
         />
       </div>
@@ -146,5 +157,3 @@ function ImageUploadForm() {
     </form>
   );
 }
-
-export default ImageUploadForm;
