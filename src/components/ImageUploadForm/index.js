@@ -13,7 +13,6 @@ function ImageUploadForm() {
   const maxNumber = 69;
   const onChanged = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 

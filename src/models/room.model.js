@@ -31,6 +31,10 @@ const roomSchema = new Schema(
       required: true,
       type: String,
     },
+    publicIds: {
+      required: true,
+      type: Array,
+    },
     syppliesId: {
       type: [{ type: Schema.Types.ObjectId, ref: "Supplies" }],
     },

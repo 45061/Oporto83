@@ -9,6 +9,7 @@ import {
   ROOM_DETAIL_SUCCESS,
   RESET_INITIAL_STATE,
 } from "../types";
+import { showFormAction, showPromoAction } from "./modalAction";
 
 const url = process.env.REACT_APP_BACKEND_URI;
 const actionBody = (type, payload) => ({ type, payload });
@@ -48,10 +49,42 @@ export const postRoom = (uploadData) => async (dispatch) => {
         }
       },
     });
-    // if (response.status === 201) dispatch(showFormAction());
+    if (response.status === 201) {
+      dispatch(showFormAction());
+    }
     console.log("esto es el response", response);
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
+  } catch (error) {
+    console.log("hay un error en el post Video");
+  }
+};
+
+export const deleteRoom = (room) => async (dispatch) => {
+  try {
+    // dispatch(actionBody(IS_UPLOADING_ROOM, true));
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const response = await fetch(`http://localhost:3000/api/rooms/room`, {
+      method: "DELETE",
+      body: JSON.stringify(room),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress: (progressEvent) => {
+        const completed = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
+        // console.log(completed);
+        if (completed === 100) {
+          dispatch(actionBody(IS_UPLOADING_ROOM, false));
+          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
+        }
+      },
+    });
+    // if (response.status === 201)
   } catch (error) {
     console.log("hay un error en el post Video");
   }
@@ -82,7 +115,7 @@ export const postPromo = (uploadData) => async (dispatch) => {
         }
       },
     });
-    // if (response.status === 201) dispatch(showFormAction());
+    if (response.status === 201) dispatch(showPromoAction());
     console.log("esto es el response", response);
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
@@ -94,3 +127,33 @@ export const postPromo = (uploadData) => async (dispatch) => {
 export function resetState(payload) {
   return { type: RESET_INITIAL_STATE, payload };
 }
+
+export const deletePromo = (promo) => async (dispatch) => {
+  try {
+    // dispatch(actionBody(IS_UPLOADING_ROOM, true));
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const response = await fetch(`http://localhost:3000/api/promo`, {
+      method: "DELETE",
+      body: JSON.stringify(promo),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress: (progressEvent) => {
+        const completed = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
+        // console.log(completed);
+        if (completed === 100) {
+          dispatch(actionBody(IS_UPLOADING_ROOM, false));
+          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
+        }
+      },
+    });
+    // if (response.status === 201)
+  } catch (error) {
+    console.log("hay un error en el post Video");
+  }
+};
