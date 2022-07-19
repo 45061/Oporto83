@@ -42,11 +42,12 @@ export default async function thePromo(req, res) {
         if (!images.length) {
           console.log("error");
         }
-        // console.log(gift);
+        const publicIds = [];
         const ulrImages = await Promise.all(
           images.map(async (item) => {
             const result = await cloudinary.uploader.upload(item.data_url);
-            const { url } = result;
+            const { url, public_id } = result;
+            publicIds.push(public_id);
             return url;
           })
         );
@@ -54,11 +55,39 @@ export default async function thePromo(req, res) {
         const promo = await Promo.create({
           ...data,
           images: ulrImages,
+          publicIds,
         });
 
         console.log(promo);
 
         return res.status(201).json({ message: "Los datos llegaron", promo });
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+
+    case "DELETE":
+      try {
+        const { authorization } = req.headers;
+        const token = authorization.split(" ")[1];
+        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const user = await User.findById(id);
+        if (!user) {
+          return res.status(400).json({ message: "No find User" });
+        }
+
+        const data = JSON.parse(body);
+        const { publicIds, _id } = data;
+        const deletePromo = await Promo.findByIdAndDelete(_id);
+
+        await Promise.all(
+          publicIds.map(async (item) => {
+            await cloudinary.uploader.destroy(item);
+          })
+        );
+
+        return res
+          .status(201)
+          .json({ message: "Los datos fueron borrados", deletePromo });
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }

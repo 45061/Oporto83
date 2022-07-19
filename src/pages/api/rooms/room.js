@@ -48,57 +48,52 @@ export default async function theRoom(req, res) {
         if (!images.length) {
           console.log("error");
         }
-
+        const publicIds = [];
         const ulrImages = await Promise.all(
           images.map(async (item) => {
-            // console.log(item.data_url);
             const result = await cloudinary.uploader.upload(item.data_url);
-            // console.log(result);
-            const { url } = result;
-            // console.log(result.url);
-            // await ulrImages.push(url);
+            const { url, public_id } = result;
+            publicIds.push(public_id);
             return url;
-            // return url;
           })
         );
         // await ulrImages.push(ulrIma);
-
-        // console.log(ulrImages);
 
         const room = await Room.create({
           roomNumer,
           description,
           price,
           images: ulrImages,
+          publicIds,
         });
 
         console.log(room);
 
-        return res.status(200).json({ message: "Los datos llegaron", room });
-        // const { password, confirmPassword } = req.body;
-        // if (password !== confirmPassword) {
-        //   return res.status(403).json({ message: "Contraseñas no coinciden" });
-        // }
+        return res.status(201).json({ message: "Los datos llegaron", room });
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
 
-        // const encPassword = await bcrypt.hash(password, 8);
+    case "DELETE":
+      try {
+        const user = await User.findById(id);
+        if (!user) {
+          return res.status(400).json({ message: "No find User" });
+        }
 
-        // const user = await User.create({
-        //   ...req.body,
-        //   password: encPassword,
-        // });
+        const data = JSON.parse(body);
+        const { publicIds, _id } = data;
+        const deleteRoom = await Room.findByIdAndDelete(_id);
 
-        // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-        //   expiresIn: 60 * 60 * 24,
-        // });
+        await Promise.all(
+          publicIds.map(async (item) => {
+            await cloudinary.uploader.destroy(item);
+          })
+        );
 
-        // return res.status(201).json({
-        //   message: "User Created",
-        //   token,
-        //   user: {
-        //     name: user.firstName,
-        //     email: user.email,
-        //   },
-        // });
+        return res
+          .status(201)
+          .json({ message: "Los fueron borrados", deleteRoom });
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }

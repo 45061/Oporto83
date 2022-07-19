@@ -1,7 +1,11 @@
+/* eslint-disable react/button-has-type */
 import { useSelector, useDispatch } from "react-redux";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMediaQuery } from "@mantine/hooks";
 import ImageUploadForm from "../../components/ImageUploadForm";
 import PublicModal from "../../components/PublicModal";
+
 import styles from "../../styles/userProfile.module.scss";
 import {
   showFormAction,
@@ -10,9 +14,11 @@ import {
 import PromoUpload from "../../components/PromoUpload";
 
 import Slideshow from "../../components/Slideshow";
-import Link from "next/link";
+import { deleteRoom, deletePromo } from "../../store/actions/roomAction";
 
 export default function userProfile(props) {
+  const router = useRouter();
+
   const { dataRoom, dataPromo } = props;
   const { promos } = dataPromo;
   const { rooms } = dataRoom;
@@ -80,33 +86,41 @@ export default function userProfile(props) {
                         <h3>{room.roomNumer}</h3>
                       </Link>
                     </div>
-                    <div className={styles.container__contain}>
-                      <div className={styles.contain__slideshow}>
-                        <Slideshow
-                          controles
-                          autoplay
-                          velocidad="5000"
-                          intervalo="7000"
-                        >
-                          {room.images.map((image) => (
-                            <div
-                              className={styles.slideshow__slide}
-                              key={image}
-                            >
-                              <img src={image} alt="room Oporto 83" />
-                            </div>
-                          ))}
-                        </Slideshow>
+                    <div className={styles.container__contents}>
+                      <div className={styles.contents__contain}>
+                        <div className={styles.contain__slideshow}>
+                          <Slideshow autoplay velocidad="5000" intervalo="7000">
+                            {room.images.map((image) => (
+                              <div
+                                className={styles.slideshow__slide}
+                                key={image}
+                              >
+                                <img src={image} alt="room Oporto 83" />
+                              </div>
+                            ))}
+                          </Slideshow>
+                        </div>
+                        <div>
+                          <h4>Descripción: </h4>
+                          <p> {room.description}</p>
+                          <h4>Precio: ${room.price}</h4>
+                        </div>
                       </div>
-                      <description>
-                        <h4>Descripción: </h4>
-                        <p> {room.description}</p>
-                        <h4>Precio: ${room.price}</h4>
-
+                      <div className={styles.contents__buttons}>
                         <Link href={`/promotion/${room._id}`}>
                           <button>Ver Habitación</button>
                         </Link>
-                      </description>
+                        <div className={styles.buttons__delete}>
+                          <button
+                            onClick={() => {
+                              dispatch(deleteRoom(room));
+                              router.push("/userProfile");
+                            }}
+                          >
+                            Borrar Habitación
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -126,33 +140,41 @@ export default function userProfile(props) {
                         <h3>{prom.namePromo}</h3>
                       </Link>
                     </div>
-                    <div className={styles.container__contain}>
-                      <div className={styles.contain__slideshow}>
-                        <Slideshow
-                          controles
-                          autoplay
-                          velocidad="5000"
-                          intervalo="7000"
-                        >
-                          {prom.images.map((image) => (
-                            <div
-                              className={styles.slideshow__slide}
-                              key={image}
-                            >
-                              <img src={image} alt="room Oporto 83" />
-                            </div>
-                          ))}
-                        </Slideshow>
+                    <div className={styles.container__contents}>
+                      <div className={styles.contents__contain}>
+                        <div className={styles.contain__slideshow}>
+                          <Slideshow autoplay velocidad="5000" intervalo="7000">
+                            {prom.images.map((image) => (
+                              <div
+                                className={styles.slideshow__slide}
+                                key={image}
+                              >
+                                <img src={image} alt="room Oporto 83" />
+                              </div>
+                            ))}
+                          </Slideshow>
+                        </div>
+                        <div>
+                          <h4>Descripción: </h4>
+                          <p> {prom.description}</p>
+                          <h4>Precio: ${prom.price}</h4>
+                        </div>
                       </div>
-                      <description>
-                        <h4>Descripción: </h4>
-                        <p> {prom.description}</p>
-                        <h4>Precio: ${prom.price}</h4>
-
+                      <div className={styles.contents__buttons}>
                         <Link href={`/promotion/${prom._id}`}>
                           <button>Ver Promoción</button>
                         </Link>
-                      </description>
+                        <div className={styles.buttons__delete}>
+                          <button
+                            onClick={() => {
+                              dispatch(deletePromo(prom));
+                              router.push("/userProfile");
+                            }}
+                          >
+                            Borrar Promoción
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}

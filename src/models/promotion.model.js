@@ -32,6 +32,10 @@ const promoSchema = new Schema(
       required: true,
       type: String,
     },
+    publicIds: {
+      required: true,
+      type: Array,
+    },
   },
   {
     timestamps: true,
