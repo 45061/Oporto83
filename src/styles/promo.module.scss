@@ -1,4 +1,4 @@
-.title__room {
+.title__promo {
   display: flex;
   justify-content: center;
   background-color: #1c5480;
@@ -12,7 +12,7 @@
   }
 }
 
-.room__title {
+.promo__title {
   h1 {
     color: #1c5480;
     display: flex;
@@ -64,7 +64,7 @@
 }
 .container__slide {
   overflow: hidden;
-  max-width: 900px;
+  max-width: 700px;
   margin: 10px, auto;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -74,7 +74,7 @@
   overflow: hidden;
   transition: 0.3s ease all;
   z-index: 10;
-  max-height: 600px;
+  max-height: 900px;
   position: relative;
 
   img {
@@ -97,6 +97,13 @@
   display: flex;
   margin-top: 10px;
   justify-content: center;
+  h2 {
+    display: flex;
+    color: #1c5480;
+    font-size: 28px;
+    justify-content: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
 }
 .description__bath {
   display: flex;
@@ -126,7 +133,7 @@
   }
 }
 .room__oporto {
-  margin: 10px 5px;
+  margin: 10px 70px;
   border-radius: 10px;
   padding: 40px 0;
 

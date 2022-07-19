@@ -10,7 +10,7 @@ export default function NavBar() {
       <navbar>
         <contact>
           <p>Dir.: Calle 23 # 83 20</p>
-          <p>Cel.: 319 798 1552</p>
+          <p>Cel.: (+57) 319 798 1552</p>
         </contact>
         <nav>
           <logo>
@@ -20,9 +20,9 @@ export default function NavBar() {
           </logo>
           <div>
             <Link href="/rooms">
-              <h3>Descripción</h3>
+              <h3>Habitaciones</h3>
             </Link>
-            <Link href="/rooms">
+            <Link href="/promotion">
               <h3>Ofertas</h3>
             </Link>
             <Link href="/rooms">
@@ -78,6 +78,7 @@ export default function NavBar() {
             margin: 0;
             color: white;
             font-size: 14px;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
           }
           h3 {
             color: ${colors.secondary};

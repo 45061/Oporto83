@@ -1,0 +1,127 @@
+.container__wellcome {
+  display: flex;
+  justify-content: center;
+  background-color: #1c5480;
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  h2 {
+    margin: 5px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+.user__data {
+  h2 {
+    color: #1c5480;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0;
+  }
+  h4 {
+    color: #1c5480;
+    margin-top: 0;
+  }
+}
+.container__user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.user__buttons {
+  display: flex;
+  gap: 0 40px;
+
+  button {
+    justify-content: center;
+    flex-grow: 0.5;
+    padding: 8px 16px;
+    margin: 2px 2px;
+    border: 1px solid #4d70b5;
+    border-radius: 4px;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    background-color: #4d70b5;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+.container__data {
+  display: flex;
+}
+.data {
+  margin: 20px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  h4 {
+    color: #4d70b5;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    margin: 0;
+  }
+  span {
+    display: flex;
+    justify-content: center;
+    background-color: #1c5480;
+    border-radius: 10px 10px 0 0;
+    padding-bottom: 5px;
+  }
+  h2 {
+    color: #fff;
+    margin: 0;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  }
+  h3 {
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    color: #1c5480;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+  button {
+    justify-content: center;
+    flex-grow: 0.5;
+    padding: 4px 8px;
+    margin: 2px;
+    border: 1px solid #4d70b5;
+    border-radius: 4px;
+    color: white;
+    background-color: #4d70b5;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+}
+.container__contain {
+  display: flex;
+  gap: 10px;
+}
+.contain__slideshow {
+  overflow: hidden;
+  max-width: 150px;
+  margin: 10px, auto;
+  border-radius: 10px;
+}
+.promo__container {
+  margin: 20px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.slideshow__slide {
+  min-width: 100%;
+  overflow: hidden;
+  transition: 0.3s ease all;
+  z-index: 10;
+  max-height: 80px;
+  position: relative;
+}

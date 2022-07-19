@@ -4,23 +4,23 @@ import Slideshow from "../../components/Slideshow";
 import styles from "../../styles/Home.module.scss";
 import { colors } from "../../styles/theme";
 
-export default function Rooms({ dataRoom }) {
-  const { rooms } = dataRoom;
+export default function Promotion({ dataPromo }) {
+  const { promos } = dataPromo;
 
   return (
     <>
       <span>
-        <h1>Nuestras Habitaciones</h1>
+        <h1>Descubre nuestras promociones</h1>
       </span>
-      {rooms.map((room) => (
-        <container key={room}>
-          <Link href={`/rooms/${room._id}`}>
-            <h2>{room.roomNumer}</h2>
+      {promos.map((prom) => (
+        <container key={prom}>
+          <Link href={`/promotion/${prom._id}`}>
+            <h2>{prom.namePromo}</h2>
           </Link>
           <div>
             <contain>
               <Slideshow controles autoplay velocidad="5000" intervalo="7000">
-                {room.images.map((image) => (
+                {prom.images.map((image) => (
                   <slide key={image}>
                     <img src={image} alt="room Oporto 83" />
                   </slide>
@@ -29,11 +29,11 @@ export default function Rooms({ dataRoom }) {
             </contain>
             <description>
               <h3>Descripción: </h3>
-              <p> {room.description}</p>
-              <h3>Precio: ${room.price}</h3>
+              <p> {prom.description}</p>
+              <h3>Precio: ${prom.price}</h3>
 
-              <Link href={`/rooms/${room._id}`}>
-                <button>Ver Habitación</button>
+              <Link href={`/promotion/${prom._id}`}>
+                <button>Ver Promoción</button>
               </Link>
             </description>
           </div>
@@ -100,7 +100,7 @@ export default function Rooms({ dataRoom }) {
             overflow: hidden;
             transition: 0.3s ease all;
             z-index: 10;
-            max-height: 340px;
+            max-height: 600px;
             position: relative;
           }
           img {
@@ -126,13 +126,12 @@ export default function Rooms({ dataRoom }) {
 }
 
 export async function getServerSideProps(context) {
-  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+  const apiPromos = await fetch(`http://localhost:3000/api/promo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
-
-  const dataRoom = await apiRooms.json();
-  return { props: { dataRoom } };
+  const dataPromo = await apiPromos.json();
+  return { props: { dataPromo } };
 }

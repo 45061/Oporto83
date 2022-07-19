@@ -2,16 +2,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mantine/hooks";
 import ImageUploadForm from "../../components/ImageUploadForm";
 import PublicModal from "../../components/PublicModal";
-import { showFormAction } from "../../store/actions/modalAction";
+import styles from "../../styles/userProfile.module.scss";
+import {
+  showFormAction,
+  showPromoAction,
+} from "../../store/actions/modalAction";
+import PromoUpload from "../../components/PromoUpload";
 
-export default function userProfile() {
+import Slideshow from "../../components/Slideshow";
+import Link from "next/link";
+
+export default function userProfile(props) {
+  const { dataRoom, dataPromo } = props;
+  const { promos } = dataPromo;
+  const { rooms } = dataRoom;
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
   const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const { showForm } = useSelector((state) => state.modalReducer);
+  const { showForm, showPromo } = useSelector((state) => state.modalReducer);
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(showFormAction());
+  };
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    dispatch(showPromoAction());
   };
 
   if (!isAuth) {
@@ -34,13 +49,115 @@ export default function userProfile() {
   return (
     user && (
       <>
-        <div>
-          <div>
-            <h3>{`Bienvenido ${user.firstName}`}</h3>
+        <div className={styles.container}>
+          <div className={styles.header__container}>
+            <div className={styles.container__wellcome}>
+              <h2>Bienvenido a la consola de control</h2>
+            </div>
+            <div className={styles.container__user}>
+              <div className={styles.user__data}>
+                <h2>{`Hola ${user.firstName} ${user.lastName}`}</h2>
+                <h4>{`Tipo de usuario: ${user.typeUser}`}</h4>
+              </div>
+              <div className={styles.user__buttons}>
+                <button onClick={handleClick2}>Subir Promo</button>
+                <button onClick={handleClick}>Subir Room</button>
+              </div>
+            </div>
           </div>
-          <div>
-            <button onClick={handleClick}>Prueba</button>
-            <button onClick={handleClick}>Subir Room</button>
+          <div className={styles.container__data}>
+            <div className={styles.data}>
+              <div>
+                <span>
+                  <h2>Listado de Habitaciones</h2>
+                </span>
+              </div>
+              <div>
+                {rooms.map((room) => (
+                  <div className={styles.promo__container} key={room}>
+                    <div>
+                      <Link href={`/rooms/${room._id}`}>
+                        <h3>{room.roomNumer}</h3>
+                      </Link>
+                    </div>
+                    <div className={styles.container__contain}>
+                      <div className={styles.contain__slideshow}>
+                        <Slideshow
+                          controles
+                          autoplay
+                          velocidad="5000"
+                          intervalo="7000"
+                        >
+                          {room.images.map((image) => (
+                            <div
+                              className={styles.slideshow__slide}
+                              key={image}
+                            >
+                              <img src={image} alt="room Oporto 83" />
+                            </div>
+                          ))}
+                        </Slideshow>
+                      </div>
+                      <description>
+                        <h4>Descripción: </h4>
+                        <p> {room.description}</p>
+                        <h4>Precio: ${room.price}</h4>
+
+                        <Link href={`/promotion/${room._id}`}>
+                          <button>Ver Habitación</button>
+                        </Link>
+                      </description>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.data}>
+              <div>
+                <span>
+                  <h2>Listado de Promociones</h2>
+                </span>
+              </div>
+              <div>
+                {promos.map((prom) => (
+                  <div className={styles.promo__container} key={prom}>
+                    <div>
+                      <Link href={`/promotion/${prom._id}`}>
+                        <h3>{prom.namePromo}</h3>
+                      </Link>
+                    </div>
+                    <div className={styles.container__contain}>
+                      <div className={styles.contain__slideshow}>
+                        <Slideshow
+                          controles
+                          autoplay
+                          velocidad="5000"
+                          intervalo="7000"
+                        >
+                          {prom.images.map((image) => (
+                            <div
+                              className={styles.slideshow__slide}
+                              key={image}
+                            >
+                              <img src={image} alt="room Oporto 83" />
+                            </div>
+                          ))}
+                        </Slideshow>
+                      </div>
+                      <description>
+                        <h4>Descripción: </h4>
+                        <p> {prom.description}</p>
+                        <h4>Precio: ${prom.price}</h4>
+
+                        <Link href={`/promotion/${prom._id}`}>
+                          <button>Ver Promoción</button>
+                        </Link>
+                      </description>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <PublicModal
@@ -50,7 +167,33 @@ export default function userProfile() {
         >
           <ImageUploadForm />
         </PublicModal>
+        <PublicModal
+          opened={showPromo}
+          onClose={() => dispatch(showPromoAction())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <PromoUpload />
+        </PublicModal>
       </>
     )
   );
+}
+
+export async function getServerSideProps(context) {
+  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const dataRoom = await apiRooms.json();
+  const apiPromos = await fetch(`http://localhost:3000/api/promo`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const dataPromo = await apiPromos.json();
+  return { props: { dataRoom, dataPromo } };
 }
