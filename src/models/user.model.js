@@ -45,6 +45,9 @@ const userSchema = new Schema(
       required: true,
       type: String,
     },
+    bookings: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
+    },
   },
   {
     timestamps: true,

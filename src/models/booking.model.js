@@ -21,4 +21,4 @@ const bookingSchema = new Schema(
   }
 );
 
-export default models.Supplie || model("Booking", bookingSchema);
+export default models.Booking || model("Booking", bookingSchema);

@@ -16,7 +16,7 @@ const roomSchema = new Schema(
         },
       ],
     },
-    bookingId: {
+    bookings: {
       type: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
     },
     images: {
@@ -35,7 +35,7 @@ const roomSchema = new Schema(
       required: true,
       type: Array,
     },
-    syppliesId: {
+    sypplies: {
       type: [{ type: Schema.Types.ObjectId, ref: "Supplies" }],
     },
   },

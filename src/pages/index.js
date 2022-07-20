@@ -1,16 +1,74 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/iframe-has-title */
-
+import { Select, Divider } from "@mantine/core";
 import Image from "next/image";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useMediaQuery } from "@mantine/hooks";
+
+import { showLoginForm, hiddeLoginForm } from "../store/actions/modalAction";
 
 import styles from "../styles/Home.module.scss";
 import Slide from "../components/Slide";
 import CollapseButton from "../components/CollapseButton";
 import CardTourism from "../components/CardTourism";
+import Calendar from "../components/Calendar";
+import PublicModal from "../components/PublicModal";
+import Login from "../components/LoginForm";
+import { postBooking } from "../store/actions/dateAction";
 
-export default function Home() {
+export default function Home(dataRoom) {
+  const dispatch = useDispatch();
+  const largeScreen = useMediaQuery("(min-width: 1024px)");
+  const { dates } = useSelector((state) => state.dateReducer);
+  const { isAuth } = useSelector((state) => state.authReducer);
+  const { showingLoginForm } = useSelector((state) => state.modalReducer);
+
+  const roomsData = dataRoom.dataRoom;
+  const { rooms } = roomsData;
+  const [value, setValue] = useState("");
+  // console.log("esta son rooms", value);
+  // console.log("fechas", dates);
+  // console.log("usuario", user);
+
+  const handelclick = (event) => {
+    event.preventDefault();
+    const data = {
+      roomId: value,
+      checkIn: dates[0],
+      checkOut: dates[1],
+    };
+    dispatch(postBooking(data));
+  };
+  const handelclick2 = (event) => {
+    event.preventDefault();
+    dispatch(showLoginForm());
+  };
   return (
     <div>
+      <div className={styles.booking}>
+        <Calendar />
+        <Select
+          value={value}
+          onChange={setValue}
+          label="Habitación"
+          placeholder="Pick one"
+          data={rooms.map((item) => ({
+            value: item._id,
+            label: item.roomNumer,
+          }))}
+        />
+        <div className={styles.booking__button}>
+          {isAuth ? (
+            <button onClick={handelclick}>Realiza tu Reserva</button>
+          ) : (
+            <button onClick={handelclick2}>
+              Para realizar tu Reserva has Login
+            </button>
+          )}
+        </div>
+      </div>
+      <Divider my="sm" />
       <div className={styles.oporto}>
         <div className={styles.oporto__slide}>
           <div className={styles.slide__oporto}>
@@ -199,6 +257,25 @@ export default function Home() {
           </span>
         </a>
       </footer>
+      <PublicModal
+        opened={showingLoginForm}
+        onClose={() => dispatch(hiddeLoginForm())}
+        size={largeScreen ? "30%" : "90%"}
+      >
+        <Login />
+      </PublicModal>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const dataRoom = await apiRooms.json();
+  return { props: { dataRoom } };
 }

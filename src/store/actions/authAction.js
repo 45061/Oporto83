@@ -54,8 +54,7 @@ export const login =
       // localStorage.setItem("token", token);
       // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       dispatch(hiddeLoginForm());
-
-      dispatch({ type: AUTH_SUCCESS, payload: user });
+      dispatch({ type: AUTH_SUCCESS, payload: data.user });
     } catch (error) {
       dispatch({ type: AUTH_ERROR, payload: error });
     }

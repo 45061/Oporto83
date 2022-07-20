@@ -22,7 +22,10 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
           message: "User found",
-          user,
+          user: {
+            name: user.firstName,
+            email: user.email,
+          },
         });
       } catch (error) {
         return res.status(400).json({ error: error.message });

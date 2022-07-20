@@ -56,7 +56,7 @@ export const postRoom = (uploadData) => async (dispatch) => {
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
   } catch (error) {
-    console.log("hay un error en el post Video");
+    console.log("hay un error en el post Room");
   }
 };
 
@@ -86,7 +86,7 @@ export const deleteRoom = (room) => async (dispatch) => {
     });
     // if (response.status === 201)
   } catch (error) {
-    console.log("hay un error en el post Video");
+    console.log("hay un error en el Delete Room");
   }
 };
 
@@ -120,7 +120,7 @@ export const postPromo = (uploadData) => async (dispatch) => {
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
   } catch (error) {
-    console.log("hay un error en el post Video");
+    console.log("hay un error en el post Promo");
   }
 };
 
@@ -154,6 +154,6 @@ export const deletePromo = (promo) => async (dispatch) => {
     });
     // if (response.status === 201)
   } catch (error) {
-    console.log("hay un error en el post Video");
+    console.log("hay un error en el delete Promo");
   }
 };
