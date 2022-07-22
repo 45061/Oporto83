@@ -18,7 +18,7 @@ export const register = (body) => async (dispatch) => {
     const data = await response.json();
     const { token, message, ...user } = data;
     cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-    // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
     // alertify.notify('Usuario registrado con exito', 'success', 5);
     dispatch(hiddeRegisterForm());
     dispatch({ type: AUTH_SUCCESS, payload: user });
@@ -28,10 +28,9 @@ export const register = (body) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  const cookies = new Cookies();
   Router.push("/");
+  const cookies = new Cookies();
   cookies.remove("token");
-  // axios.defaults.headers.common.Authorization = "";
 
   dispatch({ type: LOGOUT });
 };
@@ -51,8 +50,7 @@ export const login =
       const data = await response.json();
       const { token, message, ...user } = data;
       cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
-      // localStorage.setItem("token", token);
-      // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
       dispatch(hiddeLoginForm());
       dispatch({ type: AUTH_SUCCESS, payload: data.user });
     } catch (error) {

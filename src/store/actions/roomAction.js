@@ -9,6 +9,7 @@ import {
   ROOM_DETAIL_SUCCESS,
   RESET_INITIAL_STATE,
 } from "../types";
+import { showChargeAction } from "./dateAction";
 import { showFormAction, showPromoAction } from "./modalAction";
 
 const url = process.env.REACT_APP_BACKEND_URI;
@@ -43,14 +44,11 @@ export const postRoom = (uploadData) => async (dispatch) => {
         );
         dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
         // console.log(completed);
-        if (completed === 100) {
-          dispatch(actionBody(IS_UPLOADING_ROOM, false));
-          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
-        }
       },
     });
     if (response.status === 201) {
       dispatch(showFormAction());
+      dispatch(showChargeAction());
     }
     console.log("esto es el response", response);
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
@@ -72,19 +70,10 @@ export const deleteRoom = (room) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-      onUploadProgress: (progressEvent) => {
-        const completed = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
-        // console.log(completed);
-        if (completed === 100) {
-          dispatch(actionBody(IS_UPLOADING_ROOM, false));
-          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
-        }
-      },
     });
-    // if (response.status === 201)
+    if (response.status === 201) {
+      dispatch(showChargeAction());
+    }
   } catch (error) {
     console.log("hay un error en el Delete Room");
   }
@@ -92,7 +81,6 @@ export const deleteRoom = (room) => async (dispatch) => {
 
 export const postPromo = (uploadData) => async (dispatch) => {
   try {
-    // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
     // console.log("data recibida", uploadData.images[0].data_url);
@@ -103,19 +91,10 @@ export const postPromo = (uploadData) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-      onUploadProgress: (progressEvent) => {
-        const completed = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
-        // console.log(completed);
-        if (completed === 100) {
-          dispatch(actionBody(IS_UPLOADING_ROOM, false));
-          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
-        }
-      },
     });
     if (response.status === 201) dispatch(showPromoAction());
+
+    dispatch(showChargeAction());
     console.log("esto es el response", response);
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
@@ -152,7 +131,9 @@ export const deletePromo = (promo) => async (dispatch) => {
         }
       },
     });
-    // if (response.status === 201)
+    if (response.status === 201) {
+      dispatch(showChargeAction());
+    }
   } catch (error) {
     console.log("hay un error en el delete Promo");
   }

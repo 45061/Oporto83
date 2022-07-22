@@ -14,6 +14,11 @@ const bookingSchema = new Schema(
     },
     checkIn: String,
     checkOut: String,
+    reservedDays: {
+      type: Number,
+      require: false,
+    },
+    reservedStatus: Boolean,
   },
   {
     timestamps: true,

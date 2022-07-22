@@ -17,11 +17,10 @@ export default function Register() {
     firstName: "",
     lastName: "",
     email: "",
-
     numer: "",
     password: "",
     confirmPassword: "",
-    typeUser: "User",
+    typeUser: false,
   });
 
   const dispatch = useDispatch();

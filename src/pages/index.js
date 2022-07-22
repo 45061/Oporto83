@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mantine/hooks";
+import dayjs from "dayjs";
+
+var dayOfYear = require("dayjs/plugin/dayOfYear");
+dayjs.extend(dayOfYear);
 
 import { showLoginForm, hiddeLoginForm } from "../store/actions/modalAction";
 
@@ -27,9 +31,10 @@ export default function Home(dataRoom) {
   const roomsData = dataRoom.dataRoom;
   const { rooms } = roomsData;
   const [value, setValue] = useState("");
-  // console.log("esta son rooms", value);
-  // console.log("fechas", dates);
-  // console.log("usuario", user);
+
+  const firstDay = dayjs(dates[0]).dayOfYear();
+  const secondDay = dayjs(dates[1]).dayOfYear();
+  const reservedDays = secondDay - firstDay;
 
   const handelclick = (event) => {
     event.preventDefault();
@@ -37,9 +42,12 @@ export default function Home(dataRoom) {
       roomId: value,
       checkIn: dates[0],
       checkOut: dates[1],
+      reservedDays,
+      reservedStatus: true,
     };
     dispatch(postBooking(data));
   };
+
   const handelclick2 = (event) => {
     event.preventDefault();
     dispatch(showLoginForm());
