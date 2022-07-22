@@ -30,7 +30,6 @@ export default async function theBooking(req, res) {
         if (!user) {
           return res.status(400).json({ message: "No find User" });
         }
-
         // const data = JSON.parse(body);
 
         const { roomId } = body;
@@ -41,7 +40,7 @@ export default async function theBooking(req, res) {
         }
 
         const booking = await Booking.create({
-          ...room,
+          ...req.body,
           userId: user,
           roomId: room,
         });
@@ -52,9 +51,16 @@ export default async function theBooking(req, res) {
         await user.save({ validateBeforeSave: false });
         await room.save({ validateBeforeSave: false });
 
-        console.log(booking);
-
-        return res.status(201).json({ message: "Los datos llegaron", booking });
+        return res.status(201).json({
+          message: "Los datos llegaron",
+          user: {
+            name: user.firstName,
+            lastName: user.lastName,
+            typeUser: user.typeUser,
+            email: user.email,
+            bookings: user.bookings,
+          },
+        });
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
@@ -69,19 +75,42 @@ export default async function theBooking(req, res) {
           return res.status(400).json({ message: "No find User" });
         }
 
-        const data = JSON.parse(body);
-        const { publicIds, _id } = data;
-        const deletePromo = await Promo.findByIdAndDelete(_id);
+        const { roomId, userId, _id } = body;
+        if (await Booking.exists({ roomId, userId })) {
+          const bookingId = await Booking.findById(_id);
 
-        await Promise.all(
-          publicIds.map(async (item) => {
-            await cloudinary.uploader.destroy(item);
-          })
-        );
+          const extractId = bookingId._id;
 
-        return res
-          .status(201)
-          .json({ message: "Los datos fueron borrados", deletePromo });
+          const string = extractId.toString();
+
+          const room = await Room.findById(roomId);
+          room.bookings = room.bookings.filter(
+            (item) => item._id.toString() !== string
+          );
+
+          await room.save({ validateBeforeSave: false });
+
+          user.bookings = user.bookings.filter(
+            (item) => item._id.toString() !== string
+          );
+
+          await user.save({ validateBeforeSave: false });
+        }
+
+        // const data = JSON.parse(body);
+        // const { _id } = data;
+        // const deleteBooking = await Booking.findByIdAndDelete(_id);
+
+        return res.status(201).json({
+          message: "Los datos fueron borrados",
+          user: {
+            name: user.firstName,
+            lastName: user.lastName,
+            typeUser: user.typeUser,
+            email: user.email,
+            bookings: user.bookings,
+          },
+        });
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }

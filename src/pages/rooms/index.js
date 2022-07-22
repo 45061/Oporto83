@@ -30,7 +30,7 @@ export default function Rooms({ dataRoom }) {
             <description>
               <h3>Descripción: </h3>
               <p> {room.description}</p>
-              <h3>Precio: ${room.price}</h3>
+              <h3>Precio por noche: ${room.price} COP</h3>
 
               <Link href={`/rooms/${room._id}`}>
                 <button>Ver Habitación</button>

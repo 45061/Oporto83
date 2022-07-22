@@ -24,7 +24,10 @@ export default async function handler(req, res) {
           message: "User found",
           user: {
             name: user.firstName,
+            lastName: user.lastName,
+            typeUser: user.typeUser,
             email: user.email,
+            bookings: user.bookings,
           },
         });
       } catch (error) {
@@ -54,7 +57,10 @@ export default async function handler(req, res) {
           token,
           user: {
             name: user.firstName,
+            lastName: user.lastName,
+            typeUser: user.typeUser,
             email: user.email,
+            bookings: user.bookings,
           },
         });
       } catch (error) {

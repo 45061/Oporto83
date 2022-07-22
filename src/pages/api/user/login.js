@@ -40,7 +40,10 @@ export default async function login(req, res) {
           token,
           user: {
             name: user.firstName,
+            lastName: user.lastName,
+            typeUser: user.typeUser,
             email: user.email,
+            bookings: user.bookings,
           },
         });
       } catch (err) {

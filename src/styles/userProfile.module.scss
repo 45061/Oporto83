@@ -105,6 +105,14 @@
   display: flex;
   gap: 10px;
 }
+
+.contents__contain__user {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 20px;
+}
+
 .contain__slideshow {
   overflow: hidden;
   max-width: 150px;

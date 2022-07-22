@@ -42,7 +42,6 @@ export default function PromoUpload() {
       gift: giftData,
       images,
     };
-    console.log(data);
     dispatch(postPromo(data));
   };
 

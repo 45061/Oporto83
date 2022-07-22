@@ -1,7 +1,10 @@
+/* eslint-disable no-return-await */
 /* eslint-disable react/button-has-type */
 import { useSelector, useDispatch } from "react-redux";
+import Cookies from "universal-cookie";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
 import { useMediaQuery } from "@mantine/hooks";
 import ImageUploadForm from "../../components/ImageUploadForm";
 import PublicModal from "../../components/PublicModal";
@@ -15,25 +18,123 @@ import PromoUpload from "../../components/PromoUpload";
 
 import Slideshow from "../../components/Slideshow";
 import { deleteRoom, deletePromo } from "../../store/actions/roomAction";
+import {
+  deleteBooking,
+  showChargeAction,
+} from "../../store/actions/dateAction";
 
-export default function userProfile(props) {
-  const router = useRouter();
+export default function userProfile() {
+  const cookies = new Cookies();
+  const token = cookies.get("token");
 
-  const { dataRoom, dataPromo } = props;
-  const { promos } = dataPromo;
-  const { rooms } = dataRoom;
+  // const { dataRoom, dataPromo } = props;
+  // const { promos } = dataPromo;
+  // const { rooms } = dataRoom;
+  // const { bookings } = dataBooking;
+
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
   const largeScreen = useMediaQuery("(min-width: 1024px)");
   const { showForm, showPromo } = useSelector((state) => state.modalReducer);
+  const { charge } = useSelector((state) => state.dateReducer);
+
+  const [roomsBooking, setRoomsBooking] = useState([]);
+  // const [userData, setUserData] = useState([]);
+  const [dataRoom, setDataRooms] = useState([]);
+  const [dataPromo, setDataPromo] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error2, setError] = useState();
+
+  const { promos } = dataPromo;
+  const { rooms } = dataRoom;
+
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(showFormAction());
   };
+
   const handleClick2 = (event) => {
     event.preventDefault();
     dispatch(showPromoAction());
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const { bookings } = user;
+    if (bookings) {
+      try {
+        // const fetchDataUser = async () => {
+        //   await fetch(`http://localhost:3000/api/user/signup`, {
+        //     method: "GET",
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //       "Content-Type": "application/json",
+        //     },
+        //   })
+        //     .then((resp) => resp.json())
+        //     .then((data) => {
+        //       setUserData(data.user.bookings);
+        //     });
+        // };
+        // fetchDataUser();
+
+        const fetchData = async () => {
+          await Promise.all(
+            await bookings.map(async (booking) => {
+              const serieBooking = { bookingId: booking };
+              const response = await fetch(
+                `http://localhost:3000/api/booking/bookinguser`,
+                {
+                  method: "POST",
+                  body: JSON.stringify(serieBooking),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              const data = await response.json();
+              return data;
+            })
+          ).then((data) => {
+            setRoomsBooking(data);
+          });
+        };
+        fetchData();
+
+        const fetchDataRooms = async () => {
+          await fetch(`http://localhost:3000/api/rooms`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataRooms(data);
+            });
+        };
+        fetchDataRooms();
+
+        const fetchDataPromos = async () => {
+          await fetch(`http://localhost:3000/api/promo`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataPromo(data);
+            });
+        };
+        fetchDataPromos();
+      } catch (error) {
+        setError(error);
+      }
+    }
+    setLoading(false);
+  }, [loading, user, error2, charge]);
 
   if (!isAuth) {
     return (
@@ -51,9 +152,32 @@ export default function userProfile(props) {
       </>
     );
   }
+
+  if (loading) {
+    return (
+      <>
+        <div>
+          <img src="/loading.svg" alt="gif Loading" />
+          <h2>Loading...</h2>
+        </div>
+        <style jsx>
+          {`
+            div {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              margin-top: 10%;
+            }
+          `}
+        </style>
+      </>
+    );
+  }
+
   // console.log(isAuth);
   return (
-    user && (
+    roomsBooking && (
       <>
         <div className={styles.container}>
           <div className={styles.header__container}>
@@ -62,35 +186,164 @@ export default function userProfile(props) {
             </div>
             <div className={styles.container__user}>
               <div className={styles.user__data}>
-                <h2>{`Hola ${user.firstName} ${user.lastName}`}</h2>
-                <h4>{`Tipo de usuario: ${user.typeUser}`}</h4>
+                <h2>{`Hola ${user?.name} ${user?.lastName}`}</h2>
+                <h4>
+                  {user?.typeUser
+                    ? "Tipo de usuario: Administrador"
+                    : "Tipo de usuario: Huesped"}
+                </h4>
               </div>
-              <div className={styles.user__buttons}>
-                <button onClick={handleClick2}>Subir Promo</button>
-                <button onClick={handleClick}>Subir Room</button>
-              </div>
+              {user?.typeUser ? (
+                <div className={styles.user__buttons}>
+                  <button onClick={handleClick2}>Subir Promo</button>
+                  <button onClick={handleClick}>Subir Room</button>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
-          <div className={styles.container__data}>
+          {user?.typeUser ? (
+            <div className={styles.container__data}>
+              <div className={styles.data}>
+                <div>
+                  <span>
+                    <h2>Listado de Habitaciones</h2>
+                  </span>
+                </div>
+                <div>
+                  {rooms?.map((room) => (
+                    <div className={styles.promo__container} key={room}>
+                      <div>
+                        <Link href={`/rooms/${room._id}`}>
+                          <h3>{room.roomNumer}</h3>
+                        </Link>
+                      </div>
+                      <div className={styles.container__contents}>
+                        <div className={styles.contents__contain}>
+                          <div className={styles.contain__slideshow}>
+                            <Slideshow
+                              autoplay
+                              velocidad="5000"
+                              intervalo="7000"
+                            >
+                              {room.images.map((image) => (
+                                <div
+                                  className={styles.slideshow__slide}
+                                  key={image}
+                                >
+                                  <img src={image} alt="room Oporto 83" />
+                                </div>
+                              ))}
+                            </Slideshow>
+                          </div>
+                          <div>
+                            <h4>Descripción: </h4>
+                            <p> {room.description}</p>
+                            <h4>Precio: ${room.price}</h4>
+                          </div>
+                        </div>
+                        <div className={styles.contents__buttons}>
+                          <Link href={`/promotion/${room._id}`}>
+                            <button>Ver Habitación</button>
+                          </Link>
+                          <div className={styles.buttons__delete}>
+                            <button
+                              onClick={() => {
+                                dispatch(deleteRoom(room));
+                                dispatch(showChargeAction());
+                              }}
+                            >
+                              Borrar Habitación
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.data}>
+                <div>
+                  <span>
+                    <h2>Listado de Promociones</h2>
+                  </span>
+                </div>
+                <div>
+                  {promos?.map((prom) => (
+                    <div className={styles.promo__container} key={prom}>
+                      <div>
+                        <Link href={`/promotion/${prom._id}`}>
+                          <h3>{prom.namePromo}</h3>
+                        </Link>
+                      </div>
+                      <div className={styles.container__contents}>
+                        <div className={styles.contents__contain}>
+                          <div className={styles.contain__slideshow}>
+                            <Slideshow
+                              autoplay
+                              velocidad="5000"
+                              intervalo="7000"
+                            >
+                              {prom.images.map((image) => (
+                                <div
+                                  className={styles.slideshow__slide}
+                                  key={image}
+                                >
+                                  <img src={image} alt="room Oporto 83" />
+                                </div>
+                              ))}
+                            </Slideshow>
+                          </div>
+                          <div>
+                            <h4>Descripción: </h4>
+                            <p> {prom.description}</p>
+                            <h4>Precio: ${prom.price}</h4>
+                          </div>
+                        </div>
+                        <div className={styles.contents__buttons}>
+                          <Link href={`/promotion/${prom._id}`}>
+                            <button>Ver Promoción</button>
+                          </Link>
+                          <div className={styles.buttons__delete}>
+                            <button
+                              onClick={() => {
+                                dispatch(deletePromo(prom));
+                                dispatch(showChargeAction());
+                              }}
+                            >
+                              Borrar Promoción
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
             <div className={styles.data}>
               <div>
                 <span>
-                  <h2>Listado de Habitaciones</h2>
+                  <h2>Listado de Reservas</h2>
                 </span>
               </div>
               <div>
-                {rooms.map((room) => (
-                  <div className={styles.promo__container} key={room}>
+                {roomsBooking.map((roomData) => (
+                  <div className={styles.promo__container} key={roomData}>
                     <div>
-                      <Link href={`/rooms/${room._id}`}>
-                        <h3>{room.roomNumer}</h3>
+                      <Link href={`/rooms/${roomData.room._id}`}>
+                        <h3>
+                          Reserva de habitación: {roomData.room.roomNumer}
+                        </h3>
                       </Link>
                     </div>
                     <div className={styles.container__contents}>
-                      <div className={styles.contents__contain}>
+                      <div className={styles.contents__contain__user}>
                         <div className={styles.contain__slideshow}>
                           <Slideshow autoplay velocidad="5000" intervalo="7000">
-                            {room.images.map((image) => (
+                            {roomData.room.images.map((image) => (
                               <div
                                 className={styles.slideshow__slide}
                                 key={image}
@@ -101,23 +354,40 @@ export default function userProfile(props) {
                           </Slideshow>
                         </div>
                         <div>
-                          <h4>Descripción: </h4>
-                          <p> {room.description}</p>
-                          <h4>Precio: ${room.price}</h4>
+                          <h4>Descripción de la habitación: </h4>
+                          <p> {roomData.room.description}</p>
+                          <h4>
+                            Precio de la reserva: $
+                            {roomData.booking.reservedDays *
+                              roomData.room.price *
+                              1000}{" "}
+                            COP
+                          </h4>
+                        </div>
+                        <div>
+                          <h4>Datos de reserva:</h4>
+                          <p>
+                            Check In: {roomData.booking.checkIn.substr(0, 10)}
+                          </p>
+                          <p>
+                            Check Out: {roomData.booking.checkOut.substr(0, 10)}
+                          </p>
+                          <p>
+                            Dias reservados: {roomData.booking.reservedDays}
+                          </p>
                         </div>
                       </div>
                       <div className={styles.contents__buttons}>
-                        <Link href={`/promotion/${room._id}`}>
+                        <Link href={`/rooms/${roomData.room._id}`}>
                           <button>Ver Habitación</button>
                         </Link>
                         <div className={styles.buttons__delete}>
                           <button
                             onClick={() => {
-                              dispatch(deleteRoom(room));
-                              router.push("/userProfile");
+                              dispatch(deleteBooking(roomData.booking));
                             }}
                           >
-                            Borrar Habitación
+                            Cancelar Reserva
                           </button>
                         </div>
                       </div>
@@ -126,61 +396,7 @@ export default function userProfile(props) {
                 ))}
               </div>
             </div>
-            <div className={styles.data}>
-              <div>
-                <span>
-                  <h2>Listado de Promociones</h2>
-                </span>
-              </div>
-              <div>
-                {promos.map((prom) => (
-                  <div className={styles.promo__container} key={prom}>
-                    <div>
-                      <Link href={`/promotion/${prom._id}`}>
-                        <h3>{prom.namePromo}</h3>
-                      </Link>
-                    </div>
-                    <div className={styles.container__contents}>
-                      <div className={styles.contents__contain}>
-                        <div className={styles.contain__slideshow}>
-                          <Slideshow autoplay velocidad="5000" intervalo="7000">
-                            {prom.images.map((image) => (
-                              <div
-                                className={styles.slideshow__slide}
-                                key={image}
-                              >
-                                <img src={image} alt="room Oporto 83" />
-                              </div>
-                            ))}
-                          </Slideshow>
-                        </div>
-                        <div>
-                          <h4>Descripción: </h4>
-                          <p> {prom.description}</p>
-                          <h4>Precio: ${prom.price}</h4>
-                        </div>
-                      </div>
-                      <div className={styles.contents__buttons}>
-                        <Link href={`/promotion/${prom._id}`}>
-                          <button>Ver Promoción</button>
-                        </Link>
-                        <div className={styles.buttons__delete}>
-                          <button
-                            onClick={() => {
-                              dispatch(deletePromo(prom));
-                              router.push("/userProfile");
-                            }}
-                          >
-                            Borrar Promoción
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
         <PublicModal
           opened={showForm}
@@ -201,21 +417,22 @@ export default function userProfile(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+// export async function getServerSideProps(context) {
+//   const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const dataRoom = await apiRooms.json();
 
-  const dataRoom = await apiRooms.json();
-  const apiPromos = await fetch(`http://localhost:3000/api/promo`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const dataPromo = await apiPromos.json();
-  return { props: { dataRoom, dataPromo } };
-}
+//   const apiPromos = await fetch(`http://localhost:3000/api/promo`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const dataPromo = await apiPromos.json();
+
+//   return { props: { dataRoom, dataPromo } };
+// }

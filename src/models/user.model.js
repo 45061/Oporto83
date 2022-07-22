@@ -43,7 +43,7 @@ const userSchema = new Schema(
     },
     typeUser: {
       required: true,
-      type: String,
+      type: Boolean,
     },
     bookings: {
       type: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
