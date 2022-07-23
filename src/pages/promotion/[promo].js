@@ -26,17 +26,10 @@ export default function Promo(promoInfo) {
       </>
     );
   }
-  // const dispatch = useDispatch();
-  // const sampleListData = useSelector((state) => state.sampleData);
-  // const { sample } = sampleListData;
-  const thisPromo = promoInfo.promoInfo;
 
-  // const handleClcik = () => {
-  //   dispatch(showFormAction());
-  // };
-  // useEffect(() => {
-  //   dispatch(getSampleData());
-  // }, [dispatch]);
+  const thisPromo = promoInfo.promoInfo;
+  const priceCop = new Intl.NumberFormat("es-MX").format(thisPromo.price);
+
   return (
     <>
       <div className={styles.title__promo}>
@@ -73,7 +66,7 @@ export default function Promo(promoInfo) {
           </table>
         </div>
         <div className={styles.oporto__description}>
-          <h2>Precio: ${thisPromo.price}</h2>
+          <h2>Precio: $ {priceCop}</h2>
         </div>
       </div>
       <div className={styles.oporto__service}>

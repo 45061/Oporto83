@@ -15,22 +15,12 @@ import { showFormAction, showPromoAction } from "./modalAction";
 const url = process.env.REACT_APP_BACKEND_URI;
 const actionBody = (type, payload) => ({ type, payload });
 
-// export const postView = ({ viwer, videoId }) => {
-//   return async () => {
-//     try {
-//       await axios.post(`${url}/videos/${videoId}/view`, viwer);
-//     } catch (error) {
-//       toast.error(error.message);
-//     }
-//   };
-// };
-
 export const postRoom = (uploadData) => async (dispatch) => {
   try {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    // console.log("data recibida", uploadData.images[0].data_url);
+    // console.log("data recibida", uploadData);
     const response = await fetch(`http://localhost:3000/api/rooms/room`, {
       method: "POST",
       body: JSON.stringify(uploadData),
@@ -38,19 +28,11 @@ export const postRoom = (uploadData) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-      onUploadProgress: (progressEvent) => {
-        const completed = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
-        // console.log(completed);
-      },
     });
     if (response.status === 201) {
       dispatch(showFormAction());
       dispatch(showChargeAction());
     }
-    console.log("esto es el response", response);
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
   } catch (error) {
@@ -92,10 +74,10 @@ export const postPromo = (uploadData) => async (dispatch) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    if (response.status === 201) dispatch(showPromoAction());
-
-    dispatch(showChargeAction());
-    console.log("esto es el response", response);
+    if (response.status === 201) {
+      dispatch(showPromoAction());
+      dispatch(showChargeAction());
+    }
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
     // toast.success("Video subido con exito");
   } catch (error) {

@@ -6,9 +6,8 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mantine/hooks";
 import dayjs from "dayjs";
-
-var dayOfYear = require("dayjs/plugin/dayOfYear");
-dayjs.extend(dayOfYear);
+import { BrandBooking } from "tabler-icons-react";
+import { useRouter } from "next/router";
 
 import { showLoginForm, hiddeLoginForm } from "../store/actions/modalAction";
 
@@ -21,7 +20,11 @@ import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
 import { postBooking } from "../store/actions/dateAction";
 
+var dayOfYear = require("dayjs/plugin/dayOfYear");
+dayjs.extend(dayOfYear);
+
 export default function Home(dataRoom) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const largeScreen = useMediaQuery("(min-width: 1024px)");
   const { dates } = useSelector((state) => state.dateReducer);
@@ -39,33 +42,45 @@ export default function Home(dataRoom) {
   const handelclick = (event) => {
     event.preventDefault();
     const data = {
-      roomId: value,
-      checkIn: dates[0],
-      checkOut: dates[1],
+      roomId: value._id,
+      checkIn: `${new Date(dates[0]).getDate()}/${
+        new Date(dates[0]).getMonth() + 1
+      }/${new Date(dates[0]).getFullYear()}`,
+      checkOut: `${new Date(dates[1]).getDate()}/${
+        new Date(dates[1]).getMonth() + 1
+      }/${new Date(dates[1]).getFullYear()}`,
+      bookingDays: dates,
       reservedDays,
       reservedStatus: true,
     };
+
     dispatch(postBooking(data));
+    router.push("/userProfile");
   };
 
   const handelclick2 = (event) => {
     event.preventDefault();
     dispatch(showLoginForm());
   };
+
   return (
     <div>
       <div className={styles.booking}>
-        <Calendar />
         <Select
+          required
+          maxDropdownHeight={280}
+          icon={<BrandBooking size={14} strokeWidth={2} />}
+          // searchable
           value={value}
           onChange={setValue}
-          label="Habitación"
-          placeholder="Pick one"
+          label="Selecciona la habitación a reservar"
+          placeholder="Habitaciones"
           data={rooms.map((item) => ({
-            value: item._id,
+            value: item,
             label: item.roomNumer,
           }))}
         />
+        <Calendar room={value} />
         <div className={styles.booking__button}>
           {isAuth ? (
             <button onClick={handelclick}>Realiza tu Reserva</button>

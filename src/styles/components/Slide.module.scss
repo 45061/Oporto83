@@ -1,0 +1,30 @@
+.main {
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 10px, auto;
+  border-radius: 10px;
+}
+
+.main__title {
+  background-color: #1c5480;
+  padding: 2px;
+  h2 {
+    margin: 0;
+    font-size: 34px;
+    text-align: center;
+    color: white;
+  }
+}
+
+.slide {
+  min-width: 100%;
+  overflow: hidden;
+  transition: 0.3s ease all;
+  z-index: 10;
+  max-height: 400px;
+  position: relative;
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+}

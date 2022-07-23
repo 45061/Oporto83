@@ -38,13 +38,15 @@ export default function MenuNavbar() {
     <>
       <Menu control={<button type="button">Perfil</button>}>
         <Menu.Label>Application</Menu.Label>
-        <Menu.Item onClick={handleClick} icon={<UserCheck size={14} />}>
-          Login
-        </Menu.Item>
-        <Menu.Item onClick={handleClick2} icon={<UserOff size={14} />}>
-          Logout
-        </Menu.Item>
-
+        {isAuth ? (
+          <Menu.Item onClick={handleClick2} icon={<UserOff size={14} />}>
+            Logout
+          </Menu.Item>
+        ) : (
+          <Menu.Item onClick={handleClick} icon={<UserCheck size={14} />}>
+            Login
+          </Menu.Item>
+        )}
         <Divider />
         {isAuth ? (
           <Link href="/userProfile">

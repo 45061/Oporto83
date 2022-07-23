@@ -1,7 +1,6 @@
-import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
 import Room from "../../../models/room.model";
-import User from "../../../models/user.model";
+import Booking from "../../../models/booking.model";
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -13,20 +12,15 @@ cloudinary.config({
 dbConnect();
 
 export default async function Rooms(req, res) {
-  const { method, body } = req;
-  // const { authorization } = req.headers;
-  // const token = authorization.split(" ")[1];
-  // console.log(req);
-  // const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const { method } = req;
 
   switch (method) {
     case "GET":
       try {
-        // const user = await User.findById(id);
-        // if (!user) {
-        //   return res.status(400).json({ message: "No User Autenticated" });
-        // }
-        const rooms = await Room.find();
+        const rooms = await Room.find().populate(
+          "bookings",
+          "checkIn checkOut bookingDays"
+        );
 
         return res.status(200).json({
           message: "Rooms found",

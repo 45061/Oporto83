@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
 import Promo from "../../../models/promotion.model";
 import User from "../../../models/user.model";
+
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -57,8 +58,6 @@ export default async function thePromo(req, res) {
           images: ulrImages,
           publicIds,
         });
-
-        console.log(promo);
 
         return res.status(201).json({ message: "Los datos llegaron", promo });
       } catch (error) {

@@ -12,33 +12,36 @@ export default function Promotion({ dataPromo }) {
       <span>
         <h1>Descubre nuestras promociones</h1>
       </span>
-      {promos.map((prom) => (
-        <container key={prom}>
-          <Link href={`/promotion/${prom._id}`}>
-            <h2>{prom.namePromo}</h2>
-          </Link>
-          <div>
-            <contain>
-              <Slideshow controles autoplay velocidad="5000" intervalo="7000">
-                {prom.images.map((image) => (
-                  <slide key={image}>
-                    <img src={image} alt="room Oporto 83" />
-                  </slide>
-                ))}
-              </Slideshow>
-            </contain>
-            <description>
-              <h3>Descripción: </h3>
-              <p> {prom.description}</p>
-              <h3>Precio: ${prom.price}</h3>
+      {promos.map((prom) => {
+        const priceCop = new Intl.NumberFormat("es-MX").format(prom.price);
+        return (
+          <container key={prom}>
+            <Link href={`/promotion/${prom._id}`}>
+              <h2>{prom.namePromo}</h2>
+            </Link>
+            <div>
+              <contain>
+                <Slideshow controles autoplay velocidad="5000" intervalo="7000">
+                  {prom.images.map((image) => (
+                    <slide key={image}>
+                      <img src={image} alt="room Oporto 83" />
+                    </slide>
+                  ))}
+                </Slideshow>
+              </contain>
+              <description>
+                <h3>Descripción: </h3>
+                <p> {prom.description}</p>
+                <h3>Precio: $ {priceCop}</h3>
 
-              <Link href={`/promotion/${prom._id}`}>
-                <button>Ver Promoción</button>
-              </Link>
-            </description>
-          </div>
-        </container>
-      ))}
+                <Link href={`/promotion/${prom._id}`}>
+                  <button>Ver Promoción</button>
+                </Link>
+              </description>
+            </div>
+          </container>
+        );
+      })}
 
       <footer className={styles.footer}>
         <a

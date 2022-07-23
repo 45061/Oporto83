@@ -6,17 +6,17 @@ const backgroundColor = addOpacityToColor(colors.primary, 0.3);
 export default function AppLayout({ children }) {
   return (
     <>
-      <div>
-        <main>{children}</main>
-      </div>
+      <span>
+        <div>{children}</div>
+      </span>
       <style jsx>
         {`
-          div {
+          span {
             display: grid;
             height: 100%;
             place-items: center;
           }
-          main {
+          div {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -25,7 +25,7 @@ export default function AppLayout({ children }) {
             width: 100%;
           }
           @media (min-width: ${breakpoints.mobile}) {
-            main {
+            div {
               margin-top: 180px;
               height: 96%;
               width: 82%;

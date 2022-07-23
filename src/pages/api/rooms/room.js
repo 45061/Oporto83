@@ -22,10 +22,6 @@ export default async function theRoom(req, res) {
     case "GET":
       try {
         const { roomId } = req.params;
-        // const user = await User.findById(id);
-        // if (!user) {
-        //   return res.status(400).json({ message: "No User Autenticated" });
-        // }
         const rooms = await Room.findById(roomId);
 
         return res.status(200).json({
@@ -42,7 +38,6 @@ export default async function theRoom(req, res) {
         if (!user) {
           return res.status(400).json({ message: "No find User" });
         }
-
         const data = JSON.parse(body);
         const { images, roomNumer, description, price } = data;
         if (!images.length) {
@@ -57,7 +52,6 @@ export default async function theRoom(req, res) {
             return url;
           })
         );
-        // await ulrImages.push(ulrIma);
 
         const room = await Room.create({
           roomNumer,
@@ -66,8 +60,6 @@ export default async function theRoom(req, res) {
           images: ulrImages,
           publicIds,
         });
-
-        console.log(room);
 
         return res.status(201).json({ message: "Los datos llegaron", room });
       } catch (error) {
