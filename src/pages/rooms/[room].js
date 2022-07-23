@@ -5,7 +5,6 @@
 import styles from "../../styles/room.module.scss";
 
 import Slideshow from "../../components/Slideshow";
-import { colors } from "../../styles/theme";
 import CollapseButton from "../../components/CollapseButton";
 
 export default function Room(roomInfo) {
@@ -26,17 +25,9 @@ export default function Room(roomInfo) {
       </>
     );
   }
-  // const dispatch = useDispatch();
-  // const sampleListData = useSelector((state) => state.sampleData);
-  // const { sample } = sampleListData;
+
   const thisRoom = roomInfo.roomInfo;
 
-  // const handleClcik = () => {
-  //   dispatch(showFormAction());
-  // };
-  // useEffect(() => {
-  //   dispatch(getSampleData());
-  // }, [dispatch]);
   return (
     <>
       <div className={styles.title__room}>

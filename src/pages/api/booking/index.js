@@ -12,7 +12,9 @@ export default async function theBooking(req, res) {
   switch (method) {
     case "GET":
       try {
-        const bookings = await Booking.find();
+        const bookings = await Booking.find()
+          .populate("userId", "firstName lastName email numer")
+          .populate("roomId", "roomNumer price");
         return res.status(200).json({
           message: "Bookings found",
           bookings,

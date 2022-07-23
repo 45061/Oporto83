@@ -29,7 +29,7 @@ function ImageUploadForm() {
       [e.target.name]: e.target.value,
     });
   };
-
+  const precioCop = roomData.price.toLocaleString("es-MX");
   const handleSubmit = async (event) => {
     event.preventDefault();
 

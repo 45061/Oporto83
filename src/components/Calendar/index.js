@@ -1,12 +1,16 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import dayjs from "dayjs";
+import "dayjs/locale/es";
 import { RangeCalendar } from "@mantine/dates";
+
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Button, Collapse, Divider } from "@mantine/core";
+import { Button, Divider, Popover } from "@mantine/core";
 import { setDataDate } from "../../store/actions/dateAction";
 import style from "../../styles/components/CollapseCalendar.module.scss";
 
-export default function Calendar() {
+export default function Calendar(props) {
+  const { room } = props;
   const dispatch = useDispatch();
 
   const thisDay = dayjs().$D - 1;
@@ -15,11 +19,13 @@ export default function Calendar() {
   const thisDayData = dayjs().$d;
   const nextThisDayData = dayjs().date(nextDay).$d;
 
-  const [opened, setOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
   const [value, setValue] = useState([
     new Date(thisDayData),
     new Date(nextThisDayData),
   ]);
+  const dataIni = room?.bookings;
+
   const month = {
     0: "Ene",
     1: "Feb",
@@ -45,63 +51,92 @@ export default function Calendar() {
     6: "Sab",
   };
 
+  function getDates(startDate, endDate) {
+    const dates = [];
+    let currentDate = startDate;
+    const addDays = function (days) {
+      const date = new Date(this.valueOf());
+      date.setDate(date.getDate() + days);
+      return date;
+    };
+    while (currentDate <= endDate) {
+      dates.push(currentDate);
+      currentDate = addDays.call(currentDate, 1);
+    }
+    return dates;
+  }
+
+  const BookingDates = [];
+  dataIni?.forEach((index) => {
+    BookingDates.push(
+      getDates(new Date(index.bookingDays[0]), new Date(index.bookingDays[1]))
+    );
+  });
+
   const dataDate = dayjs(value[0]);
   const nextDataDate = dayjs(value[1]);
   const dateConst = dataDate.$D + 1;
   const infoDateConst = dayjs().date(dateConst);
 
-  // const thisDayWeek = dayjs().$W;
-  // const thisMonth = dayjs().$M;
-
-  // console.log("esta es la prueba", dayjs(value[1]));
-
-  // console.log(week[thisDayWeek + 1]);
   useEffect(() => {
     dispatch(setDataDate(value));
   }, [value, dispatch]);
-
   return (
     <>
-      <Button
-        onClick={() => setOpen((o) => !o)}
-        style={{
-          width: 250,
-          height: 80,
+      <Popover
+        style={{ marginTop: 5, borderRadius: 30 }}
+        sx={(theme) => ({
           backgroundColor: "transparent",
-          color: "black",
-        }}
-      >
-        <div className={style.calendar}>
-          <div className={style.firtsday}>
-            <h1>{dataDate.$D}</h1>
-            <div className={style.firtsday_month}>
-              <h3>{month[dataDate.$M]}</h3>
-              <p>{week[dataDate.$W]}</p>
+          "&:hover": {
+            backgroundColor: theme.colors.gray[1],
+          },
+        })}
+        opened={opened}
+        onClose={() => setOpened(false)}
+        target={
+          <Button
+            onClick={() => setOpened(true)}
+            style={{
+              width: 250,
+              height: 80,
+              backgroundColor: "transparent",
+              color: "black",
+            }}
+          >
+            <div className={style.calendar}>
+              <div className={style.firtsday}>
+                <h1>{dataDate.$D}</h1>
+                <div className={style.firtsday_month}>
+                  <h3>{month[dataDate.$M]}</h3>
+                  <p>{week[dataDate.$W]}</p>
+                </div>
+              </div>
+              <Divider
+                sx={{ height: "44px" }}
+                size="sm"
+                orientation="vertical"
+              />
+              <div className={style.firtsday}>
+                <h1>{nextDataDate.$D ? nextDataDate.$D : infoDateConst.$D}</h1>
+                <div className={style.firtsday_month}>
+                  <h3>
+                    {nextDataDate.$M
+                      ? month[nextDataDate.$M]
+                      : month[infoDateConst.$M]}
+                  </h3>
+                  <p>
+                    {nextDataDate.$W
+                      ? week[nextDataDate.$W]
+                      : week[infoDateConst.$W]}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-          <Divider sx={{ height: "44px" }} size="sm" orientation="vertical" />
-          <div className={style.firtsday}>
-            <h1>{nextDataDate.$D ? nextDataDate.$D : infoDateConst.$D}</h1>
-            <div className={style.firtsday_month}>
-              <h3>
-                {nextDataDate.$M
-                  ? month[nextDataDate.$M]
-                  : month[infoDateConst.$M]}
-              </h3>
-              <p>
-                {nextDataDate.$W
-                  ? week[nextDataDate.$W]
-                  : week[infoDateConst.$W]}
-              </p>
-            </div>
-          </div>
-        </div>
-      </Button>
-
-      <Collapse
-        in={opened}
-        transitionDuration={800}
-        transitionTimingFunction="linear"
+          </Button>
+        }
+        width={590}
+        position="bottom"
+        withArrow
       >
         <RangeCalendar
           value={value}
@@ -110,9 +145,15 @@ export default function Calendar() {
             .startOf("month")
             .add(thisDay, "days")
             .toDate()}
+          excludeDate={(date) =>
+            BookingDates.toString()
+              .split(",")
+              .some((dates) => date.getTime() === new Date(dates).getTime())
+          }
           amountOfMonths={2}
+          locale="es-mx"
         />
-      </Collapse>
+      </Popover>
     </>
   );
 }

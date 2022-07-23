@@ -18,6 +18,7 @@ const bookingSchema = new Schema(
       type: Number,
       require: false,
     },
+    bookingDays: { type: Array, require: true },
     reservedStatus: Boolean,
   },
   {
