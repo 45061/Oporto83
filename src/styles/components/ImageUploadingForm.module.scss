@@ -1,0 +1,46 @@
+.image_item {
+  display: flex;
+  margin: 10px 0;
+}
+.image_item__btn_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.upload__image_wrapper {
+  button {
+    justify-content: center;
+    flex-grow: 0.5;
+    padding: 3px 6px;
+    margin: 2px 2px;
+    border: 1px solid #4d70b5;
+    border-radius: 4px;
+    color: white;
+    background-color: #4d70b5;
+  }
+}
+
+.upload__image_button {
+  display: flex;
+}
+
+.image_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 10px;
+}
+.button {
+  button {
+    justify-content: center;
+    flex-grow: 0.5;
+    padding: 8px 16px;
+    margin: 2px 2px;
+    border: 1px solid #4d70b5;
+    border-radius: 4px;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    background-color: #4d70b5;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
+}

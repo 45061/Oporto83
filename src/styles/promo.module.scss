@@ -1,0 +1,146 @@
+.title__promo {
+  display: flex;
+  justify-content: center;
+  background-color: #1c5480;
+  width: 100%;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 10px 10px 0 0;
+  padding-bottom: 5px;
+  h1 {
+    color: #fff;
+    margin: 0;
+  }
+}
+
+.promo__title {
+  h1 {
+    color: #1c5480;
+    display: flex;
+    justify-content: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.service__buttons {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 50px 0 20px;
+  gap: 30px;
+}
+
+.buttons__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+
+  h4 {
+    color: #1c5480;
+    margin: 0;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.oporto__service {
+  padding: 40px;
+  margin-bottom: 40px;
+  h2 {
+    display: flex;
+    color: #1c5480;
+    font-size: 28px;
+    justify-content: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.room__container {
+  display: flex;
+  gap: 40px;
+  margin: 0 30px;
+  justify-content: center;
+}
+.container__slide {
+  overflow: hidden;
+  max-width: 700px;
+  margin: 10px, auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.oporto__slide {
+  min-width: 100%;
+  overflow: hidden;
+  transition: 0.3s ease all;
+  z-index: 10;
+  max-height: 900px;
+  position: relative;
+
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+}
+.bath__list {
+  td {
+    width: 25%;
+  }
+  caption {
+    color: #1c5480;
+    font-size: 22px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+.oporto__description {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  h2 {
+    display: flex;
+    color: #1c5480;
+    font-size: 28px;
+    justify-content: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+.description__bath {
+  display: flex;
+  gap: 40px;
+  margin: 0 30px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.description__room {
+  display: flex;
+  gap: 40px;
+  margin: 0 30px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.room__list {
+  td {
+    width: 0%;
+  }
+  caption {
+    color: #1c5480;
+    font-size: 22px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+.room__oporto {
+  margin: 10px 70px;
+  border-radius: 10px;
+  padding: 40px 0;
+
+  p {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+}

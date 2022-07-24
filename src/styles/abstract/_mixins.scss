@@ -1,0 +1,7 @@
+$celphone-width: 500px;
+
+@mixin celphone {
+  @media (min-width: #{$celphone-width}) {
+    @content;
+  }
+}
