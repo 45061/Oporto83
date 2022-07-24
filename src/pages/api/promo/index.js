@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
 import Promo from "../../../models/promotion.model";
