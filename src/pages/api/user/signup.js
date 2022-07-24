@@ -11,7 +11,7 @@ verify(transporter);
 
 const sendMail = async (user) => {
   await transporter.sendMail({
-    from: `"${process.env.MAIL_USERNAME}" <${process.env.MAIL_USER}>`,
+    from: `"${process.env.NEXT_PUBLIC_MAIL_USERNAME}" <${process.env.NEXT_PUBLIC_MAIL_USER}>`,
     to: user.email,
     subject: "Bienvenido a Oporto 83",
     html: `
@@ -131,7 +131,10 @@ export default async function handler(req, res) {
     case "GET":
       try {
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const user = await User.findById(id);
         if (!user) {
           return res.status(400).json({ message: "No find User" });
@@ -166,9 +169,13 @@ export default async function handler(req, res) {
         });
         sendMail(user);
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-          expiresIn: 60 * 60 * 24,
-        });
+        const token = jwt.sign(
+          { id: user._id },
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
+          {
+            expiresIn: 60 * 60 * 24,
+          }
+        );
 
         return res.status(201).json({
           message: "User Created",

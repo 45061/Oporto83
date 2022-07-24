@@ -5,8 +5,8 @@ exports.transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD,
+    user: process.env.NEXT_PUBLIC_MAIL_USER,
+    pass: process.env.NEXT_PUBLIC_MAIL_PASSWORD,
   },
 });
 
