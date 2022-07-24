@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-
+/* eslint-disable consistent-return */
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
@@ -167,7 +167,7 @@ export default async function recover(req, res) {
         });
         return res.status(201).json({ message: "Send Mail" });
       } catch (error) {
-        console.log(error);
+        return console.log(error);
       }
 
     case "PUT":

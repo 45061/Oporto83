@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable import/newline-after-import */
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
 import Room from "../../../models/room.model";

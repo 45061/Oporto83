@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
 import User from "../../../models/user.model";
@@ -32,7 +33,6 @@ export default async function theBooking(req, res) {
         if (!user) {
           return res.status(400).json({ message: "No find User" });
         }
-        // const data = JSON.parse(body);
 
         const { roomId } = body;
 
@@ -98,10 +98,6 @@ export default async function theBooking(req, res) {
 
           await user.save({ validateBeforeSave: false });
         }
-
-        // const data = JSON.parse(body);
-        // const { _id } = data;
-        // const deleteBooking = await Booking.findByIdAndDelete(_id);
 
         return res.status(201).json({
           message: "Los datos fueron borrados",

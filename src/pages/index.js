@@ -1,5 +1,6 @@
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/iframe-has-title */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react/destructuring-assignment */
 import { Select, Divider } from "@mantine/core";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,7 +20,8 @@ import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
 import { postBooking } from "../store/actions/dateAction";
 
-var dayOfYear = require("dayjs/plugin/dayOfYear");
+const dayOfYear = require("dayjs/plugin/dayOfYear");
+
 dayjs.extend(dayOfYear);
 
 export default function Home(dataRoom) {
@@ -69,7 +71,6 @@ export default function Home(dataRoom) {
           required
           maxDropdownHeight={280}
           icon={<BrandBooking size={14} strokeWidth={2} />}
-          // searchable
           value={value}
           onChange={setValue}
           label="Selecciona la habitación a reservar"
@@ -276,7 +277,7 @@ export default function Home(dataRoom) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",
