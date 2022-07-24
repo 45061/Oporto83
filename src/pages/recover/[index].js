@@ -30,7 +30,7 @@ function RecoverPassword() {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`${url}/user/recover`, {
+      const response = await fetch("/api/user/recover", {
         method: "PUT",
         body: JSON.stringify({
           email: formData.email,

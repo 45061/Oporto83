@@ -21,5 +21,6 @@ module.exports = {
     "react/button-has-type": "off",
     "jsx-a11y/iframe-has-title": "off",
     "react/self-closing-comp": "off",
+    "no-unused-vars": "off",
   },
 };

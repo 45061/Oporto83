@@ -28,7 +28,7 @@ export const postRoom = (uploadData) => async (dispatch) => {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch(`${url}/rooms/room`, {
+    const response = await fetch("/api/rooms/room", {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -54,7 +54,7 @@ export const deleteRoom = (room) => async (dispatch) => {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch(`${url}/rooms/room`, {
+    const response = await fetch("/api/rooms/room", {
       method: "DELETE",
       body: JSON.stringify(room),
       headers: {
@@ -78,7 +78,7 @@ export const postPromo = (uploadData) => async (dispatch) => {
     const cookies = new Cookies();
     const token = cookies.get("token");
     // console.log("data recibida", uploadData.images[0].data_url);
-    const response = await fetch(`${url}/promo`, {
+    const response = await fetch("/api/promo", {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -108,7 +108,7 @@ export const deletePromo = (promo) => async (dispatch) => {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch(`${url}/promo`, {
+    const response = await fetch("/api/promo", {
       method: "DELETE",
       body: JSON.stringify(promo),
       headers: {

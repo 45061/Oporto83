@@ -87,7 +87,7 @@ export default function userProfile(props) {
           await Promise.all(
             await bookings.map(async (booking) => {
               const serieBooking = { bookingId: booking };
-              const response = await fetch(`${url}/booking/bookinguser`, {
+              const response = await fetch("/api/booking/bookinguser", {
                 method: "POST",
                 body: JSON.stringify(serieBooking),
                 headers: {
@@ -105,7 +105,7 @@ export default function userProfile(props) {
         fetchData();
 
         const fetchDataRooms = async () => {
-          await fetch(`${url}/rooms`, {
+          await fetch("/api/rooms", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function userProfile(props) {
         fetchDataRooms();
 
         const fetchDataPromos = async () => {
-          await fetch(`${url}/promo`, {
+          await fetch("/api/promo", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -493,7 +493,7 @@ export default function userProfile(props) {
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiBookings = await fetch(`${url}/booking`, {
+  const apiBookings = await fetch("/api/booking", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

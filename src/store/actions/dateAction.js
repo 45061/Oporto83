@@ -31,7 +31,7 @@ export const postBooking = (uploadData) => async (dispatch) => {
     const token = cookies.get("token");
     // console.log("data recibida", uploadData.images[0].data_url);
 
-    const response = await fetch(`${url}/booking`, {
+    const response = await fetch("/api/booking", {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -61,7 +61,7 @@ export const deleteBooking = (deleteData) => async (dispatch) => {
     const cookies = new Cookies();
     const token = cookies.get("token");
 
-    const response = await fetch(`${url}/booking`, {
+    const response = await fetch("/api/booking", {
       method: "DELETE",
       body: JSON.stringify(deleteData),
       headers: {

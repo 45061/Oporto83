@@ -249,7 +249,7 @@ export async function getServerSideProps(context) {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
 
   const { room } = context.query;
-  const apiRooms = await fetch(`${url}/rooms`, {
+  const apiRooms = await fetch("/api/rooms", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
