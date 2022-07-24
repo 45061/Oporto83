@@ -11,7 +11,7 @@ const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
 export const register = (body) => async (dispatch) => {
   try {
     const cookies = new Cookies();
-    const response = await fetch(`${url}/api/user/signup`, {
+    const response = await fetch(`${url}/user/signup`, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -44,7 +44,7 @@ export const login =
   async (dispatch) => {
     try {
       const cookies = new Cookies();
-      const response = await fetch(`${url}/api/user/login`, {
+      const response = await fetch(`${url}/user/login`, {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: {
@@ -72,7 +72,7 @@ export const login =
 
 export const getUerData = (token) => async (dispatch) => {
   try {
-    const response = await fetch(`${url}/api/user/signup`, {
+    const response = await fetch(`${url}/user/signup`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
