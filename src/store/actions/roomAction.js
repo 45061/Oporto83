@@ -4,10 +4,8 @@ import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 
 import {
-  UPLOAD_ROOM_SUCCESS,
   IS_UPLOADING_ROOM,
   SET_UPLOADING_PERCENTAGE,
-  ROOM_DETAIL_SUCCESS,
   RESET_INITIAL_STATE,
 } from "../types";
 import { showChargeAction } from "./dateAction";

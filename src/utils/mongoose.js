@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { connect, connection } from "mongoose";
 
 const conn = {

@@ -1,4 +1,5 @@
-/* eslint-disable no-fallthrough */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable consistent-return */
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

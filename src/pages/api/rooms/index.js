@@ -1,3 +1,5 @@
+/* eslint-disable import/newline-after-import */
+/* eslint-disable no-unused-vars */
 import { dbConnect } from "../../../utils/mongoose";
 import Room from "../../../models/room.model";
 import Booking from "../../../models/booking.model";

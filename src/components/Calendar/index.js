@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react/jsx-no-useless-fragment */
 import dayjs from "dayjs";
 import "dayjs/locale/es";

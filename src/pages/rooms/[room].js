@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/destructuring-assignment */
