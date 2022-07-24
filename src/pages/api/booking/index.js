@@ -28,7 +28,10 @@ export default async function theBooking(req, res) {
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const user = await User.findById(id);
         if (!user) {
           return res.status(400).json({ message: "No find User" });
@@ -71,7 +74,10 @@ export default async function theBooking(req, res) {
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const user = await User.findById(id);
         if (!user) {
           return res.status(400).json({ message: "No find User" });

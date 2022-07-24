@@ -31,9 +31,13 @@ export default async function login(req, res) {
             .json({ message: "Usuario o contraseña invalida" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-          expiresIn: 60 * 60 * 24,
-        });
+        const token = jwt.sign(
+          { id: user._id },
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
+          {
+            expiresIn: 60 * 60 * 24,
+          }
+        );
 
         return res.status(201).json({
           message: "User login",

@@ -7,8 +7,8 @@ import User from "../../../models/user.model";
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
@@ -33,7 +33,10 @@ export default async function thePromo(req, res) {
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const user = await User.findById(id);
         if (!user) {
           return res.status(400).json({ message: "No find User" });
@@ -71,7 +74,10 @@ export default async function thePromo(req, res) {
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const user = await User.findById(id);
         if (!user) {
           return res.status(400).json({ message: "No find User" });
