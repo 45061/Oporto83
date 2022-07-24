@@ -12,7 +12,6 @@ export default function InputValidator({
   required,
   value,
   id,
-  classSpan,
 }) {
   const [focused, setFocused] = useState(false);
 

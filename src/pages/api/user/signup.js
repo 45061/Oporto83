@@ -124,7 +124,7 @@ const sendMail = async (user) => {
 };
 
 export default async function handler(req, res) {
-  const { method, body } = req;
+  const { method } = req;
   const { authorization } = req.headers;
 
   switch (method) {

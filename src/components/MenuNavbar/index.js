@@ -14,7 +14,7 @@ import { logout } from "../../store/actions/authAction";
 import { colors } from "../../styles/theme";
 import PublicModal from "../PublicModal";
 import GetEmail from "../GetEmail";
-import Register from "../../components/RegisterForm";
+import Register from "../RegisterForm";
 import Login from "../LoginForm";
 
 export default function MenuNavbar() {

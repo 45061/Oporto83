@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
 import { useState } from "react";
 import { useDispatch } from "react-redux";

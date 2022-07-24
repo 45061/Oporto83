@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable consistent-return */
 /* eslint-disable no-fallthrough */
 
 import bcrypt from "bcrypt";

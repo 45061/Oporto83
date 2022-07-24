@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import Cookies from "universal-cookie";
 import Router from "next/router";
@@ -52,7 +53,7 @@ export const login =
       });
       const data = await response.json();
       console.log("esto es data", response.status);
-      const { token, message, ...user } = data;
+      const { token } = data;
 
       if (response.status === 403) {
         return toast.error(response.data.message);

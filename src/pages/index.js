@@ -1,3 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/button-has-type */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { Select, Divider } from "@mantine/core";
@@ -19,7 +22,8 @@ import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
 import { postBooking } from "../store/actions/dateAction";
 
-var dayOfYear = require("dayjs/plugin/dayOfYear");
+const dayOfYear = require("dayjs/plugin/dayOfYear");
+
 dayjs.extend(dayOfYear);
 
 export default function Home(dataRoom) {
@@ -276,7 +280,7 @@ export default function Home(dataRoom) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",
