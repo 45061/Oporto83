@@ -24,12 +24,16 @@ export default async function recover(req, res) {
           res.status(404).json({ message: "User not find." });
           return;
         }
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
-          expiresIn: 60 * 5,
-        });
+        const token = jwt.sign(
+          { id: user._id },
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
+          {
+            expiresIn: 60 * 5,
+          }
+        );
 
         await transporter.sendMail({
-          from: `"${process.env.MAIL_USERNAME}" <${process.env.MAIL_USER}>`,
+          from: `"${process.env.NEXT_PUBLIC_MAIL_USERNAME}" <${process.env.NEXT_PUBLIC_MAIL_USER}>`,
           to: email,
           subject: "Recuperación contraseña Oporto 83",
           html: `
@@ -174,7 +178,10 @@ export default async function recover(req, res) {
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
-        const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
         const { email, password, confirmPassword } = body;
 
         const user = await User.findById(id);
@@ -199,7 +206,7 @@ export default async function recover(req, res) {
         await user.save({ validateBeforeSave: false });
 
         await transporter.sendMail({
-          from: `"${process.env.MAIL_USERNAME}" <${process.env.MAIL_USER}>`,
+          from: `"${process.env.NEXT_PUBLIC_MAIL_USERNAME}" <${process.env.NEXT_PUBLIC_MAIL_USER}>`,
           to: user.email,
           subject: "Change Password in Oporto 83",
           html: `
