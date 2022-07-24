@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/iframe-has-title */
+
 import Link from "next/link";
 import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
@@ -129,6 +130,7 @@ export default function Rooms({ dataRoom }) {
 }
 
 export async function getServerSideProps() {
+
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",

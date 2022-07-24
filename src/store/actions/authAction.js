@@ -53,6 +53,7 @@ export const login =
       });
       const data = await response.json();
       console.log("esto es data", response.status);
+
       const { token } = data;
 
       if (response.status === 403) {

@@ -2,6 +2,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
+
 import Link from "next/link";
 import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
@@ -140,7 +141,9 @@ export default function Promotion({ dataPromo }) {
   );
 }
 
+
 export async function getServerSideProps() {
+
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const apiPromos = await fetch(`${url}/api/promo`, {
     method: "GET",

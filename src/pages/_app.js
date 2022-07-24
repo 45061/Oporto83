@@ -3,7 +3,9 @@ import { Provider, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Head from "next/head";
 import Cookies from "universal-cookie";
+
 import { ToastContainer } from "react-toastify";
+
 import { wrapper, store } from "../store/store";
 import AppLayout from "../components/AppLayout";
 import NavBar from "../components/Navbar";
