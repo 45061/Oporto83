@@ -279,7 +279,7 @@ export default function Home(dataRoom) {
 
 export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiRooms = await fetch(`${url}/rooms`, {
+  const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -171,7 +171,7 @@ export async function getServerSideProps(context) {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   // const router = useRouter();
   const { promo } = context.query;
-  const apiPromo = await fetch(`${url}/promo`, {
+  const apiPromo = await fetch(`${url}/api/promo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
