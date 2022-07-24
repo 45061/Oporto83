@@ -33,7 +33,7 @@ export default function Home(dataRoom) {
   const { showingLoginForm } = useSelector((state) => state.modalReducer);
 
   const roomsData = dataRoom.dataRoom;
-  const { rooms } = roomsData;
+  // const { rooms } = roomsData;
   const [value, setValue] = useState("");
 
   const firstDay = dayjs(dates[0]).dayOfYear();
@@ -67,7 +67,7 @@ export default function Home(dataRoom) {
   return (
     <div>
       <div className={styles.booking}>
-        <Select
+        {/* <Select
           required
           maxDropdownHeight={280}
           icon={<BrandBooking size={14} strokeWidth={2} />}
@@ -79,7 +79,7 @@ export default function Home(dataRoom) {
             value: item,
             label: item.roomNumer,
           }))}
-        />
+        /> */}
         <Calendar room={value} />
         <div className={styles.booking__button}>
           {isAuth ? (
@@ -277,15 +277,15 @@ export default function Home(dataRoom) {
   );
 }
 
-export async function getServerSideProps() {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiRooms = await fetch(`${url}/api/rooms`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+// export async function getServerSideProps() {
+//   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+//   const apiRooms = await fetch("/api/rooms", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
 
-  const dataRoom = await apiRooms.json();
-  return { props: { dataRoom } };
-}
+//   const dataRoom = await apiRooms.json();
+//   return { props: { dataRoom } };
+// }
