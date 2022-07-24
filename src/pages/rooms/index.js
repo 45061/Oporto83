@@ -1,6 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
+
+import stylesHome from "../../styles/Home.module.scss";
 import styles from "../../styles/rooms.module.scss";
 import { colors } from "../../styles/theme";
 
@@ -29,7 +31,7 @@ export default function Rooms({ dataRoom }) {
                   ))}
                 </Slideshow>
               </div>
-              <div>
+              <div className={styles.slider__text}>
                 <h3>Descripción: </h3>
                 <p> {room.description}</p>
                 <h3>Precio por noche: $ {priceCop} COP</h3>
@@ -42,23 +44,47 @@ export default function Rooms({ dataRoom }) {
         );
       })}
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+      <footer>
+        <Divider size="sm" />
+        <div className={stylesHome.oporto__data}>
+          <div className={stylesHome.data__location}>
+            <div className={stylesHome.location__info}>
+              <div className={stylesHome.info__name}>
+                <h3>Oporto 83 Bogotá</h3>
+              </div>
+              <div className={stylesHome.info__hotel}>
+                <div className={stylesHome.hotel__location}>
+                  <p>Calle 23 </p>
+                  <p>Numero 83 20</p>
+                  <p>Bogotá</p>
+                  <p>CP 110931</p>
+                  <p>Colombia</p>
+                </div>
+                <div className={stylesHome.hotel__check}>
+                  <p>Registro de entrada 2 pm</p>
+                  <p>Registro de salida 11 am </p>
+                </div>
+                <div className={stylesHome.hotel__data}>
+                  <p>oporto83bogota@gmail.com</p>
+                  <p>319 798 1552</p>
+                  <p>601 320 7227</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.589398577784!2d-74.12861808482616!3d4.667059796609922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9d7ca84dbe1d%3A0x75faa422bb2bbd7a!2sHotel%20Oporto%2083!5e0!3m2!1ses!2sco!4v1656737163809!5m2!1ses!2sco"
+                height="100%"
+                width="100%"
+              />
+            </div>
+          </div>
+        </div>
       </footer>
       <style jsx>
         {`
-          h3 {
-            color: ${colors.oporto};
-            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+          footer {
+            margin-top: 20px;
           }
           span {
             display: flex;
@@ -100,7 +126,8 @@ export default function Rooms({ dataRoom }) {
 }
 
 export async function getServerSideProps(context) {
-  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+  const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -25,7 +25,7 @@ export default function NavBar() {
             <Link href="/promotion">
               <h3>Ofertas</h3>
             </Link>
-            <Link href="/rooms">
+            {/* <Link href="/rooms">
               <h3>Cosas por hacer</h3>
             </Link>
             <Link href="/rooms">
@@ -33,8 +33,7 @@ export default function NavBar() {
             </Link>
             <Link href="/rooms">
               <h3>Empresarial</h3>
-            </Link>
-
+            </Link> */}
             <MenuNavbar />
           </div>
         </nav>

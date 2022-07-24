@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { useMediaQuery } from "@mantine/hooks";
-import { Tabs, Table } from "@mantine/core";
+import { Tabs, Table, Divider } from "@mantine/core";
 import { BrandBooking } from "tabler-icons-react";
 import ImageUploadForm from "../../components/ImageUploadForm";
 import PublicModal from "../../components/PublicModal";
 
 import styles from "../../styles/userProfile.module.scss";
+import stylesHome from "../../styles/Home.module.scss";
 import {
   showFormAction,
   showPromoAction,
@@ -26,9 +27,6 @@ import {
 
 export default function userProfile(props) {
   const { dataBookings } = props;
-  // const { promos } = dataPromo;
-  // const { rooms } = dataRoom;
-  // const { bookings } = dataBooking;
 
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
@@ -50,7 +48,7 @@ export default function userProfile(props) {
     event.preventDefault();
     dispatch(showFormAction());
   };
-
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const handleClick2 = (event) => {
     event.preventDefault();
     dispatch(showPromoAction());
@@ -62,7 +60,7 @@ export default function userProfile(props) {
       );
 
       return (
-        <tr key={element.name}>
+        <tr key={element}>
           <td>{element.roomId.roomNumer}</td>
           <td>{element.checkIn}</td>
           <td>{element.checkOut}</td>
@@ -85,35 +83,17 @@ export default function userProfile(props) {
     const { bookings } = user;
     if (bookings) {
       try {
-        // const fetchDataUser = async () => {
-        //   await fetch(`http://localhost:3000/api/user/signup`, {
-        //     method: "GET",
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //       "Content-Type": "application/json",
-        //     },
-        //   })
-        //     .then((resp) => resp.json())
-        //     .then((data) => {
-        //       setUserData(data.user.bookings);
-        //     });
-        // };
-        // fetchDataUser();
-
         const fetchData = async () => {
           await Promise.all(
             await bookings.map(async (booking) => {
               const serieBooking = { bookingId: booking };
-              const response = await fetch(
-                `http://localhost:3000/api/booking/bookinguser`,
-                {
-                  method: "POST",
-                  body: JSON.stringify(serieBooking),
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
+              const response = await fetch(`${url}/api/booking/bookinguser`, {
+                method: "POST",
+                body: JSON.stringify(serieBooking),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
 
               const data = await response.json();
               return data;
@@ -125,7 +105,7 @@ export default function userProfile(props) {
         fetchData();
 
         const fetchDataRooms = async () => {
-          await fetch(`http://localhost:3000/api/rooms`, {
+          await fetch(`${url}/api/rooms`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -139,7 +119,7 @@ export default function userProfile(props) {
         fetchDataRooms();
 
         const fetchDataPromos = async () => {
-          await fetch(`http://localhost:3000/api/promo`, {
+          await fetch(`${url}/api/promo`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -271,7 +251,7 @@ export default function userProfile(props) {
                                 </div>
                               </div>
                               <div className={styles.contents__buttons}>
-                                <Link href={`/promotion/${room._id}`}>
+                                <Link href={`/rooms/${room._id}`}>
                                   <button>Ver Habitación</button>
                                 </Link>
                                 <div className={styles.buttons__delete}>
@@ -454,6 +434,43 @@ export default function userProfile(props) {
             </div>
           )}
         </div>
+        <footer>
+          <Divider size="sm" />
+          <div className={stylesHome.oporto__data}>
+            <div className={stylesHome.data__location}>
+              <div className={stylesHome.location__info}>
+                <div className={stylesHome.info__name}>
+                  <h3>Oporto 83 Bogotá</h3>
+                </div>
+                <div className={stylesHome.info__hotel}>
+                  <div className={stylesHome.hotel__location}>
+                    <p>Calle 23 </p>
+                    <p>Numero 83 20</p>
+                    <p>Bogotá</p>
+                    <p>CP 110931</p>
+                    <p>Colombia</p>
+                  </div>
+                  <div className={stylesHome.hotel__check}>
+                    <p>Registro de entrada 2 pm</p>
+                    <p>Registro de salida 11 am </p>
+                  </div>
+                  <div className={stylesHome.hotel__data}>
+                    <p>oporto83bogota@gmail.com</p>
+                    <p>319 798 1552</p>
+                    <p>601 320 7227</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.589398577784!2d-74.12861808482616!3d4.667059796609922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9d7ca84dbe1d%3A0x75faa422bb2bbd7a!2sHotel%20Oporto%2083!5e0!3m2!1ses!2sco!4v1656737163809!5m2!1ses!2sco"
+                  height="100%"
+                  width="100%"
+                />
+              </div>
+            </div>
+          </div>
+        </footer>
         <PublicModal
           opened={showForm}
           onClose={() => dispatch(showFormAction())}
@@ -474,7 +491,8 @@ export default function userProfile(props) {
 }
 
 export async function getServerSideProps(context) {
-  const apiBookings = await fetch(`http://localhost:3000/api/booking`, {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+  const apiBookings = await fetch(`${url}/api/booking`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -483,14 +501,6 @@ export async function getServerSideProps(context) {
   const dataBooking = await apiBookings.json();
 
   const dataBookings = dataBooking.bookings;
-
-  //   const apiPromos = await fetch(`http://localhost:3000/api/promo`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const dataPromo = await apiPromos.json();
 
   return { props: { dataBookings } };
 }

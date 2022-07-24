@@ -1,7 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { Select, Divider } from "@mantine/core";
-import Image from "next/image";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "@mantine/hooks";
@@ -227,6 +226,10 @@ export default function Home(dataRoom) {
             <p>Conctactanos y pregunta como.</p>
           </div>
         </div>
+      </div>
+
+      <footer>
+        <Divider size="sm" />
         <div className={styles.oporto__data}>
           <div className={styles.data__location}>
             <div className={styles.location__info}>
@@ -236,7 +239,7 @@ export default function Home(dataRoom) {
               <div className={styles.info__hotel}>
                 <div className={styles.hotel__location}>
                   <p>Calle 23 </p>
-                  <p> Numero 83 20</p>
+                  <p>Numero 83 20</p>
                   <p>Bogotá</p>
                   <p>CP 110931</p>
                   <p>Colombia</p>
@@ -260,25 +263,7 @@ export default function Home(dataRoom) {
               />
             </div>
           </div>
-          <div className={styles.data__us}>
-            <img src="/mejor-precio.png" alt="thebestprice" />
-            <p>Reserva en linea o llama a nuestros números</p>
-            <p>Te esperamos</p>
-          </div>
         </div>
-      </div>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
       </footer>
       <PublicModal
         opened={showingLoginForm}
@@ -292,7 +277,8 @@ export default function Home(dataRoom) {
 }
 
 export async function getServerSideProps(context) {
-  const apiRooms = await fetch(`http://localhost:3000/api/rooms`, {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+  const apiRooms = await fetch(`${url}/api/rooms`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

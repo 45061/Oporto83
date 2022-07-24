@@ -1,6 +1,7 @@
 // import { toast } from "react-toastify";
 // import { showFormAction } from "./Modals.actionCreator";
 import Cookies from "universal-cookie";
+import { toast } from "react-toastify";
 
 import {
   UPLOAD_ROOM_SUCCESS,
@@ -12,16 +13,24 @@ import {
 import { showChargeAction } from "./dateAction";
 import { showFormAction, showPromoAction } from "./modalAction";
 
-const url = process.env.REACT_APP_BACKEND_URI;
+/* eslint-disable import/prefer-default-export */
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "4mb", // Set desired value here
+    },
+  },
+};
+
 const actionBody = (type, payload) => ({ type, payload });
 
 export const postRoom = (uploadData) => async (dispatch) => {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   try {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    // console.log("data recibida", uploadData);
-    const response = await fetch(`http://localhost:3000/api/rooms/room`, {
+    const response = await fetch(`${url}/api/rooms/room`, {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -34,18 +43,20 @@ export const postRoom = (uploadData) => async (dispatch) => {
       dispatch(showChargeAction());
     }
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
-    // toast.success("Video subido con exito");
+    toast.success("Habitación subida con exito");
   } catch (error) {
     console.log("hay un error en el post Room");
+    toast.error("Error al subir la habitación");
   }
 };
 
 export const deleteRoom = (room) => async (dispatch) => {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   try {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch(`http://localhost:3000/api/rooms/room`, {
+    const response = await fetch(`${url}/api/rooms/room`, {
       method: "DELETE",
       body: JSON.stringify(room),
       headers: {
@@ -55,18 +66,21 @@ export const deleteRoom = (room) => async (dispatch) => {
     });
     if (response.status === 201) {
       dispatch(showChargeAction());
+      toast.success("Habitación eliminada con exito");
     }
   } catch (error) {
     console.log("hay un error en el Delete Room");
+    toast.success("Error al eliminar la habitacón");
   }
 };
 
 export const postPromo = (uploadData) => async (dispatch) => {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   try {
     const cookies = new Cookies();
     const token = cookies.get("token");
     // console.log("data recibida", uploadData.images[0].data_url);
-    const response = await fetch(`http://localhost:3000/api/promo`, {
+    const response = await fetch(`${url}/api/promo`, {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -79,9 +93,10 @@ export const postPromo = (uploadData) => async (dispatch) => {
       dispatch(showChargeAction());
     }
     // dispatch(actionBody(UPLOAD_ROOM_SUCCESS, response.data.video));
-    // toast.success("Video subido con exito");
+    toast.success("Promoción subida con exito");
   } catch (error) {
     console.log("hay un error en el post Promo");
+    toast.error("Error al subir la Promoción ");
   }
 };
 
@@ -90,11 +105,12 @@ export function resetState(payload) {
 }
 
 export const deletePromo = (promo) => async (dispatch) => {
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   try {
     // dispatch(actionBody(IS_UPLOADING_ROOM, true));
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch(`http://localhost:3000/api/promo`, {
+    const response = await fetch(`${url}/api/promo`, {
       method: "DELETE",
       body: JSON.stringify(promo),
       headers: {
@@ -115,8 +131,10 @@ export const deletePromo = (promo) => async (dispatch) => {
     });
     if (response.status === 201) {
       dispatch(showChargeAction());
+      toast.success("Promoción eliminada con exito");
     }
   } catch (error) {
     console.log("hay un error en el delete Promo");
+    toast.success("Error al eliminar la Promo");
   }
 };
