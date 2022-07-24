@@ -30,3 +30,23 @@
     vertical-align: top;
   }
 }
+
+.slider__text {
+  h3 {
+    color: #4d70b5;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.contain__slide__promo {
+  min-width: 100%;
+  overflow: hidden;
+  transition: 0.3s ease all;
+  z-index: 10;
+  max-height: 600px;
+  position: relative;
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+}

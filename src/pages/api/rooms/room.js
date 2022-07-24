@@ -35,9 +35,11 @@ export default async function theRoom(req, res) {
     case "POST":
       try {
         const user = await User.findById(id);
+
         if (!user) {
           return res.status(400).json({ message: "No find User" });
         }
+
         const data = JSON.parse(body);
         const { images, roomNumer, description, price } = data;
         if (!images.length) {
@@ -46,7 +48,9 @@ export default async function theRoom(req, res) {
         const publicIds = [];
         const ulrImages = await Promise.all(
           images.map(async (item) => {
-            const result = await cloudinary.uploader.upload(item.data_url);
+            const result = await cloudinary.uploader.upload(item.data_url, {
+              folder: "RoomImages",
+            });
             const { url, public_id } = result;
             publicIds.push(public_id);
             return url;

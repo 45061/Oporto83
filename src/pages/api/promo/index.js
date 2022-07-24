@@ -46,7 +46,9 @@ export default async function thePromo(req, res) {
         const publicIds = [];
         const ulrImages = await Promise.all(
           images.map(async (item) => {
-            const result = await cloudinary.uploader.upload(item.data_url);
+            const result = await cloudinary.uploader.upload(item.data_url, {
+              folder: "PromoImages",
+            });
             const { url, public_id } = result;
             publicIds.push(public_id);
             return url;

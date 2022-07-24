@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Loader } from "@mantine/core";
 
 import InputValidator from "../ImputValidator";
 
 import styles from "../../styles/components/Login.module.scss";
-// import { hiddeRecoverPassword } from "../store/reducers/Modals.actionCreator";
+import { hiddeRecoverPassword } from "../../store/actions/modalAction";
 
-function GetEmail() {
-  // const [loading, setloading] = useState(false);
-  // const url = process.env.REACT_APP_BACKEND_URI;
+export default function GetEmail() {
+  const [loading, setloading] = useState(false);
+  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const [formData, setFormData] = useState({
     email: "",
   });
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     setFormData({
@@ -23,23 +25,45 @@ function GetEmail() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // setloading(true);
-    // const { email } = formData;
-    // const response = await axios.post(`${url}/user/getemail`, { email });
-    // if (response.status === 201) {
-    //   dispatch(hiddeRecoverPassword());
-    //   toast.success("Correo enviado con exito");
-    // }
+
+    setloading(true);
+    const { email } = formData;
+    const response = await fetch(`${url}/api/user/recover`, {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 201) {
+      dispatch(hiddeRecoverPassword());
+      setloading(false);
+      toast.success("Correo enviado con exito");
+    }
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="loading">
-  //       <Loader color="red" size={100} />
-  //       <h2>Enviando correo...</h2>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <>
+        <div className={styles.loading}>
+          <Loader color="blue" size={100} />
+          <h2>Enviando correo...</h2>
+        </div>
+        <style jsx>
+          {`
+            div {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              margin-top: 10%;
+            }
+          `}
+        </style>
+      </>
+    );
+  }
 
   return (
     <form>
@@ -67,7 +91,7 @@ function GetEmail() {
         <button
           className={styles.btn_action}
           type="submit"
-          handleClick={handleSubmit}
+          onClick={handleSubmit}
         >
           Enviar Correo
         </button>
@@ -75,5 +99,3 @@ function GetEmail() {
     </form>
   );
 }
-
-export default GetEmail;
