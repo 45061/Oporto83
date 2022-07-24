@@ -200,6 +200,7 @@ export default function userProfile(props) {
                   <button onClick={handleClick}>Subir Room</button>
                 </div>
               ) : (
+                // eslint-disable-next-line react/self-closing-comp
                 <div></div>
               )}
             </div>
@@ -490,7 +491,7 @@ export default function userProfile(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const apiBookings = await fetch(`${url}/api/booking`, {
     method: "GET",

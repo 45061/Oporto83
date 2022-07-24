@@ -19,5 +19,7 @@ module.exports = {
     "react/prop-types": "off",
     "no-underscore-dangle": "off",
     "react/button-has-type": "off",
+    "jsx-a11y/iframe-has-title": "off",
+    "react/self-closing-comp": "off",
   },
 };
