@@ -28,7 +28,7 @@ export default function GetEmail() {
 
     setloading(true);
     const { email } = formData;
-    const response = await fetch(`${url}/api/user/recover`, {
+    const response = await fetch(`${url}/user/recover`, {
       method: "POST",
       body: JSON.stringify({ email }),
       headers: {
