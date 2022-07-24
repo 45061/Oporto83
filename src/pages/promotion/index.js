@@ -141,11 +141,9 @@ export default function Promotion({ dataPromo }) {
   );
 }
 
-
 export async function getServerSideProps() {
-
   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiPromos = await fetch(`${url}/api/promo`, {
+  const apiPromos = await fetch(`${url}/promo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
