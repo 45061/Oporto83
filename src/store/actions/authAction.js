@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 import { hiddeLoginForm, hiddeRegisterForm } from "./modalAction";
 import { AUTH_SUCCESS, AUTH_ERROR, LOGOUT, USER_SUCCESS } from "../types";
 
-const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-
 export const register = (body) => async (dispatch) => {
   try {
     const cookies = new Cookies();
@@ -52,14 +50,12 @@ export const login =
         },
       });
       const data = await response.json();
-      console.log("esto es data", response.status);
 
       const { token } = data;
 
       if (response.status === 403) {
         return toast.error(response.data.message);
       }
-      console.log("error");
       cookies.set("token", token, { path: "/", maxAge: 3600 * 1000 * 24 });
       dispatch(hiddeLoginForm());
       toast.success("Usuario ha realizado login con exito");

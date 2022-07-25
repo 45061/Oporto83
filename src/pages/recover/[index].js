@@ -11,7 +11,6 @@ function RecoverPassword() {
   const router = useRouter();
   const { query } = useRouter();
   const token = query.index;
-  const url = process.env.REACT_APP_BACKEND_URI;
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",

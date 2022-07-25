@@ -25,9 +25,10 @@ import {
   deleteBooking,
   showChargeAction,
 } from "../../store/actions/dateAction";
+import { getPostsBookings } from "../api/getPosts";
 
-export default function userProfile(props) {
-  // const { dataBookings } = props;
+export default function userProfile({ dataBookingHotel }) {
+  const bookings = JSON.parse(dataBookingHotel);
 
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
@@ -36,15 +37,13 @@ export default function userProfile(props) {
   const { charge } = useSelector((state) => state.dateReducer);
 
   const [roomsBooking, setRoomsBooking] = useState([]);
-  const [dataBookings, setDataBooking] = useState([]);
   const [dataRoom, setDataRooms] = useState([]);
   const [dataPromo, setDataPromo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error2, setError] = useState();
-  const { bookings } = dataBookings;
   const { promos } = dataPromo;
   const { rooms } = dataRoom;
-  console.log(dataBookings);
+
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(showFormAction());
@@ -60,20 +59,6 @@ export default function userProfile(props) {
     const { bookings } = user;
     if (bookings) {
       try {
-        const fetchBooking = async () => {
-          fetch("/api/booking", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((resp) => resp.json())
-            .then((data) => {
-              setDataBooking(data);
-            });
-        };
-        fetchBooking();
-
         const fetchData = async () => {
           await Promise.all(
             await bookings.map(async (booking) => {
@@ -507,17 +492,9 @@ export default function userProfile(props) {
   );
 }
 
-// export async function getStaticProps() {
-//   // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-//   const apiBookings = await fetch("/api/booking", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   const dataBooking = await apiBookings.json();
+export async function getStaticProps() {
+  const apiBookings = await getPostsBookings();
+  const dataBookingHotel = JSON.stringify(apiBookings);
 
-//   const dataBookings = dataBooking.bookings;
-
-//   return { props: { dataBookings } };
-// }
+  return { props: { dataBookingHotel } };
+}
