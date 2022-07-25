@@ -175,7 +175,6 @@ export async function getServerSideProps(context) {
   const { promo } = context.query;
   const dataPromos = await getPostsPromo();
 
-  // const { promos } = dataPromos;
   const dataPromo = dataPromos.filter(
     (promoId) => promoId._id.toString() === promo
   );

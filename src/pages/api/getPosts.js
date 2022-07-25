@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { dbConnect } from "../../utils/mongoose";
+import User from "../../models/user.model";
 import Room from "../../models/room.model";
 import Booking from "../../models/booking.model";
 import Promo from "../../models/promotion.model";
@@ -16,5 +17,12 @@ export async function getPostsRooms() {
 
 export async function getPostsPromo() {
   const promos = await Promo.find();
+  return promos;
+}
+
+export async function getPostsBookings() {
+  const promos = await Booking.find()
+    .populate("userId", "firstName lastName email numer")
+    .populate("roomId", "roomNumer price");
   return promos;
 }

@@ -35,7 +35,6 @@ export default function Home({ dataRoom }) {
   const { showingLoginForm } = useSelector((state) => state.modalReducer);
 
   const [value, setValue] = useState("");
-  console.log(value);
   const firstDay = dayjs(dates[0]).dayOfYear();
   const secondDay = dayjs(dates[1]).dayOfYear();
   const reservedDays = secondDay - firstDay;
@@ -68,19 +67,19 @@ export default function Home({ dataRoom }) {
     <div>
       <div className={styles.booking}>
         <Select
-          // width={300}
           required
           maxDropdownHeight={380}
           icon={<BrandBooking size={14} />}
           value={value}
           onChange={setValue}
           label="Selecciona la habitación a reservar"
-          placeholder="Habitaciones"
+          placeholder={value.roomNumer}
           data={rooms.map((item) => ({
             value: item,
-            label: item.roomNumer,
+            label: `${item.roomNumer}`,
           }))}
         />
+
         <Calendar room={value} />
         <div className={styles.booking__button}>
           {isAuth ? (

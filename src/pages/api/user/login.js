@@ -24,7 +24,6 @@ export default async function login(req, res) {
         }
 
         const isValid = await bcrypt.compare(password, user.password);
-        console.log("esto es isValid", isValid);
         if (!isValid) {
           return res
             .status(403)
