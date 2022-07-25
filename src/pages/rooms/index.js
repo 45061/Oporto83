@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/iframe-has-title */
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
@@ -12,24 +11,7 @@ import styles from "../../styles/rooms.module.scss";
 import { colors } from "../../styles/theme";
 
 export default function Rooms({ dataRoom }) {
-  // const [dataRooms, setDataRooms] = useState([]);
-  // const { rooms } = dataRooms;
   const rooms = JSON.parse(dataRoom);
-  console.log("esto es rooms", rooms);
-  // useEffect(() => {
-  //   const fetchRooms = async () =>
-  //     fetch("/api/rooms", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((resp) => resp.json())
-  //       .then((data) => {
-  //         setDataRooms(data);
-  //       });
-  //   fetchRooms();
-  // }, []);
 
   return (
     <>
@@ -148,18 +130,9 @@ export default function Rooms({ dataRoom }) {
 }
 
 export async function getServerSideProps() {
-  // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-
   const rooms = await getPostsRooms();
 
   const dataRoom = JSON.stringify(rooms);
-  // const apiRooms = await fetch("/api/rooms", {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
 
-  // console.log("esto es data", dataRoom);
   return { props: { dataRoom } };
 }

@@ -115,8 +115,8 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 .room__list {
-  td {
-    width: 0%;
+  li {
+    margin: 0 20px;
   }
   caption {
     color: #1c5480;
