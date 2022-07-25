@@ -8,6 +8,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 import { showLoginForm, hiddeLoginForm } from "../store/actions/modalAction";
 
@@ -24,7 +25,18 @@ const dayOfYear = require("dayjs/plugin/dayOfYear");
 
 dayjs.extend(dayOfYear);
 
-export default function Home(dataRoom) {
+// const fetcher = (key) =>
+//   fetch(key, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   }).then((res) => res.json());
+
+export default function Home(props) {
+  // const { dataRoom } = useSWR("/api/rooms", fetcher, {
+  //   initialData: props.apiRooms,
+  // });
   const router = useRouter();
   const dispatch = useDispatch();
   const largeScreen = useMediaQuery("(min-width: 1024px)");
@@ -32,7 +44,7 @@ export default function Home(dataRoom) {
   const { isAuth } = useSelector((state) => state.authReducer);
   const { showingLoginForm } = useSelector((state) => state.modalReducer);
 
-  const roomsData = dataRoom.dataRoom;
+  // const roomsData = dataRoom.dataRoom;
   // const { rooms } = roomsData;
   const [value, setValue] = useState("");
 
@@ -277,15 +289,11 @@ export default function Home(dataRoom) {
   );
 }
 
-// export async function getServerSideProps() {
-//   const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-//   const apiRooms = await fetch("/api/rooms", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
+// export async function getStaticProps() {
+//   // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
 
-//   const dataRoom = await apiRooms.json();
-//   return { props: { dataRoom } };
+//   const apiRooms = await fetcher("/api/rooms");
+
+//   // const dataRoom = await apiRooms.json();
+//   return { props: { apiRooms } };
 // }
