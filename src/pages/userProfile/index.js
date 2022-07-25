@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-return-await */
 /* eslint-disable react/button-has-type */
 import { useSelector, useDispatch } from "react-redux";
@@ -24,9 +25,10 @@ import {
   deleteBooking,
   showChargeAction,
 } from "../../store/actions/dateAction";
+import { getPostsBookings } from "../api/getPosts";
 
-export default function userProfile(props) {
-  // const { dataBookings } = props;
+export default function userProfile({ dataBookingHotel }) {
+  const bookings = JSON.parse(dataBookingHotel);
 
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
@@ -35,12 +37,10 @@ export default function userProfile(props) {
   const { charge } = useSelector((state) => state.dateReducer);
 
   const [roomsBooking, setRoomsBooking] = useState([]);
-  // const [userData, setUserData] = useState([]);
   const [dataRoom, setDataRooms] = useState([]);
   const [dataPromo, setDataPromo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error2, setError] = useState();
-
   const { promos } = dataPromo;
   const { rooms } = dataRoom;
 
@@ -48,35 +48,11 @@ export default function userProfile(props) {
     event.preventDefault();
     dispatch(showFormAction());
   };
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+
   const handleClick2 = (event) => {
     event.preventDefault();
     dispatch(showPromoAction());
   };
-  // const rows = dataBookings
-  //   .map((element) => {
-  //     const dinerCop = new Intl.NumberFormat("es-MX").format(
-  //       element.reservedDays * element.roomId.price
-  //     );
-
-  //     return (
-  //       <tr key={element}>
-  //         <td>{element.roomId.roomNumer}</td>
-  //         <td>{element.checkIn}</td>
-  //         <td>{element.checkOut}</td>
-  //         <td>
-  //           {element.userId.firstName} {element.userId.lastName}
-  //         </td>
-
-  //         <td>{element.userId.numer}</td>
-  //         <td>{element.userId.email}</td>
-  //         <td>{element.reservedDays}</td>
-  //         <td>$ {dinerCop}</td>
-  //         <td>{element.mass}</td>
-  //       </tr>
-  //     );
-  //   })
-  //   .reverse();
 
   useEffect(() => {
     setLoading(true);
@@ -137,6 +113,31 @@ export default function userProfile(props) {
     }
     setLoading(false);
   }, [loading, user, error2, charge]);
+
+  const rows = bookings
+    ?.map((element) => {
+      const dinerCop = new Intl.NumberFormat("es-MX").format(
+        element.reservedDays * element.roomId.price
+      );
+
+      return (
+        <tr key={element}>
+          <td>{element.roomId.roomNumer}</td>
+          <td>{element.checkIn}</td>
+          <td>{element.checkOut}</td>
+          <td>
+            {element.userId.firstName} {element.userId.lastName}
+          </td>
+
+          <td>{element.userId.numer}</td>
+          <td>{element.userId.email}</td>
+          <td>{element.reservedDays}</td>
+          <td>$ {dinerCop}</td>
+          <td>{element.mass}</td>
+        </tr>
+      );
+    })
+    .reverse();
 
   if (!isAuth) {
     return (
@@ -351,7 +352,7 @@ export default function userProfile(props) {
                       <th>Valor Reserva</th>
                     </tr>
                   </thead>
-                  {/* <tbody>{rows}</tbody> */}
+                  <tbody>{rows}</tbody>
                 </Table>
               </Tabs.Tab>
             </Tabs>
@@ -491,17 +492,9 @@ export default function userProfile(props) {
   );
 }
 
-// export async function getStaticProps() {
-//   // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-//   const apiBookings = await fetch("/api/booking", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   const dataBooking = await apiBookings.json();
+export async function getStaticProps() {
+  const apiBookings = await getPostsBookings();
+  const dataBookingHotel = JSON.stringify(apiBookings);
 
-//   const dataBookings = dataBooking.bookings;
-
-//   return { props: { dataBookings } };
-// }
+  return { props: { dataBookingHotel } };
+}

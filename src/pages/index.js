@@ -4,11 +4,10 @@
 import { Select, Divider } from "@mantine/core";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery, useSetState } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 
 import { showLoginForm, hiddeLoginForm } from "../store/actions/modalAction";
 
@@ -20,23 +19,14 @@ import Calendar from "../components/Calendar";
 import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
 import { postBooking } from "../store/actions/dateAction";
+import { getPostsRooms } from "./api/getPosts";
 
 const dayOfYear = require("dayjs/plugin/dayOfYear");
 
 dayjs.extend(dayOfYear);
 
-// const fetcher = (key) =>
-//   fetch(key, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   }).then((res) => res.json());
-
-export default function Home(props) {
-  // const { dataRoom } = useSWR("/api/rooms", fetcher, {
-  //   initialData: props.apiRooms,
-  // });
+export default function Home({ dataRoom }) {
+  const rooms = JSON.parse(dataRoom);
   const router = useRouter();
   const dispatch = useDispatch();
   const largeScreen = useMediaQuery("(min-width: 1024px)");
@@ -44,10 +34,7 @@ export default function Home(props) {
   const { isAuth } = useSelector((state) => state.authReducer);
   const { showingLoginForm } = useSelector((state) => state.modalReducer);
 
-  // const roomsData = dataRoom.dataRoom;
-  // const { rooms } = roomsData;
   const [value, setValue] = useState("");
-
   const firstDay = dayjs(dates[0]).dayOfYear();
   const secondDay = dayjs(dates[1]).dayOfYear();
   const reservedDays = secondDay - firstDay;
@@ -79,19 +66,20 @@ export default function Home(props) {
   return (
     <div>
       <div className={styles.booking}>
-        {/* <Select
+        <Select
           required
-          maxDropdownHeight={280}
-          icon={<BrandBooking size={14} strokeWidth={2} />}
+          maxDropdownHeight={380}
+          icon={<BrandBooking size={14} />}
           value={value}
           onChange={setValue}
           label="Selecciona la habitación a reservar"
-          placeholder="Habitaciones"
+          placeholder={value.roomNumer}
           data={rooms.map((item) => ({
             value: item,
-            label: item.roomNumer,
+            label: `${item.roomNumer}`,
           }))}
-        /> */}
+        />
+
         <Calendar room={value} />
         <div className={styles.booking__button}>
           {isAuth ? (
@@ -289,11 +277,9 @@ export default function Home(props) {
   );
 }
 
-// export async function getStaticProps() {
-//   // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+export async function getStaticProps() {
+  const rooms = await getPostsRooms();
 
-//   const apiRooms = await fetcher("/api/rooms");
-
-//   // const dataRoom = await apiRooms.json();
-//   return { props: { apiRooms } };
-// }
+  const dataRoom = JSON.stringify(rooms);
+  return { props: { dataRoom } };
+}

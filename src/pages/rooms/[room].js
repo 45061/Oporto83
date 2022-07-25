@@ -9,27 +9,30 @@ import stylesHome from "../../styles/Home.module.scss";
 
 import Slideshow from "../../components/Slideshow";
 import CollapseButton from "../../components/CollapseButton";
+import { getPostsRooms } from "../api/getPosts";
 
-export default function Room(roomInfo) {
-  if (roomInfo.roomInfo === 0) {
+export default function Room({ roomInfo }) {
+  const thisRoom = JSON.parse(roomInfo);
+
+  if (!thisRoom) {
     return (
       <>
         <h1>404</h1>
-        <h1>Página no Encontrada</h1>
+        <h1>Habitación no encontrada</h1>
         <style jsx>
           {`
             h1 {
               display: flex;
               justify-content: center;
               align-items: center;
+              color: #1c5480;
+              text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
             }
           `}
         </style>
       </>
     );
   }
-
-  const thisRoom = roomInfo.roomInfo;
 
   return (
     <>
@@ -136,14 +139,6 @@ export default function Room(roomInfo) {
                     <li>Recepción 24h</li>
                   </td>
                 </tr>
-                {/* <tr>
-              <td><li></li></td>
-              <td><li></li></td>
-            </tr>
-            <tr>
-              <td><li></li></td>
-              <td><li></li></td>
-            </tr> */}
               </ul>
             </table>
           </div>
@@ -246,22 +241,13 @@ export default function Room(roomInfo) {
 }
 
 export async function getServerSideProps(context) {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-
   const { room } = context.query;
-  const apiRooms = await fetch("/api/rooms", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const dataRooms = await apiRooms.json();
+  const dataRooms = await getPostsRooms();
 
-  const { rooms } = dataRooms;
-  const dataRoom = rooms.filter((roomId) => roomId._id === room);
+  const dataRoom = dataRooms.filter((roomId) => roomId._id.toString() === room);
   if (dataRoom.length === 0) {
     dataRoom[0] = 0;
   }
-  const roomInfo = dataRoom[0];
+  const roomInfo = JSON.stringify(dataRoom[0]);
   return { props: { roomInfo } };
 }

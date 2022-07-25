@@ -10,7 +10,6 @@ import { hiddeRecoverPassword } from "../../store/actions/modalAction";
 
 export default function GetEmail() {
   const [loading, setloading] = useState(false);
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
   const [formData, setFormData] = useState({
     email: "",
   });

@@ -14,8 +14,6 @@ export default function PromoUpload() {
   const [images, setImages] = useState([]);
   const maxNumber = 69;
   const onChanged = (imageList, addUpdateIndex) => {
-    // data for submit
-    // console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 
@@ -69,7 +67,6 @@ export default function PromoUpload() {
                 isDragging,
                 dragProps,
               }) => (
-                // write your building UI
                 <div className={styles.upload__image_wrapper}>
                   <div className={styles.upload__image_button}>
                     <button

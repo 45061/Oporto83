@@ -1,17 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/iframe-has-title */
-
 import Link from "next/link";
 import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
 
+import { getPostsRooms } from "../api/getPosts";
 import stylesHome from "../../styles/Home.module.scss";
 import styles from "../../styles/rooms.module.scss";
 import { colors } from "../../styles/theme";
 
 export default function Rooms({ dataRoom }) {
-  const { rooms } = dataRoom;
+  const rooms = JSON.parse(dataRoom);
 
   return (
     <>
@@ -130,14 +130,9 @@ export default function Rooms({ dataRoom }) {
 }
 
 export async function getServerSideProps() {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiRooms = await fetch("/api/rooms", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const rooms = await getPostsRooms();
 
-  const dataRoom = await apiRooms.json();
+  const dataRoom = JSON.stringify(rooms);
+
   return { props: { dataRoom } };
 }

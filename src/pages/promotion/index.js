@@ -2,7 +2,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
-
 import Link from "next/link";
 import { Divider } from "@mantine/core";
 import Slideshow from "../../components/Slideshow";
@@ -10,9 +9,10 @@ import { colors } from "../../styles/theme";
 
 import stylesHome from "../../styles/Home.module.scss";
 import styles from "../../styles/rooms.module.scss";
+import { getPostsPromo } from "../api/getPosts";
 
 export default function Promotion({ dataPromo }) {
-  const { promos } = dataPromo;
+  const promos = JSON.parse(dataPromo);
 
   return (
     <>
@@ -48,7 +48,6 @@ export default function Promotion({ dataPromo }) {
           </div>
         );
       })}
-
       <footer>
         <Divider size="sm" />
         <div className={stylesHome.oporto__data}>
@@ -142,13 +141,13 @@ export default function Promotion({ dataPromo }) {
 }
 
 export async function getServerSideProps() {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiPromos = await fetch("/api/promo", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const dataPromo = await apiPromos.json();
+  const apiDataPromo = await getPostsPromo();
+  // const apiPromos = await fetch("/api/promo", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+  const dataPromo = JSON.stringify(apiDataPromo);
   return { props: { dataPromo } };
 }

@@ -67,7 +67,6 @@ function ImageUploadForm() {
                 isDragging,
                 dragProps,
               }) => (
-                // write your building UI
                 <div className={styles.upload__image_wrapper}>
                   <div className={styles.upload__image_button}>
                     <button

@@ -9,19 +9,24 @@ import styles from "../../styles/promo.module.scss";
 import stylesHome from "../../styles/Home.module.scss";
 import Slideshow from "../../components/Slideshow";
 import CollapseButton from "../../components/CollapseButton";
+import { getPostsPromo } from "../api/getPosts";
 
-export default function Promo(promoInfo) {
-  if (promoInfo.promoInfo === 0) {
+export default function Promo({ promoInfo }) {
+  const thisPromo = JSON.parse(promoInfo);
+
+  if (!thisPromo) {
     return (
       <>
         <h1>404</h1>
-        <h1>Página no Encontrada</h1>
+        <h1>Promoción no encontrada</h1>
         <style jsx>
           {`
             h1 {
               display: flex;
               justify-content: center;
               align-items: center;
+              color: #1c5480;
+              text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
             }
           `}
         </style>
@@ -29,7 +34,6 @@ export default function Promo(promoInfo) {
     );
   }
 
-  const thisPromo = promoInfo.promoInfo;
   const priceCop = new Intl.NumberFormat("es-MX").format(thisPromo.price);
 
   return (
@@ -168,21 +172,15 @@ export default function Promo(promoInfo) {
 }
 
 export async function getServerSideProps(context) {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  // const router = useRouter();
   const { promo } = context.query;
-  const apiPromo = await fetch("/api/promo", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const dataPromos = await apiPromo.json();
-  const { promos } = dataPromos;
-  const dataPromo = promos.filter((promoId) => promoId._id === promo);
+  const dataPromos = await getPostsPromo();
+
+  const dataPromo = dataPromos.filter(
+    (promoId) => promoId._id.toString() === promo
+  );
   if (dataPromo.length === 0) {
     dataPromo[0] = 0;
   }
-  const promoInfo = dataPromo[0];
+  const promoInfo = JSON.stringify(dataPromo[0]);
   return { props: { promoInfo } };
 }
