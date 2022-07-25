@@ -2,6 +2,7 @@
 import { dbConnect } from "../../utils/mongoose";
 import Room from "../../models/room.model";
 import Booking from "../../models/booking.model";
+import Promo from "../../models/promotion.model";
 
 dbConnect();
 
@@ -11,4 +12,9 @@ export async function getPostsRooms() {
     "checkIn checkOut bookingDays"
   );
   return rooms;
+}
+
+export async function getPostsPromo() {
+  const promos = await Promo.find();
+  return promos;
 }

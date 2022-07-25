@@ -13,7 +13,6 @@ import { getPostsRooms } from "../api/getPosts";
 
 export default function Room({ roomInfo }) {
   const thisRoom = JSON.parse(roomInfo);
-  console.log(thisRoom);
 
   if (!thisRoom) {
     return (
@@ -26,14 +25,14 @@ export default function Room({ roomInfo }) {
               display: flex;
               justify-content: center;
               align-items: center;
+              color: #1c5480;
+              text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
             }
           `}
         </style>
       </>
     );
   }
-
-  //   const thisRoom = roomInfo.roomInfo;
 
   return (
     <>
@@ -140,14 +139,6 @@ export default function Room({ roomInfo }) {
                     <li>Recepción 24h</li>
                   </td>
                 </tr>
-                {/* <tr>
-                <td><li></li></td>
-                <td><li></li></td>
-              </tr>
-              <tr>
-                <td><li></li></td>
-                <td><li></li></td>
-              </tr> */}
               </ul>
             </table>
           </div>
