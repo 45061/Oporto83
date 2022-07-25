@@ -26,7 +26,7 @@ import {
 } from "../../store/actions/dateAction";
 
 export default function userProfile(props) {
-  const { dataBookings } = props;
+  // const { dataBookings } = props;
 
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
@@ -53,30 +53,30 @@ export default function userProfile(props) {
     event.preventDefault();
     dispatch(showPromoAction());
   };
-  const rows = dataBookings
-    .map((element) => {
-      const dinerCop = new Intl.NumberFormat("es-MX").format(
-        element.reservedDays * element.roomId.price
-      );
+  // const rows = dataBookings
+  //   .map((element) => {
+  //     const dinerCop = new Intl.NumberFormat("es-MX").format(
+  //       element.reservedDays * element.roomId.price
+  //     );
 
-      return (
-        <tr key={element}>
-          <td>{element.roomId.roomNumer}</td>
-          <td>{element.checkIn}</td>
-          <td>{element.checkOut}</td>
-          <td>
-            {element.userId.firstName} {element.userId.lastName}
-          </td>
+  //     return (
+  //       <tr key={element}>
+  //         <td>{element.roomId.roomNumer}</td>
+  //         <td>{element.checkIn}</td>
+  //         <td>{element.checkOut}</td>
+  //         <td>
+  //           {element.userId.firstName} {element.userId.lastName}
+  //         </td>
 
-          <td>{element.userId.numer}</td>
-          <td>{element.userId.email}</td>
-          <td>{element.reservedDays}</td>
-          <td>$ {dinerCop}</td>
-          <td>{element.mass}</td>
-        </tr>
-      );
-    })
-    .reverse();
+  //         <td>{element.userId.numer}</td>
+  //         <td>{element.userId.email}</td>
+  //         <td>{element.reservedDays}</td>
+  //         <td>$ {dinerCop}</td>
+  //         <td>{element.mass}</td>
+  //       </tr>
+  //     );
+  //   })
+  //   .reverse();
 
   useEffect(() => {
     setLoading(true);
@@ -351,7 +351,7 @@ export default function userProfile(props) {
                       <th>Valor Reserva</th>
                     </tr>
                   </thead>
-                  <tbody>{rows}</tbody>
+                  {/* <tbody>{rows}</tbody> */}
                 </Table>
               </Tabs.Tab>
             </Tabs>
@@ -491,17 +491,17 @@ export default function userProfile(props) {
   );
 }
 
-export async function getServerSideProps() {
-  const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
-  const apiBookings = await fetch("/api/booking", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const dataBooking = await apiBookings.json();
+// export async function getStaticProps() {
+//   // const url = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URI;
+//   const apiBookings = await fetch("/api/booking", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const dataBooking = await apiBookings.json();
 
-  const dataBookings = dataBooking.bookings;
+//   const dataBookings = dataBooking.bookings;
 
-  return { props: { dataBookings } };
-}
+//   return { props: { dataBookings } };
+// }
