@@ -18,7 +18,7 @@ import CardTourism from "../components/CardTourism";
 import Calendar from "../components/Calendar";
 import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
-import { postBooking } from "../store/actions/dateAction";
+import { postBooking, showChargeAction } from "../store/actions/dateAction";
 import { getPostsRooms } from "./api/getPosts";
 
 const dayOfYear = require("dayjs/plugin/dayOfYear");
@@ -33,7 +33,6 @@ export default function Home({ dataRoom }) {
   const { dates } = useSelector((state) => state.dateReducer);
   const { isAuth } = useSelector((state) => state.authReducer);
   const { showingLoginForm } = useSelector((state) => state.modalReducer);
-
   const [value, setValue] = useState("");
   const firstDay = dayjs(dates[0]).dayOfYear();
   const secondDay = dayjs(dates[1]).dayOfYear();
@@ -277,7 +276,7 @@ export default function Home({ dataRoom }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const rooms = await getPostsRooms();
 
   const dataRoom = JSON.stringify(rooms);

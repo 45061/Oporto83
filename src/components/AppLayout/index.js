@@ -20,7 +20,7 @@ export default function AppLayout({ children }) {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            margin-top: 100px;
+            margin-top: 140px;
             height: 100%;
             width: 100%;
           }
