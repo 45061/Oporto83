@@ -57,7 +57,7 @@ export default function Promo({ promoInfo }) {
       </div>
       <div className={styles.room__oporto}>
         <p> {thisPromo.description}</p>
-        <div className={styles.description__room}>
+        <div className={styles.description__room_promo}>
           <table className={styles.room__list}>
             <caption>Que incluye la promo:</caption>
             <ul>

@@ -82,6 +82,7 @@ export default function NavBar() {
           h3 {
             color: ${colors.secondary};
             cursor: pointer;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
           }
           button {
             border: none;

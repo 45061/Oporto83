@@ -2,7 +2,7 @@ import { Menu, Divider } from "@mantine/core";
 import { UserCheck, UserOff, User } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import Router from "next/router";
+
 import { useMediaQuery } from "@mantine/hooks";
 import {
   hiddeRegisterForm,
@@ -19,7 +19,7 @@ import Login from "../LoginForm";
 
 export default function MenuNavbar() {
   const dispatch = useDispatch();
-  // const router = useRouter();
+
   const largeScreen = useMediaQuery("(min-width: 1024px)");
   const { isAuth } = useSelector((state) => state.authReducer);
   const { showingRegisterForm, showingLoginForm, showRecoverPassword } =
@@ -31,7 +31,6 @@ export default function MenuNavbar() {
   };
   const handleClick2 = (event) => {
     event.preventDefault();
-    Router.push("/");
     dispatch(logout());
   };
   return (
@@ -92,6 +91,7 @@ export default function MenuNavbar() {
             margin-inline-end: 0px;
             font-weight: bold;
             cursor: pointer;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
           }
         `}
       </style>
