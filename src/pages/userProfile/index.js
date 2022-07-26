@@ -4,6 +4,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Cookies from "universal-cookie";
 
 import { useMediaQuery } from "@mantine/hooks";
 import { Tabs, Table, Divider } from "@mantine/core";
@@ -26,9 +27,12 @@ import {
   showChargeAction,
 } from "../../store/actions/dateAction";
 import { getPostsBookings } from "../api/getPosts";
+import { getUerData } from "../../store/actions/authAction";
 
 export default function userProfile({ dataBookingHotel }) {
-  const bookings = JSON.parse(dataBookingHotel);
+  const bookingsHotel = JSON.parse(dataBookingHotel);
+  const cookies = new Cookies();
+  const token = cookies.get("token");
 
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
@@ -53,10 +57,10 @@ export default function userProfile({ dataBookingHotel }) {
     event.preventDefault();
     dispatch(showPromoAction());
   };
-
+  const { bookings } = user;
   useEffect(() => {
     setLoading(true);
-    const { bookings } = user;
+
     if (bookings) {
       try {
         const fetchData = async () => {
@@ -114,7 +118,7 @@ export default function userProfile({ dataBookingHotel }) {
     setLoading(false);
   }, [loading, user, error2, charge]);
 
-  const rows = bookings
+  const rows = bookingsHotel
     ?.map((element) => {
       const dinerCop = new Intl.NumberFormat("es-MX").format(
         element.reservedDays * element.roomId.price
@@ -202,7 +206,16 @@ export default function userProfile({ dataBookingHotel }) {
                 </div>
               ) : (
                 // eslint-disable-next-line react/self-closing-comp
-                <div></div>
+                <div className={styles.user__buttons}>
+                  <button
+                    onClick={() => {
+                      dispatch(showChargeAction());
+                      dispatch(getUerData(token));
+                    }}
+                  >
+                    Mirar Reservas
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -492,7 +505,7 @@ export default function userProfile({ dataBookingHotel }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const apiBookings = await getPostsBookings();
   const dataBookingHotel = JSON.stringify(apiBookings);
 

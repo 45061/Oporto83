@@ -142,12 +142,7 @@ export default function Promotion({ dataPromo }) {
 
 export async function getServerSideProps() {
   const apiDataPromo = await getPostsPromo();
-  // const apiPromos = await fetch("/api/promo", {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+
   const dataPromo = JSON.stringify(apiDataPromo);
   return { props: { dataPromo } };
 }
