@@ -80,8 +80,8 @@ export const postPromo = (uploadData) => async (dispatch) => {
     if (response.status === 201) {
       dispatch(showPromoAction());
       dispatch(showChargeAction());
+      toast.success("Promoción subida con exito");
     }
-    toast.success("Promoción subida con exito");
   } catch (error) {
     toast.error("Error al subir la Promoción ");
   }
