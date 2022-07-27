@@ -137,7 +137,7 @@ export default function userProfile({ dataBookingHotel }) {
           <td>{element.userId.email}</td>
           <td>{element.reservedDays}</td>
           <td>$ {dinerCop}</td>
-          <td>{element.mass}</td>
+          <td>{element.reservedStatus ? <p>Activa</p> : <p>Cancelada</p>}</td>
         </tr>
       );
     })
@@ -363,6 +363,7 @@ export default function userProfile({ dataBookingHotel }) {
                       <th>Correo</th>
                       <th>Noches Reservadas</th>
                       <th>Valor Reserva</th>
+                      <th>Estado de reserva</th>
                     </tr>
                   </thead>
                   <tbody>{rows}</tbody>
