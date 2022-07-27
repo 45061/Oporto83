@@ -103,6 +103,9 @@ export default async function theBooking(req, res) {
           );
 
           await user.save({ validateBeforeSave: false });
+
+          bookingId.reservedStatus = false;
+          await bookingId.save({ validateBeforeSave: false });
         }
 
         return res.status(201).json({
