@@ -43,6 +43,7 @@ export default async function thePromo(req, res) {
         }
 
         const data = JSON.parse(body);
+
         const { images } = data;
         if (!images.length) {
           console.log("error");
