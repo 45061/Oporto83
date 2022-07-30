@@ -19,7 +19,7 @@ export default async function theRoom(req, res) {
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
   const { id } = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET_KEY);
-
+  console.log(id);
   switch (method) {
     case "GET":
       try {

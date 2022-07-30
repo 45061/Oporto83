@@ -21,16 +21,16 @@ export default async function thePromo(req, res) {
   const { id } = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET_KEY);
 
   switch (method) {
-    case "GET":
-      try {
-        const promos = await Promo.find();
-        return res.status(200).json({
-          message: "Promo found",
-          promos,
-        });
-      } catch (error) {
-        return res.status(400).json({ error: error.message });
-      }
+    // case "GET":
+    //   try {
+    //     const promos = await Promo.find();
+    //     return res.status(200).json({
+    //       message: "Promo found",
+    //       promos,
+    //     });
+    //   } catch (error) {
+    //     return res.status(400).json({ error: error.message });
+    //   }
 
     case "POST":
       try {
@@ -40,7 +40,7 @@ export default async function thePromo(req, res) {
         }
 
         const data = JSON.parse(body);
-
+        console.log("entra");
         const { images, description, gift, namePromo, price } = data;
         if (!images.length) {
           console.log("error");
@@ -53,10 +53,11 @@ export default async function thePromo(req, res) {
             });
             const { url, public_id } = result;
             publicIds.push(public_id);
+            console.log("hace imagenes");
             return url;
           })
         );
-
+        console.log("llega a promo");
         const promo = await Promo.create({
           price,
           namePromo,
@@ -65,7 +66,7 @@ export default async function thePromo(req, res) {
           images: ulrImages,
           publicIds,
         });
-
+        console.log("promo");
         return res.status(201).json({ message: "Los datos llegaron", promo });
       } catch (error) {
         return res.status(400).json({ error: error.message });
