@@ -44,7 +44,7 @@ export default async function thePromo(req, res) {
 
         const data = JSON.parse(body);
 
-        const { images } = data;
+        const { images, description, gift, namePromo, price } = data;
         if (!images.length) {
           console.log("error");
         }
@@ -61,7 +61,10 @@ export default async function thePromo(req, res) {
         );
 
         const promo = await Promo.create({
-          ...data,
+          price,
+          namePromo,
+          gift,
+          description,
           images: ulrImages,
           publicIds,
         });
