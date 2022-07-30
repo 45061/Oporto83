@@ -37,8 +37,8 @@ export const postRoom = (uploadData) => async (dispatch) => {
     if (response.status === 201) {
       dispatch(showFormAction());
       dispatch(showChargeAction());
+      toast.success("Habitación subida con exito");
     }
-    toast.success("Habitación subida con exito");
   } catch (error) {
     toast.error("Error al subir la habitación");
   }
