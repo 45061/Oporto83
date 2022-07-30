@@ -69,7 +69,7 @@ export const postPromo = (uploadData) => async (dispatch) => {
   try {
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch("/api/promo/promos", {
+    const response = await fetch("/api/promo", {
       method: "POST",
       body: JSON.stringify(uploadData),
       headers: {
@@ -95,7 +95,7 @@ export const deletePromo = (promo) => async (dispatch) => {
   try {
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const response = await fetch("/api/promo/promos", {
+    const response = await fetch("/api/promo", {
       method: "DELETE",
       body: JSON.stringify(promo),
       headers: {
