@@ -20,7 +20,7 @@ export const config = {
   },
 };
 
-const actionBody = (type, payload) => ({ type, payload });
+// const actionBody = (type, payload) => ({ type, payload });
 
 export const postRoom = (uploadData) => async (dispatch) => {
   try {
@@ -101,16 +101,6 @@ export const deletePromo = (promo) => async (dispatch) => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress: (progressEvent) => {
-        const completed = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        dispatch(actionBody(SET_UPLOADING_PERCENTAGE, completed));
-        if (completed === 100) {
-          dispatch(actionBody(IS_UPLOADING_ROOM, false));
-          dispatch(actionBody(SET_UPLOADING_PERCENTAGE, 0));
-        }
       },
     });
     if (response.status === 201) {
