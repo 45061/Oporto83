@@ -21,7 +21,7 @@ export default async function Rooms(req, res) {
       try {
         const rooms = await Room.find().populate(
           "bookings",
-          "checkIn checkOut bookingDays"
+          "checkIn checkOut bookingDays reservedStatus"
         );
 
         return res.status(200).json({
