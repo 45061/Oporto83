@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Collapse } from "@mantine/core";
 
-export default function CollapseButton({ image, text }) {
+export default function CollapseButton({ image, text, label, prismButton }) {
   const [opened, setOpen] = useState(false);
 
   return (
@@ -10,6 +10,7 @@ export default function CollapseButton({ image, text }) {
         onClick={() => setOpen((o) => !o)}
         style={{ width: 100, height: 100, backgroundColor: "transparent" }}
       >
+        {label}
         <img src={image} alt="icon button" />
       </Button>
 
@@ -18,6 +19,7 @@ export default function CollapseButton({ image, text }) {
         transitionDuration={800}
         transitionTimingFunction="linear"
       >
+        {prismButton}
         {text}
       </Collapse>
 

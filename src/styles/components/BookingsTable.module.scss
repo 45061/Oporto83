@@ -1,0 +1,64 @@
+.TableOfBookings {
+  table {
+    // width: 100%;
+    // border-spacing: 0;
+    // border: 1px solid #ccc;
+    // border-collapse: collapse;
+    empty-cells: show;
+  }
+  th {
+    // margin: 0;
+    // padding: 0.5rem;
+    // border-bottom: 1px solid #ccc;
+    // border-right: 0;
+    // border-collapse: collapse;
+    // column-span: 5;
+  }
+  td {
+    // background-color: #5f9ea0;
+    // margin: 0;
+    // padding: 0.5rem;
+    // border: 1px solid #ccc;
+    // border-right: 0;
+    // border-collapse: collapse;
+  }
+}
+.wrapper {
+  display: flex;
+  gap: 10px;
+  flex-grow: 62;
+}
+
+.wrapper__days {
+  width: max-content;
+  flex: 2;
+  padding-right: 25px;
+  border-bottom: 1px solid #ccc;
+
+  // grid-column: 2;
+}
+
+.booking__table {
+  background-color: rgb(95, 158, 160);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(95, 158, 160, 1);
+  cursor: pointer;
+}
+
+.booking__ok {
+  background-color: rgb(95, 160, 103);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(95, 160, 103, 1);
+}
+
+.booking__cancel {
+  background-color: rgb(188, 70, 70);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(188, 70, 70, 1);
+}

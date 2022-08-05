@@ -28,6 +28,7 @@ import {
 } from "../../store/actions/dateAction";
 import { getPostsBookings } from "../api/getPosts";
 import { getUerData } from "../../store/actions/authAction";
+import BookingsTable from "../../components/BookingsTable";
 
 export default function userProfile({ dataBookingHotel }) {
   const bookingsHotel = JSON.parse(dataBookingHotel);
@@ -368,6 +369,9 @@ export default function userProfile({ dataBookingHotel }) {
                   </thead>
                   <tbody>{rows}</tbody>
                 </Table>
+              </Tabs.Tab>
+              <Tabs.Tab label="Publicaciones" icon={<BrandBooking size={14} />}>
+                <BookingsTable data={bookingsHotel} roomsData={dataRoom} />
               </Tabs.Tab>
             </Tabs>
           ) : (

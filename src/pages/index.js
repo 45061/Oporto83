@@ -78,7 +78,6 @@ export default function Home({ dataRoom }) {
             label: `${item.roomNumer}`,
           }))}
         />
-
         <Calendar room={value} />
         <div className={styles.booking__button}>
           {isAuth ? (
