@@ -1,7 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+/* eslint-disable eqeqeq */
+/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ScrollArea, Select, Indicator } from "@mantine/core";
-import CollapseButton from "../CollapseButton";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
 import { useState } from "react";
@@ -186,7 +191,7 @@ export default function BookingsTable(props) {
 
   // console.log(week[dayOfWeek]);
 
-  //Hab Doble
+  // Hab Doble
   // const dataDoble224 = () => {
   //   const objDoble224 = {
   //     arrDaysHabDob: [],
