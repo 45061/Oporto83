@@ -19,10 +19,10 @@ export default async function Rooms(req, res) {
   switch (method) {
     case "GET":
       try {
-        const rooms = await Room.find().populate(
-          "bookings",
-          "checkIn checkOut bookingDays reservedStatus"
-        );
+        const rooms = await Room.find().populate({
+          path: "bookings",
+          populate: { path: "userId" },
+        });
 
         return res.status(200).json({
           message: "Rooms found",

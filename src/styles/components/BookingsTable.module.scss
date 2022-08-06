@@ -62,3 +62,67 @@
   margin: 0;
   box-shadow: 2px 0 0 0 rgb(188, 70, 70, 1);
 }
+
+.calendar {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+.calendar__mounth {
+  margin-left: 10px;
+}
+.mounth__days {
+  display: flex;
+}
+
+.calendar__rooms {
+  margin-top: 48px;
+  width: 100%;
+}
+
+.rooms__dataDays {
+  width: 150px;
+  height: 30px;
+  p {
+    margin: 0;
+  }
+}
+
+.calendar__dayOfMounth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid transparent;
+  width: 80px;
+}
+
+.mounth_room {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.room__days {
+  border: 1px solid #ddd;
+  width: 80px;
+  height: 30px;
+}
+.reserva {
+  width: 80px;
+  margin-left: 40px;
+  position: absolute;
+  height: 24px;
+  background-color: red;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  white-space: nowrap;
+  transform: skew(120deg);
+  padding: 0 10px;
+
+  p {
+    margin: 0;
+    transform: skew(-120deg);
+  }
+}

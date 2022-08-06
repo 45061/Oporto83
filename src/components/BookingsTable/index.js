@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
 import { useState } from "react";
 import styles from "../../styles/components/BookingsTable.module.scss";
+import BookingsDay from "../BookingDay";
 
 export default function BookingsTable(props) {
   const { data, roomsData } = props;
@@ -93,15 +94,53 @@ export default function BookingsTable(props) {
     6: "Sab",
   };
   console.log("este es value", value);
+
   const daysOfTable = arrDays.map((element) => (
-    <th key={element}>
-      <span></span>
-      <span>
-        {week[dayjs().month(value).date(element).$W]} {element}
-      </span>
-    </th>
+    <div className={styles.calendar__dayOfMounth} key={element}>
+      <div>{week[dayjs().month(value).date(element).$W]}</div>
+      <div>{element}</div>
+    </div>
   ));
 
+  const daysOfTableInThisMounth = arrDays.map((element) => (
+    <div className={styles.room__days} key={element}></div>
+  ));
+
+  function Occupation2(room) {
+    const dataIni = room[0].bookings;
+    const BookingDates = [];
+    dataIni?.forEach((index) => {
+      const arrayDays = getDates(
+        new Date(index.bookingDays[0]),
+        new Date(index.bookingDays[1])
+      );
+
+      const dates = arrayDays
+        .toString()
+        .split(",")
+        .filter(
+          (mount) => parseInt(dayjs(mount).$M, 10) === parseInt(value, 10)
+        )
+        .map((item) => dayjs(item).$D);
+      console.log("esto es room", dates);
+
+      const lengthArray = dates.length - 1;
+      const firstDay = dates[0];
+      if (dates.length != 0) {
+        const clientName = index.userId.firstName;
+        const clientLastName = index.userId.lastName;
+        BookingDates.push(
+          <BookingsDay
+            clientName={clientName}
+            clientLastName={clientLastName}
+            lengthArray={lengthArray}
+            firstDay={firstDay}
+          />
+        );
+      }
+    });
+    return BookingDates;
+  }
   function Occupation(room) {
     const dataIni = room[0].bookings;
     // const dataBookingIni= dataIni.filter((mount)=> mount.bookingDays[0])
@@ -236,7 +275,7 @@ export default function BookingsTable(props) {
   const room225 = rooms.filter(
     (item) => item.roomNumer === "Habitación Doble 225"
   );
-  const roomData225 = Occupation(room225);
+  const roomData225 = Occupation2(room225);
   console.log("la data room", roomData225);
   console.log(celda);
   return (
@@ -301,7 +340,34 @@ export default function BookingsTable(props) {
         ]}
       />
       <ScrollArea style={{ width: 1400, height: 400 }}>
-        <div className={styles.TableOfBookings}>
+        <div className={styles.calendar}>
+          <div className={styles.calendar__rooms}>
+            <div className={styles.rooms__dataDays}>
+              <p>Aparta Estudio 221</p>
+            </div>
+            <div className={styles.rooms__dataDays}>
+              <p>ApartaEstudio 321</p>
+            </div>
+            <div className={styles.rooms__dataDays}>
+              <p>Hab Doble 225</p>
+            </div>
+          </div>
+          <div className={styles.calendar__mounth}>
+            <div className={styles.mounth__days}>{daysOfTable}</div>
+            <div className={styles.mounth_room}>
+              {daysOfTableInThisMounth}
+
+              {/* <div className={styles.reserva}>
+                <p>yura</p>
+              </div> */}
+            </div>
+            <div className={styles.mounth_room}>{daysOfTableInThisMounth}</div>
+            <div className={styles.mounth_room}>
+              {daysOfTableInThisMounth} {roomData225}
+            </div>
+          </div>
+        </div>
+        {/* <div className={styles.TableOfBookings}>
           <table>
             <thead>
               <tr>
@@ -328,7 +394,7 @@ export default function BookingsTable(props) {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
       </ScrollArea>
       {/* <ScrollArea style={{ width: 1600, height: 400 }}>
         <div className={styles.wrapper}>{daysOfTable}</div>
