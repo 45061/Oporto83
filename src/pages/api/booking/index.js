@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../../utils/mongoose";
