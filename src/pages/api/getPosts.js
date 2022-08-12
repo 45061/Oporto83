@@ -4,6 +4,7 @@ import User from "../../models/user.model";
 import Room from "../../models/room.model";
 import Booking from "../../models/booking.model";
 import Promo from "../../models/promotion.model";
+import Userbooking from "../../models/userbooking.model";
 
 dbConnect();
 
@@ -23,6 +24,10 @@ export async function getPostsPromo() {
 export async function getPostsBookings() {
   const promos = await Booking.find()
     .populate("userId", "firstName lastName email numer")
-    .populate("roomId", "roomNumer price");
+    .populate("roomId", "roomNumer price")
+    .populate(
+      "userBookingId",
+      "firstName lastName email numer numerOfPeople price"
+    );
   return promos;
 }

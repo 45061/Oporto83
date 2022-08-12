@@ -66,7 +66,7 @@
 .calendar {
   display: flex;
   width: 100%;
-  box-sizing: border-box;
+  box-sizing: content-box;
 }
 .calendar__mounth {
   margin-left: 10px;
@@ -100,7 +100,19 @@
 .mounth_room {
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.room__table {
+  display: flex;
+  position: relative;
+  // margin: 0;
+}
+
+.room__data {
+  display: flex;
+  position: absolute;
+  margin-top: 3px;
 }
 
 .room__days {
@@ -125,4 +137,7 @@
     margin: 0;
     transform: skew(-120deg);
   }
+}
+.conteiner__calendar {
+  margin: 0 15px;
 }

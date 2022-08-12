@@ -21,7 +21,7 @@ export default async function Rooms(req, res) {
       try {
         const rooms = await Room.find().populate({
           path: "bookings",
-          populate: { path: "userId" },
+          populate: { path: "userId userBookingId" },
         });
 
         return res.status(200).json({

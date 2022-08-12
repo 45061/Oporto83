@@ -5,7 +5,12 @@ const bookingSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
+    },
+    userBookingId: {
+      type: Schema.Types.ObjectId,
+      ref: "Userbooking",
+      required: false,
     },
     roomId: {
       type: Schema.Types.ObjectId,
