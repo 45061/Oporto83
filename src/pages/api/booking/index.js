@@ -4,6 +4,7 @@ import { dbConnect } from "../../../utils/mongoose";
 import User from "../../../models/user.model";
 import Booking from "../../../models/booking.model";
 import Room from "../../../models/room.model";
+import Userbooking from "../../../models/userbooking.model";
 
 dbConnect();
 
@@ -15,7 +16,8 @@ export default async function theBooking(req, res) {
       try {
         const bookings = await Booking.find()
           .populate("userId", "firstName lastName email numer")
-          .populate("roomId", "roomNumer price");
+          .populate("roomId", "roomNumer price")
+          .populate("userBookingId", "firstName lastName email numer");
         return res.status(200).json({
           message: "Bookings found",
           bookings,

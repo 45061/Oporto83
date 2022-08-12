@@ -7,6 +7,8 @@ import {
   SHOW_FORM,
   SHOW_RECOVER_PASSWORD,
   HIDDE_RECOVER_PASSWORD,
+  SHOW_BOOKINGADMIN,
+  SHOW_BOOKING_DATA,
 } from "../types";
 
 const actionBody = (type, payload = null) => ({ type, payload });
@@ -19,6 +21,8 @@ export const showFormAction = () => actionBody(SHOW_FORM);
 export const showPromoAction = () => actionBody(SHOW_PROMO);
 export const showRecoverPassword = () => actionBody(SHOW_RECOVER_PASSWORD);
 export const hiddeRecoverPassword = () => actionBody(HIDDE_RECOVER_PASSWORD);
+export const showBookingAdminAction = () => actionBody(SHOW_BOOKINGADMIN);
+export const showBookingDataAction = () => actionBody(SHOW_BOOKING_DATA);
 
 // export const showFormAction = () => async (dispatch) => {
 //   dispatch({

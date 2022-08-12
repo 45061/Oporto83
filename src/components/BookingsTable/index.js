@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -7,11 +8,12 @@
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-no-useless-fragment */
-import { ScrollArea, Select, Indicator } from "@mantine/core";
+import { ScrollArea, Select } from "@mantine/core";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
 import { useState } from "react";
 import styles from "../../styles/components/BookingsTable.module.scss";
+import BookingsDay from "../BookingDay";
 
 export default function BookingsTable(props) {
   const { data, roomsData } = props;
@@ -93,15 +95,67 @@ export default function BookingsTable(props) {
     6: "Sab",
   };
   console.log("este es value", value);
+
   const daysOfTable = arrDays.map((element) => (
-    <th key={element}>
-      <span></span>
-      <span>
-        {week[dayjs().month(value).date(element).$W]} {element}
-      </span>
-    </th>
+    <div className={styles.calendar__dayOfMounth} key={element}>
+      <div>{week[dayjs().month(value).date(element).$W]}</div>
+      <div>{element}</div>
+    </div>
   ));
 
+  const daysOfTableInThisMounth = arrDays.map((element) => (
+    <div className={styles.room__days} key={element}></div>
+  ));
+
+  function Occupation2(room) {
+    const dataIni = room[0].bookings;
+    const BookingDates = [];
+    dataIni?.forEach((index) => {
+      const arrayDays = getDates(
+        new Date(index.bookingDays[0]),
+        new Date(index.bookingDays[1])
+      );
+
+      const dates = arrayDays
+        .toString()
+        .split(",")
+        .filter(
+          (mount) => parseInt(dayjs(mount).$M, 10) === parseInt(value, 10)
+        )
+        .map((item) => dayjs(item).$D);
+
+      const lengthArray = dates.length - 1;
+      const firstDay = dates[0];
+      console.log("este es index", index);
+      if (dates.length != 0) {
+        const clientNameArray = [];
+        const dataUser = [];
+        if (!index.userId) {
+          clientNameArray.push(index.userBookingId.firstName);
+          clientNameArray.push(index.userBookingId.lastName);
+          dataUser.push(index.userBookingId);
+        }
+        if (index.userId) {
+          clientNameArray.push(index.userId.firstName);
+          clientNameArray.push(index.userId.lastName);
+          dataUser.push(index.userId);
+        }
+
+        const clientName = clientNameArray.join(" ");
+        console.log("esto es room dentro de index", index);
+        BookingDates.push(
+          <BookingsDay
+            clientName={clientName}
+            lengthArray={lengthArray}
+            firstDay={firstDay}
+            dataBooking={index}
+            room={room[0].roomNumer}
+          />
+        );
+      }
+    });
+    return BookingDates;
+  }
   function Occupation(room) {
     const dataIni = room[0].bookings;
     // const dataBookingIni= dataIni.filter((mount)=> mount.bookingDays[0])
@@ -184,63 +238,15 @@ export default function BookingsTable(props) {
     // console.log("esto es book", book);
     return book;
   }
-  // const daysOfTable = arrDays.map((element) => (
-  //   <div className={styles.wrapper__days} key={element}>
-  //     {week[dayjs().month(value).date(element).$W]} {element}
-  //   </div>
-  // ));
-
-  // console.log(week[dayOfWeek]);
-
-  // Hab Doble
-  // const dataDoble224 = () => {
-  //   const objDoble224 = {
-  //     arrDaysHabDob: [],
-  //     lengtTd: 0,
-  //   };
-  //   const arrBookHab = [];
-
-  //   for (let i = 1; i < firstDay * 2; i++) {
-  //     objDoble224.arrDaysHabDob.push(0);
-  //   }
-  //   objDoble224.arrDaysHabDob.push(1);
-  //   for (let i = firstDay * 2; i <= secondDay * 2; i++) {
-  //     arrBookHab.push(i);
-  //   }
-  //   objDoble224.lengtTd = arrBookHab.length;
-  //   return objDoble224;
-  // };
-  // const bookingsDoble224 = dataDoble224();
-
-  // const book = bookingsDoble224.arrDaysHabDob.map(
-  //   (day) =>
-  //     day ? (
-  //       <td
-  //         colSpan={bookingsDoble224.lengtTd}
-  //         className={styles.booking__table}
-  //       >
-  //         Ocupado
-  //       </td>
-  //     ) : (
-  //       <td></td>
-  //     )
-  //   // if (day === 0) {
-  //   //   <td></td>;
-  //   // }
-  //   // if (day !== 0) {
-  //   //   <td>Ocupado</td>
-  //   // }
-  // );
   const handleclick = () => {};
 
   const room225 = rooms.filter(
     (item) => item.roomNumer === "Habitación Doble 225"
   );
-  const roomData225 = Occupation(room225);
-  console.log("la data room", roomData225);
-  console.log(celda);
+  const roomData225 = Occupation2(room225);
+
   return (
-    <>
+    <div className={styles.conteiner__calendar}>
       <Select
         required
         maxDropdownHeight={380}
@@ -300,34 +306,30 @@ export default function BookingsTable(props) {
           },
         ]}
       />
-      <ScrollArea style={{ width: 1400, height: 400 }}>
-        <div className={styles.TableOfBookings}>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                {daysOfTable}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>ApartaEstudio 221</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>vuelta</td>
-                <td>ida</td>
-              </tr>
-              <tr>
-                <th>ApartaEstudio 321</th>
-              </tr>
-              <tr>
-                <th>Hab Doble 225</th>
-                {roomData225}
-              </tr>
-            </tbody>
-          </table>
+      <ScrollArea style={{ width: 1500, height: 400 }}>
+        <div className={styles.calendar}>
+          <div className={styles.calendar__rooms}>
+            <div className={styles.rooms__dataDays}>
+              <p>Aparta Estudio 221</p>
+            </div>
+            <div className={styles.rooms__dataDays}>
+              <p>ApartaEstudio 321</p>
+            </div>
+            <div className={styles.rooms__dataDays}>
+              <p>Hab Doble 225</p>
+            </div>
+          </div>
+          <div className={styles.calendar__mounth}>
+            <div className={styles.mounth__days}>{daysOfTable}</div>
+            <div className={styles.mounth_room}>{daysOfTableInThisMounth}</div>
+            <div className={styles.mounth_room}>{daysOfTableInThisMounth}</div>
+            <div className={styles.mounth_room}>
+              <div className={styles.room__table}>
+                {daysOfTableInThisMounth}
+              </div>
+              <div className={styles.room__data}>{roomData225}</div>
+            </div>
+          </div>
         </div>
       </ScrollArea>
       {/* <ScrollArea style={{ width: 1600, height: 400 }}>
@@ -353,6 +355,6 @@ export default function BookingsTable(props) {
   label="Apartamento"
   prisButton={}
   /> */}
-    </>
+    </div>
   );
 }

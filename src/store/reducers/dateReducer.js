@@ -1,8 +1,13 @@
-import { DATE_DETAIL_SUCCESS, DATE_CHARGE_SUCCESS } from "../types";
+import {
+  DATE_DETAIL_SUCCESS,
+  DATE_CHARGE_SUCCESS,
+  UPLOAD_BOOKING_DATA,
+} from "../types";
 
 const initialState = {
   dates: [],
   charge: false,
+  dataBooking: {},
 };
 
 function dateReducer(state = initialState, action = null) {
@@ -17,6 +22,12 @@ function dateReducer(state = initialState, action = null) {
       return {
         ...state,
         charge: !state.charge,
+      };
+
+    case UPLOAD_BOOKING_DATA:
+      return {
+        ...state,
+        dataBooking: action.payload,
       };
 
     default:

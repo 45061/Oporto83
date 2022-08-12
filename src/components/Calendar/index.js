@@ -51,7 +51,7 @@ export default function Calendar(props) {
     5: "Vie",
     6: "Sab",
   };
-
+  console.log("este es value", value);
   function getDates(startDate, endDate) {
     const dates = [];
     let currentDate = startDate;
@@ -60,7 +60,7 @@ export default function Calendar(props) {
       date.setDate(date.getDate() + days);
       return date;
     };
-    while (currentDate <= endDate) {
+    while (currentDate < endDate) {
       dates.push(currentDate);
       currentDate = addDays.call(currentDate, 1);
     }
@@ -78,6 +78,7 @@ export default function Calendar(props) {
   const nextDataDate = dayjs(value[1]);
   const dateConst = dataDate.$D + 1;
   const infoDateConst = dayjs().date(dateConst);
+  const newBookingDates = BookingDates.toString().split(",");
 
   useEffect(() => {
     dispatch(setDataDate(value));
@@ -148,9 +149,9 @@ export default function Calendar(props) {
             .add(thisDay, "days")
             .toDate()}
           excludeDate={(date) =>
-            BookingDates.toString()
-              .split(",")
-              .some((dates) => date.getTime() === new Date(dates).getTime())
+            newBookingDates.some(
+              (dates) => date.getTime() === new Date(dates).getTime()
+            )
           }
           amountOfMonths={2}
           locale="es-mx"
