@@ -69,15 +69,18 @@
   box-sizing: content-box;
 }
 .calendar__mounth {
-  margin-left: 10px;
+  margin-left: 150px;
 }
 .mounth__days {
   display: flex;
 }
 
 .calendar__rooms {
+  position: fixed;
   margin-top: 48px;
-  width: 100%;
+  background-color: white;
+  width: 8%;
+  z-index: 30;
 }
 
 .rooms__dataDays {

@@ -11,14 +11,14 @@
 import { ScrollArea, Select } from "@mantine/core";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/components/BookingsTable.module.scss";
 import BookingsDay from "../BookingDay";
 
 export default function BookingsTable(props) {
   const { data, roomsData } = props;
   const { rooms } = roomsData;
-  const newData = data[0];
+  // const newData = data[0];
   // const firstDay = dayjs(newData.bookingDays[0]).$D;
   // const secondDay = dayjs(newData.bookingDays[1]).$D;
   // const da = dayjs(firstDay);
@@ -27,6 +27,7 @@ export default function BookingsTable(props) {
   const thisMount = dayjs().$M;
   const [value, setValue] = useState(`${thisMount}`);
   const [celda, setCelda] = useState("");
+  // const [roomData225, setRoomData225] = useState();
 
   const showAndHide = (id) => {
     const theElement = document.getElementById(id);
@@ -240,11 +241,16 @@ export default function BookingsTable(props) {
   }
   const handleclick = () => {};
 
+  // useEffect(() => {
   const room225 = rooms.filter(
     (item) => item.roomNumer === "Habitación Doble 225"
   );
-  const roomData225 = Occupation2(room225);
 
+  const roomData225 = Occupation2(room225);
+  // setRoomData225(data225);
+  // }, [data]);
+
+  console.log("este es el nuevo roomData225", roomData225);
   return (
     <div className={styles.conteiner__calendar}>
       <Select

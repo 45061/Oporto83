@@ -50,7 +50,7 @@ export default function Home({ dataRoom }) {
       }/${new Date(dates[1]).getFullYear()}`,
       bookingDays: dates,
       reservedDays,
-      reservedStatus: true,
+      reservedStatus: 1,
     };
 
     dispatch(postBooking(data));
