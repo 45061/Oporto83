@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useDispatch, useSelector } from "react-redux";
-import { Tooltip } from "@mantine/core";
+import { Tooltip, Indicator } from "@mantine/core";
 import { setDataBooking } from "../../store/actions/dateAction";
 import { showBookingDataAction } from "../../store/actions/modalAction";
 
@@ -9,9 +9,17 @@ export default function BookingsDay(props) {
   // console.log("esto es porps", props);
   const { clientName, lengthArray, firstDay, dataBooking } = props;
   const { numer, email, price, numerOfPeople } = dataBooking.userBookingId;
-  // console.log("esto es dataBooking", dataBooking.userBookingId);
+  console.log("esto es dataBooking", dataBooking);
   const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(price);
   const hola = `Cliente: ${clientName}  \\  Numero: ${numer}  \\ email: ${email}  \\ Noches: ${lengthArray} \\ Personas: ${numerOfPeople} \\ Valor: $${dinerCopAdmin}`;
+
+  const colorsStatus = {
+    1: "green",
+    2: "red",
+    3: "blue",
+    4: "purple",
+  };
+  console.log("este es el color", colorsStatus[dataBooking.reservedStatus]);
 
   function handeclick(event) {
     event.preventDefault();
@@ -31,9 +39,18 @@ export default function BookingsDay(props) {
           arrowSize={6}
           transitionDuration={200}
         >
-          <button onClick={handeclick}>
-            <p>{clientName}</p>
-          </button>
+          <Indicator
+            color="red"
+            size={16}
+            withBorder
+            inline
+            label="Sin Pago"
+            disabled={false}
+          >
+            <button onClick={handeclick}>
+              <p>{clientName}</p>
+            </button>
+          </Indicator>
         </Tooltip>
       </div>
 
@@ -46,7 +63,7 @@ export default function BookingsDay(props) {
         button {
           width: ${lengthArray * 80 - 4}px;
           height: 24px;
-          background-color: red;
+          background-color: ${colorsStatus[dataBooking.reservedStatus]};
           color: white;
           transform: skew(120deg);
           padding: 0 10px;

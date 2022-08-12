@@ -1,14 +1,35 @@
+
+/* eslint-disable react/style-prop-object */
+/* eslint-disable react/jsx-no-bind */
+import { useDispatch } from "react-redux";
+
+import {
+  deleteBooking,
+  showChargeAction,
+} from "../../store/actions/dateAction";
+import { showBookingDataAction } from "../../store/actions/modalAction";
 import { colors } from "../../styles/theme";
+import ButtonColor from "../ButtonColor";
 
 export default function BookingData({ data }) {
+  const dispatch = useDispatch();
   const { clientName, dataBooking, room, lengthArray } = data;
 
   console.log("esto es dataBooking", dataBooking);
+
+  function handleClick(event) {
+    event.preventDefault();
+    dispatch(deleteBooking(dataBooking));
+    dispatch(showBookingDataAction());
+    dispatch(showChargeAction());
+  }
+
   return (
     dataBooking && (
       <>
         <span>
-          <h1>Datos de la Reserva</h1>
+
+          <h2>Datos de la Reserva</h2>
         </span>
         <div>
           <container>
@@ -42,8 +63,34 @@ export default function BookingData({ data }) {
               <h3>Check Out: </h3>
               <p> {dataBooking.checkOut}</p>
             </div>
+            <div>
+              <h3>Número de Personas: </h3>
+              <p> {dataBooking.userBookingId.numerOfPeople}</p>
+            </div>
+            <div>
+              <h3>Valor Reserva: </h3>
+              <p>
+                {" "}
+                $
+                {new Intl.NumberFormat("es-MX").format(
+                  dataBooking.userBookingId.price * lengthArray
+                )}
+              </p>
+            </div>
           </container>
         </div>
+        <div>
+          <ButtonColor
+            text="Cambiar Estado"
+            color="#4d70b5"
+            marginButton="27"
+            data={dataBooking}
+          />
+        </div>
+        <div>
+          <button onClick={handleClick}>Cancelar Reserva</button>
+        </div>
+
         <style jsx>
           {`
             container {
@@ -58,10 +105,12 @@ export default function BookingData({ data }) {
               display: flex;
               justify-content: center;
               background-color: #1c5480;
+
+
               border-radius: 10px;
               padding-bottom: 5px;
             }
-            h1 {
+            h2 {
               color: #fff;
               margin: 0;
               text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
@@ -82,11 +131,12 @@ export default function BookingData({ data }) {
               justify-content: center;
               flex-grow: 0.5;
               padding: 6px 12px;
-              margin: 40px 2px 2px 2px;
-              border: 1px solid ${colors.oporto};
+
+              margin: 20px 0 0 25%;
+              border: 1px solid red;
               border-radius: 4px;
               color: white;
-              background-color: ${colors.oporto};
+              background-color: red;
               cursor: pointer;
               box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             }
