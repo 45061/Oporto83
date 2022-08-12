@@ -7,11 +7,13 @@ import {
   USER_SUCCESS,
   UPLOAD_BOOKING_DATA,
 } from "../types";
+
 import {
   showBookingAdminAction,
   showBookingDataAction,
   showTextAreaAction,
 } from "./modalAction";
+
 
 const actionBody = (type, payload = null) => ({ type, payload });
 
@@ -57,6 +59,7 @@ export const postBookingAdmin = (uploadData) => async (dispatch) => {
       // dispatch({ type: USER_SUCCESS, payload: data.user });
       dispatch(showBookingAdminAction());
       dispatch(showChargeAction());
+
     }
     toast.success("Reserva realizada con exito");
   } catch (error) {

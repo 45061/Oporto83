@@ -36,6 +36,7 @@ export default function Register() {
     bookingDays: dates,
     reservedDays,
     reservedStatus: 1,
+
   };
 
   const [formData, setFormData] = useState({

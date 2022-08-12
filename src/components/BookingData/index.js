@@ -1,3 +1,4 @@
+
 /* eslint-disable react/style-prop-object */
 /* eslint-disable react/jsx-no-bind */
 import { useDispatch } from "react-redux";
@@ -27,9 +28,9 @@ export default function BookingData({ data }) {
     dataBooking && (
       <>
         <span>
+
           <h2>Datos de la Reserva</h2>
         </span>
-
         <div>
           <container>
             <div>
@@ -89,6 +90,7 @@ export default function BookingData({ data }) {
         <div>
           <button onClick={handleClick}>Cancelar Reserva</button>
         </div>
+
         <style jsx>
           {`
             container {
@@ -103,6 +105,7 @@ export default function BookingData({ data }) {
               display: flex;
               justify-content: center;
               background-color: #1c5480;
+
 
               border-radius: 10px;
               padding-bottom: 5px;
@@ -128,6 +131,7 @@ export default function BookingData({ data }) {
               justify-content: center;
               flex-grow: 0.5;
               padding: 6px 12px;
+
               margin: 20px 0 0 25%;
               border: 1px solid red;
               border-radius: 4px;

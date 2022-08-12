@@ -179,6 +179,7 @@ export default function userProfile({ dataBookingHotel }) {
         }
       }
       const status = reserveStatus();
+
       return (
         <tr key={element}>
           <td>{element.roomId.roomNumer}</td>
@@ -595,6 +596,7 @@ export default function userProfile({ dataBookingHotel }) {
         >
           <BookingData data={dataBooking} />
         </PublicModal>
+
         <PublicModal
           opened={showTextArea}
           onClose={() => dispatch(showTextAreaAction())}
@@ -602,6 +604,7 @@ export default function userProfile({ dataBookingHotel }) {
         >
           <TexArea data={dataBooking} />
         </PublicModal>
+
       </>
     )
   );
