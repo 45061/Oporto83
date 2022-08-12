@@ -15,10 +15,13 @@ import PublicModal from "../../components/PublicModal";
 import styles from "../../styles/userProfile.module.scss";
 import stylesHome from "../../styles/Home.module.scss";
 import {
+  showBookingAdminAction,
+  showBookingDataAction,
   showFormAction,
   showPromoAction,
 } from "../../store/actions/modalAction";
 import PromoUpload from "../../components/PromoUpload";
+import BookingAdmin from "../../components/BookingAdmin";
 
 import Slideshow from "../../components/Slideshow";
 import { deleteRoom, deletePromo } from "../../store/actions/roomAction";
@@ -28,6 +31,8 @@ import {
 } from "../../store/actions/dateAction";
 import { getPostsBookings } from "../api/getPosts";
 import { getUerData } from "../../store/actions/authAction";
+import BookingsTable from "../../components/BookingsTable";
+import BookingData from "../../components/BookingData";
 
 export default function userProfile({ dataBookingHotel }) {
   const bookingsHotel = JSON.parse(dataBookingHotel);
@@ -37,8 +42,9 @@ export default function userProfile({ dataBookingHotel }) {
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
   const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const { showForm, showPromo } = useSelector((state) => state.modalReducer);
-  const { charge } = useSelector((state) => state.dateReducer);
+  const { showForm, showPromo, showBookingAdmin, showBookingData } =
+    useSelector((state) => state.modalReducer);
+  const { charge, dataBooking } = useSelector((state) => state.dateReducer);
 
   const [roomsBooking, setRoomsBooking] = useState([]);
   const [dataRoom, setDataRooms] = useState([]);
@@ -57,6 +63,12 @@ export default function userProfile({ dataBookingHotel }) {
     event.preventDefault();
     dispatch(showPromoAction());
   };
+
+  const handleClic3 = (event) => {
+    event.preventDefault();
+    dispatch(showBookingAdminAction());
+  };
+
   const { bookings } = user;
   useEffect(() => {
     setLoading(true);
@@ -120,23 +132,44 @@ export default function userProfile({ dataBookingHotel }) {
 
   const rows = bookingsHotel
     ?.map((element) => {
-      const dinerCop = new Intl.NumberFormat("es-MX").format(
+      const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
+        element.reservedDays * element.userBookingId.price
+      );
+      const dinerCopUser = new Intl.NumberFormat("es-MX").format(
         element.reservedDays * element.roomId.price
       );
-
+      console.log(element);
       return (
         <tr key={element}>
           <td>{element.roomId.roomNumer}</td>
           <td>{element.checkIn}</td>
           <td>{element.checkOut}</td>
-          <td>
-            {element.userId.firstName} {element.userId.lastName}
-          </td>
+          {element.userId ? (
+            <td>
+              {element.userId.firstName} {element.userId.lastName}
+            </td>
+          ) : (
+            <td>
+              {element.userBookingId.firstName} {element.userBookingId.lastName}
+            </td>
+          )}
 
-          <td>{element.userId.numer}</td>
-          <td>{element.userId.email}</td>
+          {element.userId ? (
+            <td>{element.userId.numer}</td>
+          ) : (
+            <td>{element.userBookingId.numer}</td>
+          )}
+          {element.userId ? (
+            <td>{element.userId.email}</td>
+          ) : (
+            <td>{element.userBookingId.email}</td>
+          )}
           <td>{element.reservedDays}</td>
-          <td>$ {dinerCop}</td>
+          {element.userBookingId.price ? (
+            <td>$ {dinerCopAdmin}</td>
+          ) : (
+            <td>$ {dinerCopUser}</td>
+          )}
           <td>{element.reservedStatus ? <p>Activa</p> : <p>Cancelada</p>}</td>
         </tr>
       );
@@ -201,6 +234,7 @@ export default function userProfile({ dataBookingHotel }) {
               </div>
               {user?.typeUser ? (
                 <div className={styles.user__buttons}>
+                  <button onClick={handleClic3}>Crear Reserva</button>
                   <button onClick={handleClick2}>Subir Promo</button>
                   <button onClick={handleClick}>Subir Room</button>
                 </div>
@@ -369,6 +403,9 @@ export default function userProfile({ dataBookingHotel }) {
                   <tbody>{rows}</tbody>
                 </Table>
               </Tabs.Tab>
+              <Tabs.Tab label="Publicaciones" icon={<BrandBooking size={14} />}>
+                <BookingsTable data={bookingsHotel} roomsData={dataRoom} />
+              </Tabs.Tab>
             </Tabs>
           ) : (
             <div className={styles.data}>
@@ -500,6 +537,20 @@ export default function userProfile({ dataBookingHotel }) {
           size={largeScreen ? "50%" : "90%"}
         >
           <PromoUpload />
+        </PublicModal>
+        <PublicModal
+          opened={showBookingAdmin}
+          onClose={() => dispatch(showBookingAdminAction())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <BookingAdmin />
+        </PublicModal>
+        <PublicModal
+          opened={showBookingData}
+          onClose={() => dispatch(showBookingDataAction())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <BookingData data={dataBooking} />
         </PublicModal>
       </>
     )

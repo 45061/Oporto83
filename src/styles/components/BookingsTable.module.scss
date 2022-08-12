@@ -1,0 +1,143 @@
+.TableOfBookings {
+  table {
+    // width: 100%;
+    // border-spacing: 0;
+    // border: 1px solid #ccc;
+    // border-collapse: collapse;
+    empty-cells: show;
+  }
+  th {
+    // margin: 0;
+    // padding: 0.5rem;
+    // border-bottom: 1px solid #ccc;
+    // border-right: 0;
+    // border-collapse: collapse;
+    // column-span: 5;
+  }
+  td {
+    // background-color: #5f9ea0;
+    // margin: 0;
+    // padding: 0.5rem;
+    // border: 1px solid #ccc;
+    // border-right: 0;
+    // border-collapse: collapse;
+  }
+}
+.wrapper {
+  display: flex;
+  gap: 10px;
+  flex-grow: 62;
+}
+
+.wrapper__days {
+  width: max-content;
+  flex: 2;
+  padding-right: 25px;
+  border-bottom: 1px solid #ccc;
+
+  // grid-column: 2;
+}
+
+.booking__table {
+  background-color: rgb(95, 158, 160);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(95, 158, 160, 1);
+  cursor: pointer;
+}
+
+.booking__ok {
+  background-color: rgb(95, 160, 103);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(95, 160, 103, 1);
+}
+
+.booking__cancel {
+  background-color: rgb(188, 70, 70);
+  border: none;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: 2px 0 0 0 rgb(188, 70, 70, 1);
+}
+
+.calendar {
+  display: flex;
+  width: 100%;
+  box-sizing: content-box;
+}
+.calendar__mounth {
+  margin-left: 10px;
+}
+.mounth__days {
+  display: flex;
+}
+
+.calendar__rooms {
+  margin-top: 48px;
+  width: 100%;
+}
+
+.rooms__dataDays {
+  width: 150px;
+  height: 30px;
+  p {
+    margin: 0;
+  }
+}
+
+.calendar__dayOfMounth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid transparent;
+  width: 80px;
+}
+
+.mounth_room {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+}
+
+.room__table {
+  display: flex;
+  position: relative;
+  // margin: 0;
+}
+
+.room__data {
+  display: flex;
+  position: absolute;
+  margin-top: 3px;
+}
+
+.room__days {
+  border: 1px solid #ddd;
+  width: 80px;
+  height: 30px;
+}
+.reserva {
+  width: 80px;
+  margin-left: 40px;
+  position: absolute;
+  height: 24px;
+  background-color: red;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  white-space: nowrap;
+  transform: skew(120deg);
+  padding: 0 10px;
+
+  p {
+    margin: 0;
+    transform: skew(-120deg);
+  }
+}
+.conteiner__calendar {
+  margin: 0 15px;
+}
