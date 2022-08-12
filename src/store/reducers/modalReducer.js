@@ -9,6 +9,7 @@ import {
   HIDDE_RECOVER_PASSWORD,
   SHOW_BOOKINGADMIN,
   SHOW_BOOKING_DATA,
+  SHOW_TEXTAREA_DATA,
 } from "../types";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   showPromo: false,
   showBookingAdmin: false,
   showBookingData: false,
+  showTextArea: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -47,6 +49,11 @@ function modalReducer(state = initialState, action = null) {
       return {
         ...state,
         showForm: !state.showForm,
+      };
+    case SHOW_TEXTAREA_DATA:
+      return {
+        ...state,
+        showTextArea: !state.showTextArea,
       };
     case SHOW_PROMO:
       return {

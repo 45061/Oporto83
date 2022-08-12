@@ -24,7 +24,9 @@ const bookingSchema = new Schema(
       require: false,
     },
     bookingDays: { type: Array, require: true },
-    reservedStatus: Boolean,
+    reservedStatus: Number,
+    textAreaData: String,
+    paymentMade: Boolean,
   },
   {
     timestamps: true,

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 /* eslint-disable no-return-await */
 /* eslint-disable react/button-has-type */
@@ -19,6 +20,7 @@ import {
   showBookingDataAction,
   showFormAction,
   showPromoAction,
+  showTextAreaAction,
 } from "../../store/actions/modalAction";
 import PromoUpload from "../../components/PromoUpload";
 import BookingAdmin from "../../components/BookingAdmin";
@@ -33,6 +35,7 @@ import { getPostsBookings } from "../api/getPosts";
 import { getUerData } from "../../store/actions/authAction";
 import BookingsTable from "../../components/BookingsTable";
 import BookingData from "../../components/BookingData";
+import TexArea from "../../components/TextArea";
 
 export default function userProfile({ dataBookingHotel }) {
   const bookingsHotel = JSON.parse(dataBookingHotel);
@@ -42,17 +45,25 @@ export default function userProfile({ dataBookingHotel }) {
   const dispatch = useDispatch();
   const { user, isAuth } = useSelector((state) => state.authReducer);
   const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const { showForm, showPromo, showBookingAdmin, showBookingData } =
-    useSelector((state) => state.modalReducer);
+  const {
+    showForm,
+    showPromo,
+    showBookingAdmin,
+    showBookingData,
+    showTextArea,
+  } = useSelector((state) => state.modalReducer);
   const { charge, dataBooking } = useSelector((state) => state.dateReducer);
 
   const [roomsBooking, setRoomsBooking] = useState([]);
   const [dataRoom, setDataRooms] = useState([]);
   const [dataPromo, setDataPromo] = useState([]);
+  const [dataBookings, setDataBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error2, setError] = useState();
   const { promos } = dataPromo;
   const { rooms } = dataRoom;
+
+  console.log("mi charge", charge);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -96,6 +107,20 @@ export default function userProfile({ dataBookingHotel }) {
         };
         fetchData();
 
+        const fetchBooking = async () => {
+          await fetch("/api/booking", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataBookings(data);
+            });
+        };
+        fetchBooking();
+
         const fetchDataRooms = async () => {
           await fetch("/api/rooms", {
             method: "GET",
@@ -130,7 +155,7 @@ export default function userProfile({ dataBookingHotel }) {
     setLoading(false);
   }, [loading, user, error2, charge]);
 
-  const rows = bookingsHotel
+  const rows = dataBookings.bookings
     ?.map((element) => {
       const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
         element.reservedDays * element.userBookingId.price
@@ -138,7 +163,23 @@ export default function userProfile({ dataBookingHotel }) {
       const dinerCopUser = new Intl.NumberFormat("es-MX").format(
         element.reservedDays * element.roomId.price
       );
-      console.log(element);
+
+      function reserveStatus() {
+        if (element.reservedStatus === 1) {
+          return "Activa";
+        }
+        if (element.reservedStatus === 2) {
+          return "Check In";
+        }
+        if (element.reservedStatus === 3) {
+          return "Check Out";
+        }
+        if (element.reservedStatus === 4) {
+          return "No Show";
+        }
+      }
+      const status = reserveStatus();
+
       return (
         <tr key={element}>
           <td>{element.roomId.roomNumer}</td>
@@ -170,7 +211,7 @@ export default function userProfile({ dataBookingHotel }) {
           ) : (
             <td>$ {dinerCopUser}</td>
           )}
-          <td>{element.reservedStatus ? <p>Activa</p> : <p>Cancelada</p>}</td>
+          <td>{element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}</td>
         </tr>
       );
     })
@@ -403,8 +444,11 @@ export default function userProfile({ dataBookingHotel }) {
                   <tbody>{rows}</tbody>
                 </Table>
               </Tabs.Tab>
-              <Tabs.Tab label="Publicaciones" icon={<BrandBooking size={14} />}>
-                <BookingsTable data={bookingsHotel} roomsData={dataRoom} />
+              <Tabs.Tab label="Calendario" icon={<BrandBooking size={14} />}>
+                <BookingsTable
+                  data={dataBookings.bookings}
+                  roomsData={dataRoom}
+                />
               </Tabs.Tab>
             </Tabs>
           ) : (
@@ -552,6 +596,15 @@ export default function userProfile({ dataBookingHotel }) {
         >
           <BookingData data={dataBooking} />
         </PublicModal>
+
+        <PublicModal
+          opened={showTextArea}
+          onClose={() => dispatch(showTextAreaAction())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <TexArea data={dataBooking} />
+        </PublicModal>
+
       </>
     )
   );

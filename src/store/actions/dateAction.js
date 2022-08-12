@@ -7,7 +7,13 @@ import {
   USER_SUCCESS,
   UPLOAD_BOOKING_DATA,
 } from "../types";
-import { showBookingAdminAction } from "./modalAction";
+
+import {
+  showBookingAdminAction,
+  showBookingDataAction,
+  showTextAreaAction,
+} from "./modalAction";
+
 
 const actionBody = (type, payload = null) => ({ type, payload });
 
@@ -52,10 +58,42 @@ export const postBookingAdmin = (uploadData) => async (dispatch) => {
     if (response.status === 201) {
       // dispatch({ type: USER_SUCCESS, payload: data.user });
       dispatch(showBookingAdminAction());
+      dispatch(showChargeAction());
+
     }
     toast.success("Reserva realizada con exito");
   } catch (error) {
     toast.error("Reserva no realizada, diligenciar datos");
+  }
+};
+
+export const putBookingAdmin = (uploadData) => async (dispatch) => {
+  try {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+
+    const response = await fetch("/api/booking", {
+      method: "PUT",
+      body: JSON.stringify(uploadData),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("putData en redux", uploadData);
+    if (response.status === 200) {
+      // dispatch({ type: USER_SUCCESS, payload: data.user });
+      dispatch(showBookingDataAction());
+      dispatch(showChargeAction());
+    }
+    if (response.status === 201) {
+      // dispatch({ type: USER_SUCCESS, payload: data.user });
+      dispatch(showTextAreaAction());
+      dispatch(showChargeAction());
+    }
+    toast.success("Actualización realizada con exito");
+  } catch (error) {
+    toast.error("Actualización no realizada, diligenciar datos");
   }
 };
 

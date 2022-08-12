@@ -3,11 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { Select } from "@mantine/core";
 import { BrandBooking } from "tabler-icons-react";
-import {
-  showLoginForm,
-  hiddeRegisterForm,
-} from "../../store/actions/modalAction";
-
 import InputValidator from "../ImputValidator";
 
 import styles from "../../styles/components/Register.module.scss";
@@ -40,7 +35,8 @@ export default function Register() {
     }/${new Date(dates[1]).getFullYear()}`,
     bookingDays: dates,
     reservedDays,
-    reservedStatus: true,
+    reservedStatus: 1,
+
   };
 
   const [formData, setFormData] = useState({
