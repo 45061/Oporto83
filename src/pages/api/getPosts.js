@@ -5,14 +5,12 @@ import Room from "../../models/room.model";
 import Booking from "../../models/booking.model";
 import Promo from "../../models/promotion.model";
 import Userbooking from "../../models/userbooking.model";
+import RoomPick from "../../models/roompicks.model";
 
 dbConnect();
 
 export async function getPostsRooms() {
-  const rooms = await Room.find().populate(
-    "bookings",
-    "checkIn checkOut bookingDays"
-  );
+  const rooms = await RoomPick.find();
   return rooms;
 }
 

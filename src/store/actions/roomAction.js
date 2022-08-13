@@ -9,7 +9,11 @@ import {
   RESET_INITIAL_STATE,
 } from "../types";
 import { showChargeAction } from "./dateAction";
-import { showFormAction, showPromoAction } from "./modalAction";
+import {
+  showFormAction,
+  showPromoAction,
+  showRoomPickAction,
+} from "./modalAction";
 
 /* eslint-disable import/prefer-default-export */
 export const config = {
@@ -109,5 +113,48 @@ export const deletePromo = (promo) => async (dispatch) => {
     }
   } catch (error) {
     toast.success("Error al eliminar la Promo");
+  }
+};
+
+export const postRoomPick = (uploadData) => async (dispatch) => {
+  try {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const response = await fetch("/api/rooms", {
+      method: "POST",
+      body: JSON.stringify(uploadData),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (response.status === 201) {
+      dispatch(showRoomPickAction());
+      dispatch(showChargeAction());
+      toast.success("Habitación subida con exito");
+    }
+  } catch (error) {
+    toast.error("Error al subir la habitación");
+  }
+};
+
+export const deleteRoomPick = (room) => async (dispatch) => {
+  try {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const response = await fetch("/api/rooms", {
+      method: "DELETE",
+      body: JSON.stringify(room),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (response.status === 201) {
+      dispatch(showChargeAction());
+      toast.success("Habitación eliminada con exito");
+    }
+  } catch (error) {
+    toast.success("Error al eliminar la habitacón");
   }
 };

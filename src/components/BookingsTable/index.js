@@ -109,7 +109,7 @@ export default function BookingsTable(props) {
   ));
 
   function Occupation2(room) {
-    const dataIni = room[0].bookings;
+    const dataIni = room.bookings;
     const BookingDates = [];
     dataIni?.forEach((index) => {
       const arrayDays = getDates(
@@ -131,15 +131,15 @@ export default function BookingsTable(props) {
       if (dates.length != 0) {
         const clientNameArray = [];
         const dataUser = [];
-        if (!index.userId) {
-          clientNameArray.push(index.userBookingId.firstName);
-          clientNameArray.push(index.userBookingId.lastName);
-          dataUser.push(index.userBookingId);
-        }
-        if (index.userId) {
+        if (!index.userBookingId) {
           clientNameArray.push(index.userId.firstName);
           clientNameArray.push(index.userId.lastName);
           dataUser.push(index.userId);
+        }
+        if (index.userBookingId) {
+          clientNameArray.push(index.userBookingId.firstName);
+          clientNameArray.push(index.userBookingId.lastName);
+          dataUser.push(index.userBookingId);
         }
 
         const clientName = clientNameArray.join(" ");
@@ -150,7 +150,7 @@ export default function BookingsTable(props) {
             lengthArray={lengthArray}
             firstDay={firstDay}
             dataBooking={index}
-            room={room[0].roomNumer}
+            room={room.roomNumer}
           />
         );
       }
@@ -241,16 +241,26 @@ export default function BookingsTable(props) {
   }
   const handleclick = () => {};
 
-  // useEffect(() => {
-  const room225 = rooms.filter(
-    (item) => item.roomNumer === "Habitación Doble 225"
-  );
+  const nameRooms = rooms.map((room) => (
+    <div className={styles.rooms__dataDays}>
+      <p>{room.roomNumer}</p>
+    </div>
+  ));
 
-  const roomData225 = Occupation2(room225);
-  // setRoomData225(data225);
-  // }, [data]);
+  const dataRooms = rooms.map((room) => {
+    const roomDataBooking = Occupation2(room);
+    return (
+      <div className={styles.mounth_room}>
+        <div className={styles.room__table}>{daysOfTableInThisMounth}</div>
+        <div className={styles.room__data}>{roomDataBooking}</div>
+      </div>
+    );
+  });
+  // const room225 = rooms.filter((item) => item.roomNumer === "Doble 225");
 
-  console.log("este es el nuevo roomData225", roomData225);
+  // const roomData225 = Occupation2(room225);
+
+  // console.log("este es el nuevo roomData225", roomData225);
   return (
     <div className={styles.conteiner__calendar}>
       <Select
@@ -312,55 +322,15 @@ export default function BookingsTable(props) {
           },
         ]}
       />
-      <ScrollArea style={{ width: 1500, height: 400 }}>
+      <ScrollArea style={{ width: 1500, height: 400, marginTop: 20 }}>
         <div className={styles.calendar}>
-          <div className={styles.calendar__rooms}>
-            <div className={styles.rooms__dataDays}>
-              <p>Aparta Estudio 221</p>
-            </div>
-            <div className={styles.rooms__dataDays}>
-              <p>ApartaEstudio 321</p>
-            </div>
-            <div className={styles.rooms__dataDays}>
-              <p>Hab Doble 225</p>
-            </div>
-          </div>
+          <div className={styles.calendar__rooms}>{nameRooms}</div>
           <div className={styles.calendar__mounth}>
             <div className={styles.mounth__days}>{daysOfTable}</div>
-            <div className={styles.mounth_room}>{daysOfTableInThisMounth}</div>
-            <div className={styles.mounth_room}>{daysOfTableInThisMounth}</div>
-            <div className={styles.mounth_room}>
-              <div className={styles.room__table}>
-                {daysOfTableInThisMounth}
-              </div>
-              <div className={styles.room__data}>{roomData225}</div>
-            </div>
+            {dataRooms}
           </div>
         </div>
       </ScrollArea>
-      {/* <ScrollArea style={{ width: 1600, height: 400 }}>
-        <div className={styles.wrapper}>{daysOfTable}</div>
-      </ScrollArea> */}
-      {/* <CollapseButton 
-  label="ApartaEstidos"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Dobles"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Triples"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Sencillas"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Apartamento"
-  prisButton={}
-  /> */}
     </div>
   );
 }

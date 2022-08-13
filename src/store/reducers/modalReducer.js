@@ -10,6 +10,7 @@ import {
   SHOW_BOOKINGADMIN,
   SHOW_BOOKING_DATA,
   SHOW_TEXTAREA_DATA,
+  SHOW_ROOMPICK_UPLOAD,
 } from "../types";
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   showBookingAdmin: false,
   showBookingData: false,
   showTextArea: false,
+  showRoomPick: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -44,6 +46,11 @@ function modalReducer(state = initialState, action = null) {
         showingLoginForm: true,
         showingRegisterForm: false,
         showRecoverPassword: false,
+      };
+    case SHOW_ROOMPICK_UPLOAD:
+      return {
+        ...state,
+        showRoomPick: !state.showRoomPick,
       };
     case SHOW_FORM:
       return {
