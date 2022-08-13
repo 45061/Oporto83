@@ -13,7 +13,9 @@ export default function BookingsDay(props) {
   const { clientName, lengthArray, firstDay, dataBooking } = props;
   const { numer, email, price, numerOfPeople } = dataBooking.userBookingId;
   console.log("esto es dataBooking", dataBooking);
-  const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(price);
+  const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
+    price * lengthArray
+  );
 
   const [opened, { close, open }] = useDisclosure(false);
 
@@ -35,7 +37,7 @@ export default function BookingsDay(props) {
     <>
       <div>
         <Popover
-          style={{ marginTop: 5, borderRadius: 30 }}
+          style={{ marginTop: 0, borderRadius: 30 }}
           sx={(theme) => ({
             backgroundColor: "transparent",
             "&:hover": {

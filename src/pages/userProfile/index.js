@@ -197,13 +197,13 @@ export default function userProfile({ dataRoomsHotel }) {
           <td>{element.roomId.roomNumer}</td>
           <td>{element.checkIn}</td>
           <td>{element.checkOut}</td>
-          {element.userId ? (
+          {element.userBookingId ? (
             <td>
-              {element.userId.firstName} {element.userId.lastName}
+              {element.userBookingId.firstName} {element.userBookingId.lastName}
             </td>
           ) : (
             <td>
-              {element.userBookingId.firstName} {element.userBookingId.lastName}
+              {element.userId.firstName} {element.userId.lastName}
             </td>
           )}
 
@@ -212,10 +212,10 @@ export default function userProfile({ dataRoomsHotel }) {
           ) : (
             <td>{element.userBookingId.numer}</td>
           )}
-          {element.userId ? (
-            <td>{element.userId.email}</td>
-          ) : (
+          {element.userBookingId ? (
             <td>{element.userBookingId.email}</td>
+          ) : (
+            <td>{element.userId.email} </td>
           )}
           <td>{element.reservedDays}</td>
           {element.userBookingId.price ? (
@@ -224,6 +224,9 @@ export default function userProfile({ dataRoomsHotel }) {
             <td>$ {dinerCopUser}</td>
           )}
           <td>{element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}</td>
+          <td>
+            {element.userId.firstName} {element.userId.lastName}
+          </td>
         </tr>
       );
     })
@@ -452,6 +455,7 @@ export default function userProfile({ dataRoomsHotel }) {
                       <th>Noches Reservadas</th>
                       <th>Valor Reserva</th>
                       <th>Estado de reserva</th>
+                      <th>Modificado Por</th>
                     </tr>
                   </thead>
                   <tbody>{rows}</tbody>

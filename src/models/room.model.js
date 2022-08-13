@@ -19,21 +19,9 @@ const roomSchema = new Schema(
     bookings: {
       type: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
     },
-    images: {
-      required: true,
-      type: Array,
-    },
-    description: {
-      required: true,
-      type: String,
-    },
     price: {
       required: true,
       type: String,
-    },
-    publicIds: {
-      required: true,
-      type: Array,
     },
     sypplies: {
       type: [{ type: Schema.Types.ObjectId, ref: "Supplies" }],
