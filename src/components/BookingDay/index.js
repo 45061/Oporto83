@@ -1,8 +1,11 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useDispatch, useSelector } from "react-redux";
-import { Tooltip, Indicator } from "@mantine/core";
+import { Popover, Tooltip, Indicator } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { setDataBooking } from "../../store/actions/dateAction";
 import { showBookingDataAction } from "../../store/actions/modalAction";
+
+import { colors } from "../../styles/theme";
 
 export default function BookingsDay(props) {
   const dispatch = useDispatch();
@@ -11,7 +14,8 @@ export default function BookingsDay(props) {
   const { numer, email, price, numerOfPeople } = dataBooking.userBookingId;
   console.log("esto es dataBooking", dataBooking);
   const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(price);
-  const hola = `Cliente: ${clientName}  \\  Numero: ${numer}  \\ email: ${email}  \\ Noches: ${lengthArray} \\ Personas: ${numerOfPeople} \\ Valor: $${dinerCopAdmin}`;
+
+  const [opened, { close, open }] = useDisclosure(false);
 
   const colorsStatus = {
     1: "green",
@@ -30,28 +34,62 @@ export default function BookingsDay(props) {
   return (
     <>
       <div>
-        <Tooltip
-          multiline
-          label={hola}
-          transition="fade"
-          color="indigo"
+        <Popover
+          style={{ marginTop: 5, borderRadius: 30 }}
+          sx={(theme) => ({
+            backgroundColor: "transparent",
+            "&:hover": {
+              backgroundColor: theme.colors.gray[1],
+            },
+          })}
+          opened={opened}
+          target={
+            <Indicator
+              color="red"
+              size={16}
+              withBorder
+              inline
+              label="Sin Pago"
+              disabled={false}
+            >
+              <button
+                onMouseEnter={open}
+                onMouseLeave={close}
+                onClick={handeclick}
+              >
+                <p>{clientName}</p>
+              </button>
+            </Indicator>
+          }
+          width={290}
+          position="bottom"
           withArrow
-          arrowSize={6}
-          transitionDuration={200}
         >
-          <Indicator
-            color="red"
-            size={16}
-            withBorder
-            inline
-            label="Sin Pago"
-            disabled={false}
-          >
-            <button onClick={handeclick}>
-              <p>{clientName}</p>
-            </button>
-          </Indicator>
-        </Tooltip>
+          <span>
+            <h4>Cliente:</h4>
+            <h5>{clientName}</h5>
+          </span>
+          <span>
+            <h4>Número:</h4>
+            <h5>{numer}</h5>
+          </span>
+          <span>
+            <h4>email:</h4>
+            <h5>{email}</h5>
+          </span>
+          <span>
+            <h4>Noches:</h4>
+            <h5>{lengthArray}</h5>
+          </span>
+          <span>
+            <h4>Personas:</h4>
+            <h5>{numerOfPeople}</h5>
+          </span>
+          <span>
+            <h4>Valor Noches:</h4>
+            <h5>${dinerCopAdmin}</h5>
+          </span>
+        </Popover>
       </div>
 
       <style jsx>{`
@@ -59,6 +97,12 @@ export default function BookingsDay(props) {
           margin-left: ${firstDay * 80 - 40}px;
           position: absolute;
           box-sizing: border-box;
+        }
+        span {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          margin: 0 0 0 15px;
         }
         button {
           width: ${lengthArray * 80 - 4}px;
@@ -71,6 +115,15 @@ export default function BookingsDay(props) {
           box-shadow: 1px 1px 3px #888;
           box-sizing: border-box;
           border: none;
+        }
+        h4 {
+          margin: 0;
+          color: ${colors.secondary};
+          text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+        h5 {
+          margin: 0;
+          color: grey;
         }
         p {
           margin: 0;

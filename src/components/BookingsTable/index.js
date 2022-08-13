@@ -241,14 +241,11 @@ export default function BookingsTable(props) {
   }
   const handleclick = () => {};
 
-  // useEffect(() => {
   const room225 = rooms.filter(
     (item) => item.roomNumer === "Habitación Doble 225"
   );
 
   const roomData225 = Occupation2(room225);
-  // setRoomData225(data225);
-  // }, [data]);
 
   console.log("este es el nuevo roomData225", roomData225);
   return (
@@ -338,29 +335,6 @@ export default function BookingsTable(props) {
           </div>
         </div>
       </ScrollArea>
-      {/* <ScrollArea style={{ width: 1600, height: 400 }}>
-        <div className={styles.wrapper}>{daysOfTable}</div>
-      </ScrollArea> */}
-      {/* <CollapseButton 
-  label="ApartaEstidos"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Dobles"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Triples"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Habitaciones Sencillas"
-  prisButton={}
-  />
-  <CollapseButton 
-  label="Apartamento"
-  prisButton={}
-  /> */}
     </div>
   );
 }
