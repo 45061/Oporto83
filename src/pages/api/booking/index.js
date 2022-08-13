@@ -111,6 +111,7 @@ export default async function theBooking(req, res) {
           await user.save({ validateBeforeSave: false });
 
           bookingId.reservedStatus = 0;
+          bookingId.userId = user;
           await bookingId.save({ validateBeforeSave: false });
         }
 
@@ -149,6 +150,7 @@ export default async function theBooking(req, res) {
         if (value) {
           const status = parseInt(value, 10);
           booking.reservedStatus = status;
+          booking.userId = user;
           await booking.save({ validateBeforeSave: false });
           return res.status(200).json({
             message: "Bookings found",

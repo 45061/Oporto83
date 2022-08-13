@@ -32,15 +32,14 @@ export default async function theBookingData(req, res) {
         if (!room) {
           return res.status(400).json({ message: "No find Room" });
         }
-        console.log("data que debe entrar", req.body.formData);
+
         const userbooking = await Userbooking.create({
           ...req.body.formData,
         });
 
-        console.log("este es userBooking", userbooking);
-
         const booking = await Booking.create({
           ...req.body.dataBooking,
+          userId: user,
           userBookingId: userbooking,
           roomId: room,
         });

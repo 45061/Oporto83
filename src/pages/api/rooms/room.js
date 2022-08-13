@@ -42,28 +42,11 @@ export default async function theRoom(req, res) {
         }
 
         const data = JSON.parse(body);
-        const { images, roomNumer, description, price } = data;
-        if (!images.length) {
-          console.log("error");
-        }
-        const publicIds = [];
-        const ulrImages = await Promise.all(
-          images.map(async (item) => {
-            const result = await cloudinary.uploader.upload(item.data_url, {
-              folder: "RoomImages",
-            });
-            const { url, public_id } = result;
-            publicIds.push(public_id);
-            return url;
-          })
-        );
+        const { roomNumer, price } = data;
 
         const room = await Room.create({
           roomNumer,
-          description,
           price,
-          images: ulrImages,
-          publicIds,
         });
 
         return res.status(201).json({ message: "Los datos llegaron", room });
@@ -79,14 +62,8 @@ export default async function theRoom(req, res) {
         }
 
         const data = JSON.parse(body);
-        const { publicIds, _id } = data;
+        const { _id } = data;
         const deleteRoom = await Room.findByIdAndDelete(_id);
-
-        await Promise.all(
-          publicIds.map(async (item) => {
-            await cloudinary.uploader.destroy(item);
-          })
-        );
 
         return res
           .status(201)

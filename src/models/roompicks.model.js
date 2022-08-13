@@ -1,6 +1,6 @@
 const { Schema, model, models } = require("mongoose");
 
-const roomSchema = new Schema(
+const roomPicksSchema = new Schema(
   {
     roomNumer: {
       required: true,
@@ -16,15 +16,21 @@ const roomSchema = new Schema(
         },
       ],
     },
-    bookings: {
-      type: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
+    images: {
+      required: true,
+      type: Array,
+    },
+    description: {
+      required: true,
+      type: String,
     },
     price: {
       required: true,
       type: String,
     },
-    sypplies: {
-      type: [{ type: Schema.Types.ObjectId, ref: "Supplies" }],
+    publicIds: {
+      required: true,
+      type: Array,
     },
   },
   {
@@ -33,4 +39,4 @@ const roomSchema = new Schema(
   }
 );
 
-export default models.Room || model("Room", roomSchema);
+export default models.RoomPicks || model("RoomPicks", roomPicksSchema);

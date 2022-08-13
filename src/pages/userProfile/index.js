@@ -20,25 +20,32 @@ import {
   showBookingDataAction,
   showFormAction,
   showPromoAction,
+  showRoomPickAction,
   showTextAreaAction,
 } from "../../store/actions/modalAction";
 import PromoUpload from "../../components/PromoUpload";
 import BookingAdmin from "../../components/BookingAdmin";
 
 import Slideshow from "../../components/Slideshow";
-import { deleteRoom, deletePromo } from "../../store/actions/roomAction";
+import {
+  deleteRoom,
+  deletePromo,
+  deleteRoomPick,
+} from "../../store/actions/roomAction";
 import {
   deleteBooking,
   showChargeAction,
 } from "../../store/actions/dateAction";
-import { getPostsBookings } from "../api/getPosts";
+import { getPostsBookings, getPostsRooms } from "../api/getPosts";
 import { getUerData } from "../../store/actions/authAction";
 import BookingsTable from "../../components/BookingsTable";
 import BookingData from "../../components/BookingData";
 import TexArea from "../../components/TextArea";
+import RoomPickUpload from "../../components/RoomPickUpload";
 
-export default function userProfile({ dataBookingHotel }) {
-  const bookingsHotel = JSON.parse(dataBookingHotel);
+export default function userProfile({ dataRoomsHotel }) {
+  const rooms = JSON.parse(dataRoomsHotel);
+  // console.log("esto es del getServerSideProps", bookingsHotel);
   const cookies = new Cookies();
   const token = cookies.get("token");
 
@@ -51,6 +58,7 @@ export default function userProfile({ dataBookingHotel }) {
     showBookingAdmin,
     showBookingData,
     showTextArea,
+    showRoomPick,
   } = useSelector((state) => state.modalReducer);
   const { charge, dataBooking } = useSelector((state) => state.dateReducer);
 
@@ -61,7 +69,6 @@ export default function userProfile({ dataBookingHotel }) {
   const [loading, setLoading] = useState(false);
   const [error2, setError] = useState();
   const { promos } = dataPromo;
-  const { rooms } = dataRoom;
 
   console.log("mi charge", charge);
 
@@ -78,6 +85,11 @@ export default function userProfile({ dataBookingHotel }) {
   const handleClic3 = (event) => {
     event.preventDefault();
     dispatch(showBookingAdminAction());
+  };
+
+  const handleClick4 = (event) => {
+    event.preventDefault();
+    dispatch(showRoomPickAction());
   };
 
   const { bookings } = user;
@@ -185,13 +197,13 @@ export default function userProfile({ dataBookingHotel }) {
           <td>{element.roomId.roomNumer}</td>
           <td>{element.checkIn}</td>
           <td>{element.checkOut}</td>
-          {element.userId ? (
+          {element.userBookingId ? (
             <td>
-              {element.userId.firstName} {element.userId.lastName}
+              {element.userBookingId.firstName} {element.userBookingId.lastName}
             </td>
           ) : (
             <td>
-              {element.userBookingId.firstName} {element.userBookingId.lastName}
+              {element.userId.firstName} {element.userId.lastName}
             </td>
           )}
 
@@ -200,10 +212,10 @@ export default function userProfile({ dataBookingHotel }) {
           ) : (
             <td>{element.userBookingId.numer}</td>
           )}
-          {element.userId ? (
-            <td>{element.userId.email}</td>
-          ) : (
+          {element.userBookingId ? (
             <td>{element.userBookingId.email}</td>
+          ) : (
+            <td>{element.userId.email} </td>
           )}
           <td>{element.reservedDays}</td>
           {element.userBookingId.price ? (
@@ -212,6 +224,9 @@ export default function userProfile({ dataBookingHotel }) {
             <td>$ {dinerCopUser}</td>
           )}
           <td>{element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}</td>
+          <td>
+            {element.userId.firstName} {element.userId.lastName}
+          </td>
         </tr>
       );
     })
@@ -278,6 +293,7 @@ export default function userProfile({ dataBookingHotel }) {
                   <button onClick={handleClic3}>Crear Reserva</button>
                   <button onClick={handleClick2}>Subir Promo</button>
                   <button onClick={handleClick}>Subir Room</button>
+                  <button onClick={handleClick4}>Subir RoomPick</button>
                 </div>
               ) : (
                 // eslint-disable-next-line react/self-closing-comp
@@ -347,7 +363,7 @@ export default function userProfile({ dataBookingHotel }) {
                                 <div className={styles.buttons__delete}>
                                   <button
                                     onClick={() => {
-                                      dispatch(deleteRoom(room));
+                                      dispatch(deleteRoomPick(room));
                                       dispatch(showChargeAction());
                                     }}
                                   >
@@ -439,6 +455,7 @@ export default function userProfile({ dataBookingHotel }) {
                       <th>Noches Reservadas</th>
                       <th>Valor Reserva</th>
                       <th>Estado de reserva</th>
+                      <th>Modificado Por</th>
                     </tr>
                   </thead>
                   <tbody>{rows}</tbody>
@@ -604,7 +621,13 @@ export default function userProfile({ dataBookingHotel }) {
         >
           <TexArea data={dataBooking} />
         </PublicModal>
-
+        <PublicModal
+          opened={showRoomPick}
+          onClose={() => dispatch(showRoomPickAction())}
+          size={largeScreen ? "50%" : "90%"}
+        >
+          <RoomPickUpload />
+        </PublicModal>
       </>
     )
   );
@@ -614,5 +637,8 @@ export async function getServerSideProps() {
   const apiBookings = await getPostsBookings();
   const dataBookingHotel = JSON.stringify(apiBookings);
 
-  return { props: { dataBookingHotel } };
+  const apiRooms = await getPostsRooms();
+  const dataRoomsHotel = JSON.stringify(apiRooms);
+
+  return { props: { dataBookingHotel, dataRoomsHotel } };
 }
