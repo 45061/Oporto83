@@ -45,7 +45,6 @@ import RoomPickUpload from "../../components/RoomPickUpload";
 
 export default function userProfile({ dataRoomsHotel }) {
   const rooms = JSON.parse(dataRoomsHotel);
-  // console.log("esto es del getServerSideProps", bookingsHotel);
   const cookies = new Cookies();
   const token = cookies.get("token");
 
@@ -69,8 +68,6 @@ export default function userProfile({ dataRoomsHotel }) {
   const [loading, setLoading] = useState(false);
   const [error2, setError] = useState();
   const { promos } = dataPromo;
-
-  console.log("mi charge", charge);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -609,7 +606,7 @@ export default function userProfile({ dataRoomsHotel }) {
         <PublicModal
           opened={showBookingData}
           onClose={() => dispatch(showBookingDataAction())}
-          size={largeScreen ? "50%" : "90%"}
+          size={largeScreen ? "60%" : "100%"}
         >
           <BookingData data={dataBooking} />
         </PublicModal>

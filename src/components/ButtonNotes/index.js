@@ -10,7 +10,6 @@ export default function ButtonNotes(props) {
 
   function handleClick(event) {
     event.preventDefault();
-
     dispatch(showTextAreaAction());
   }
 

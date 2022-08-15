@@ -1,4 +1,4 @@
-import { Select } from "@mantine/core";
+import { Select, Switch } from "@mantine/core";
 import { useState } from "react";
 import { BrandBooking } from "tabler-icons-react";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import ButtonNotes from "../ButtonNotes";
 export default function ButtonColor(props) {
   const { text, color, marginButton, data } = props;
   const [value, setValue] = useState("");
+  const [checked, setChecked] = useState(data.paymentMade);
   const dispatch = useDispatch();
 
   function handleClick2(event) {
@@ -15,6 +16,7 @@ export default function ButtonColor(props) {
     const putData = {
       value,
       idBooking: data._id,
+      checked,
     };
     dispatch(putBookingAdmin(putData));
   }
@@ -48,6 +50,11 @@ export default function ButtonColor(props) {
           },
         ]}
       />
+      <Switch
+        label="Pago Hecho"
+        checked={checked}
+        onChange={(event) => setChecked(event.currentTarget.checked)}
+      />
       <button onClick={handleClick2}>{text}</button>
       <ButtonNotes marginButton={marginButton} data={data} />
       <style jsx>
@@ -67,7 +74,8 @@ export default function ButtonColor(props) {
           div {
             margin-top: 15px;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-evenly;
+            align-items: flex-end;
             width: 100%;
             gap: 30px;
           }

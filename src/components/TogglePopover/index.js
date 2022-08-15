@@ -1,8 +1,6 @@
 import { Popover, Text } from "@mantine/core";
 
 export default function TogglePopover({ opened, children, onClose }) {
-  // const { children, data } = props;
-  // console.log("este es data", data);
   return (
     <Popover
       width={200}

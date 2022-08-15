@@ -51,7 +51,7 @@ export default function Calendar(props) {
     5: "Vie",
     6: "Sab",
   };
-  console.log("este es value", value);
+
   function getDates(startDate, endDate) {
     const dates = [];
     let currentDate = startDate;

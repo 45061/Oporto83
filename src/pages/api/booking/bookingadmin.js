@@ -26,7 +26,6 @@ export default async function theBookingData(req, res) {
         }
 
         const { roomId } = body.dataBooking;
-        console.log("esto es roomId", roomId);
 
         const room = await Room.findById(roomId);
         if (!room) {
