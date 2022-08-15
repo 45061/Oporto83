@@ -89,7 +89,6 @@ export default function userProfile({ dataRoomsHotel }) {
     dispatch(showRoomPickAction());
   };
 
-  //const { bookings } = user;
   useEffect(() => {
     setLoading(true);
 
