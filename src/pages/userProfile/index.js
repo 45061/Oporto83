@@ -89,15 +89,14 @@ export default function userProfile({ dataRoomsHotel }) {
     dispatch(showRoomPickAction());
   };
 
-  const { bookings } = user;
   useEffect(() => {
     setLoading(true);
 
-    if (bookings) {
+    if (user.bookings) {
       try {
         const fetchData = async () => {
           await Promise.all(
-            await bookings.map(async (booking) => {
+            await user.bookings.map(async (booking) => {
               const serieBooking = { bookingId: booking };
               const response = await fetch("/api/booking/bookinguser", {
                 method: "POST",
