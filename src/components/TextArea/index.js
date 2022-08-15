@@ -3,19 +3,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
+import { putBookingAdmin } from "../../store/actions/dateAction";
 import {
-  putBookingAdmin,
-  showChargeAction,
-} from "../../store/actions/dateAction";
-import { showBookingDataAction } from "../../store/actions/modalAction";
+  showBookingDataAction,
+  showTextAreaAction,
+} from "../../store/actions/modalAction";
 import { colors } from "../../styles/theme";
 
 export default function TexArea({ data }) {
   const { dataBooking } = data;
   const [textArea, setTextArea] = useState("");
   const dispatch = useDispatch();
-
-  console.log("esto es dataBooking en TextArea", dataBooking);
 
   function handleClick(event) {
     event.preventDefault();
@@ -24,8 +22,7 @@ export default function TexArea({ data }) {
       idBooking: dataBooking._id,
     };
     dispatch(putBookingAdmin(putData));
-    dispatch(showBookingDataAction());
-    dispatch(showChargeAction());
+    dispatch(showTextAreaAction());
   }
   return (
     dataBooking && (

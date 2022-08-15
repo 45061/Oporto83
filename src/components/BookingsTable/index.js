@@ -11,23 +11,17 @@
 import { ScrollArea, Select } from "@mantine/core";
 import dayjs from "dayjs";
 import { BrandBooking } from "tabler-icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../../styles/components/BookingsTable.module.scss";
 import BookingsDay from "../BookingDay";
 
 export default function BookingsTable(props) {
   const { data, roomsData } = props;
   const { rooms } = roomsData;
-  // const newData = data[0];
-  // const firstDay = dayjs(newData.bookingDays[0]).$D;
-  // const secondDay = dayjs(newData.bookingDays[1]).$D;
-  // const da = dayjs(firstDay);
-  // console.log(firstDay);
 
   const thisMount = dayjs().$M;
   const [value, setValue] = useState(`${thisMount}`);
   const [celda, setCelda] = useState("");
-  // const [roomData225, setRoomData225] = useState();
 
   const showAndHide = (id) => {
     const theElement = document.getElementById(id);
@@ -37,7 +31,6 @@ export default function BookingsTable(props) {
       theElement.style.display = "none";
     }
   };
-  // const daysOfMonth =
 
   function getDates(startDate, endDate) {
     const dates = [];
@@ -56,20 +49,15 @@ export default function BookingsTable(props) {
 
   const monthOfYear = parseInt(value, 10) + 1;
   const year = dayjs().$y;
-  // console.log("mes del año", monthOfYear);
+
   const d = new Date(year, monthOfYear, 0);
-  // console.log(d);
+
   const daysOfMount = d.getDate();
-  // console.log(daysOfMount);
 
   const arrDays = [];
   for (let i = 1; i <= daysOfMount; i++) {
     arrDays.push(i);
   }
-
-  console.log("este es rooms", rooms);
-  // console.log(arrDays);
-  // const dayOfWeek = dayjs().month(value).date(28).$W;
 
   const month = {
     0: "Enero",
@@ -95,7 +83,6 @@ export default function BookingsTable(props) {
     5: "Vie",
     6: "Sab",
   };
-  console.log("este es value", value);
 
   const daysOfTable = arrDays.map((element) => (
     <div className={styles.calendar__dayOfMounth} key={element}>
@@ -127,7 +114,6 @@ export default function BookingsTable(props) {
 
       const lengthArray = dates.length - 1;
       const firstDay = dates[0];
-      console.log("este es index", index);
       if (dates.length != 0) {
         const clientNameArray = [];
         const dataUser = [];
@@ -143,14 +129,13 @@ export default function BookingsTable(props) {
         }
 
         const clientName = clientNameArray.join(" ");
-        console.log("esto es room dentro de index", index);
         BookingDates.push(
           <BookingsDay
             clientName={clientName}
             lengthArray={lengthArray}
             firstDay={firstDay}
             dataBooking={index}
-            room={room.roomNumer}
+            room={room}
           />
         );
       }
@@ -171,8 +156,6 @@ export default function BookingsTable(props) {
       .split(",")
       .filter((mount) => dayjs(mount).$M == value)
       .map((item) => dayjs(item).$D);
-
-    console.log("esto es dates", dates);
 
     const arrMount = () => {
       const arrayMount = [];
@@ -197,8 +180,6 @@ export default function BookingsTable(props) {
       }
       return arrBookHab;
     });
-    console.log("datos", datos[0]);
-    console.log("arrMount", arrMount());
 
     const book = arrMount().map((day) => {
       if (day === 0) {
@@ -216,27 +197,8 @@ export default function BookingsTable(props) {
           );
         }
       }
-      // return <td className={styles.booking__table}></td>;
-      // dataIni.((booking) => {
-      //   const firstDay = dayjs(booking.bookingDays[0]).$D;
-      //   const secondDay = dayjs(booking.bookingDays[1]).$D;
-      //   const arrBookHab = [];
-
-      //   for (let i = firstDay; i <= secondDay; i++) {
-      //     arrBookHab.push(i);
-      //   }
-      //   const bolean2 = arrBookHab.some((num) => num === day);
-
-      //   if (bolean2) {
-      //     if (booking.reservedStatus) {
-      //       return <td className={styles.booking__ok}></td>;
-      //     }
-      //     return <td className={styles.booking__cancel}></td>;
-      //   }
-      //   return <td></td>;
-      // });
     });
-    // console.log("esto es book", book);
+
     return book;
   }
   const handleclick = () => {};
@@ -256,11 +218,7 @@ export default function BookingsTable(props) {
       </div>
     );
   });
-  // const room225 = rooms.filter((item) => item.roomNumer === "Doble 225");
 
-  // const roomData225 = Occupation2(room225);
-
-  // console.log("este es el nuevo roomData225", roomData225);
   return (
     <div className={styles.conteiner__calendar}>
       <Select
