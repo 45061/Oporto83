@@ -9,10 +9,8 @@ import { colors } from "../../styles/theme";
 
 export default function BookingsDay(props) {
   const dispatch = useDispatch();
-  // console.log("esto es porps", props);
   const { clientName, lengthArray, firstDay, dataBooking } = props;
   const { numer, email, price, numerOfPeople } = dataBooking.userBookingId;
-  console.log("esto es dataBooking", dataBooking);
   const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
     price * lengthArray
   );
@@ -25,7 +23,6 @@ export default function BookingsDay(props) {
     3: "blue",
     4: "purple",
   };
-  console.log("este es el color", colorsStatus[dataBooking.reservedStatus]);
 
   function handeclick(event) {
     event.preventDefault();
@@ -52,7 +49,7 @@ export default function BookingsDay(props) {
               withBorder
               inline
               label="Sin Pago"
-              disabled={false}
+              disabled={dataBooking.paymentMade}
             >
               <button
                 onMouseEnter={open}

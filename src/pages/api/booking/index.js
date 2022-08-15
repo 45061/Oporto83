@@ -132,7 +132,18 @@ export default async function theBooking(req, res) {
     case "PUT":
       try {
         const { authorization } = req.headers;
-        const { textArea, value, idBooking } = body;
+        const {
+          textArea,
+          value,
+          idBooking,
+          newroomId,
+          roomId,
+          checkIn,
+          checkOut,
+          bookingDays,
+          reservedDays,
+          checked,
+        } = body;
         const token = authorization.split(" ")[1];
         const { id } = jwt.verify(
           token,
@@ -147,10 +158,19 @@ export default async function theBooking(req, res) {
         if (!booking) {
           return res.status(400).json({ message: "No Booking User" });
         }
+
         if (value) {
           const status = parseInt(value, 10);
           booking.reservedStatus = status;
           booking.userId = user;
+          booking.paymentMade = checked;
+          await booking.save({ validateBeforeSave: false });
+          return res.status(200).json({
+            message: "Bookings found",
+          });
+        }
+        if (checked) {
+          booking.paymentMade = checked;
           await booking.save({ validateBeforeSave: false });
           return res.status(200).json({
             message: "Bookings found",
@@ -160,6 +180,39 @@ export default async function theBooking(req, res) {
           booking.textAreaData = textArea;
           await booking.save({ validateBeforeSave: false });
           return res.status(201).json({
+            message: "Bookings found",
+          });
+        }
+        if (newroomId) {
+          const newroom = await Room.findById(newroomId);
+          newroom.bookings.push(booking);
+
+          const room = await Room.findById(roomId);
+          room.bookings = room.bookings.filter(
+            (item) => item._id.toString() !== idBooking
+          );
+
+          await newroom.save({ validateBeforeSave: false });
+          await room.save({ validateBeforeSave: false });
+
+          return res.status(201).json({
+            message: "Bookings found",
+          });
+        }
+        if (checkIn) {
+          booking.checkIn = checkIn;
+          booking.checkOut = checkOut;
+          booking.reservedDays = reservedDays;
+          booking.bookingDays = bookingDays;
+          await booking.save({ validateBeforeSave: false });
+          return res.status(201).json({
+            message: "Bookings found",
+          });
+        }
+        if (!checked) {
+          booking.paymentMade = checked;
+          await booking.save({ validateBeforeSave: false });
+          return res.status(200).json({
             message: "Bookings found",
           });
         }
