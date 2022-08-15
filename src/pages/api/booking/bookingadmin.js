@@ -62,6 +62,46 @@ export default async function theBookingData(req, res) {
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
+      
+      case "DELETE":
+      try {
+        const { authorization } = req.headers;
+        const token = authorization.split(" ")[1];
+        const { id } = jwt.verify(
+          token,
+          process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+        );
+        const user = await User.findById(id);
+        if (!user) {
+          return res.status(400).json({ message: "No find User" });
+        }
+
+        const { roomId, userId, _id } = body;
+       
+          const bookingId = await Booking.findById(_id);
+       if ( roomId ) {
+          const extractId = bookingId._id;
+
+          const string = extractId.toString();
+
+          const room = await Room.findById(roomId);
+          room.bookings = room.bookings.filter(
+            (item) => item._id.toString() !== string
+          );
+
+          await room.save({ validateBeforeSave: false });
+
+          bookingId.reservedStatus = 0;
+          await bookingId.save({ validateBeforeSave: false });
+        }
+
+        return res.status(201).json({
+          message: "Los datos fueron borrados",
+        });
+        }catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+        
 
     default:
       return res.status(400).json({ msg: "this method is not supported" });

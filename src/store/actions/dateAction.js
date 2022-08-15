@@ -171,7 +171,7 @@ export const deleteBooking = (deleteData) => async (dispatch) => {
     const cookies = new Cookies();
     const token = cookies.get("token");
 
-    const response = await fetch("/api/booking", {
+    const response = await fetch("/api/booking/bookingadmin", {
       method: "DELETE",
       body: JSON.stringify(deleteData),
       headers: {
