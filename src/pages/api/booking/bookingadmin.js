@@ -98,6 +98,8 @@ export default async function theBookingData(req, res) {
         return res.status(201).json({
           message: "Los datos fueron borrados",
         });
+        }
+        
 
     default:
       return res.status(400).json({ msg: "this method is not supported" });
