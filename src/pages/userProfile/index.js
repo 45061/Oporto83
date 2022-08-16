@@ -272,7 +272,7 @@ export default function userProfile({ dataRoomsHotel }) {
   }
 
   return (
-    dataBookings.bookings && (
+    dataRoom && (
       <>
         <div className={styles.container}>
           <div className={styles.header__container}>
@@ -326,61 +326,56 @@ export default function userProfile({ dataRoomsHotel }) {
                           room.price
                         );
                         return (
-                          rooms && (
-                            <div
-                              className={styles.promo__container}
-                              key={room._id}
-                            >
-                              <div>
-                                <Link href={`/rooms/${room._id}`}>
-                                  <h3>{room.roomNumer}</h3>
-                                </Link>
-                              </div>
-                              <div className={styles.container__contents}>
-                                <div className={styles.contents__contain}>
-                                  <div className={styles.contain__slideshow}>
-                                    <Slideshow
-                                      autoplay
-                                      velocidad="5000"
-                                      intervalo="7000"
-                                    >
-                                      {room.images.map((image) => (
-                                        <div
-                                          className={styles.slideshow__slide}
-                                          key={image}
-                                        >
-                                          <img
-                                            src={image}
-                                            alt="room Oporto 83"
-                                          />
-                                        </div>
-                                      ))}
-                                    </Slideshow>
-                                  </div>
-                                  <div>
-                                    <h4>Descripción: </h4>
-                                    <p> {room.description}</p>
-                                    <h4>Precio: $ {priceCop}</h4>
-                                  </div>
+                          <div
+                            className={styles.promo__container}
+                            key={room._id}
+                          >
+                            <div>
+                              <Link href={`/rooms/${room._id}`}>
+                                <h3>{room.roomNumer}</h3>
+                              </Link>
+                            </div>
+                            <div className={styles.container__contents}>
+                              <div className={styles.contents__contain}>
+                                <div className={styles.contain__slideshow}>
+                                  <Slideshow
+                                    autoplay
+                                    velocidad="5000"
+                                    intervalo="7000"
+                                  >
+                                    {room.images.map((image) => (
+                                      <div
+                                        className={styles.slideshow__slide}
+                                        key={image}
+                                      >
+                                        <img src={image} alt="room Oporto 83" />
+                                      </div>
+                                    ))}
+                                  </Slideshow>
                                 </div>
-                                <div className={styles.contents__buttons}>
-                                  <Link href={`/rooms/${room._id}`}>
-                                    <button>Ver Habitación</button>
-                                  </Link>
-                                  <div className={styles.buttons__delete}>
-                                    <button
-                                      onClick={() => {
-                                        dispatch(deleteRoomPick(room));
-                                        dispatch(showChargeAction());
-                                      }}
-                                    >
-                                      Borrar Habitación
-                                    </button>
-                                  </div>
+                                <div>
+                                  <h4>Descripción: </h4>
+                                  <p> {room.description}</p>
+                                  <h4>Precio: $ {priceCop}</h4>
+                                </div>
+                              </div>
+                              <div className={styles.contents__buttons}>
+                                <Link href={`/rooms/${room._id}`}>
+                                  <button>Ver Habitación</button>
+                                </Link>
+                                <div className={styles.buttons__delete}>
+                                  <button
+                                    onClick={() => {
+                                      dispatch(deleteRoomPick(room));
+                                      dispatch(showChargeAction());
+                                    }}
+                                  >
+                                    Borrar Habitación
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                          )
+                          </div>
                         );
                       })}
                     </div>
@@ -397,61 +392,56 @@ export default function userProfile({ dataRoomsHotel }) {
                           prom.price
                         );
                         return (
-                          promos && (
-                            <div
-                              className={styles.promo__container}
-                              key={prom._id}
-                            >
-                              <div>
-                                <Link href={`/promotion/${prom._id}`}>
-                                  <h3>{prom.namePromo}</h3>
-                                </Link>
-                              </div>
-                              <div className={styles.container__contents}>
-                                <div className={styles.contents__contain}>
-                                  <div className={styles.contain__slideshow}>
-                                    <Slideshow
-                                      autoplay
-                                      velocidad="5000"
-                                      intervalo="7000"
-                                    >
-                                      {prom.images.map((image) => (
-                                        <div
-                                          className={styles.slideshow__slide}
-                                          key={image}
-                                        >
-                                          <img
-                                            src={image}
-                                            alt="room Oporto 83"
-                                          />
-                                        </div>
-                                      ))}
-                                    </Slideshow>
-                                  </div>
-                                  <div>
-                                    <h4>Descripción: </h4>
-                                    <p> {prom.description}</p>
-                                    <h4>Precio: $ {priceCop}</h4>
-                                  </div>
+                          <div
+                            className={styles.promo__container}
+                            key={prom._id}
+                          >
+                            <div>
+                              <Link href={`/promotion/${prom._id}`}>
+                                <h3>{prom.namePromo}</h3>
+                              </Link>
+                            </div>
+                            <div className={styles.container__contents}>
+                              <div className={styles.contents__contain}>
+                                <div className={styles.contain__slideshow}>
+                                  <Slideshow
+                                    autoplay
+                                    velocidad="5000"
+                                    intervalo="7000"
+                                  >
+                                    {prom.images.map((image) => (
+                                      <div
+                                        className={styles.slideshow__slide}
+                                        key={image}
+                                      >
+                                        <img src={image} alt="room Oporto 83" />
+                                      </div>
+                                    ))}
+                                  </Slideshow>
                                 </div>
-                                <div className={styles.contents__buttons}>
-                                  <Link href={`/promotion/${prom._id}`}>
-                                    <button>Ver Promoción</button>
-                                  </Link>
-                                  <div className={styles.buttons__delete}>
-                                    <button
-                                      onClick={() => {
-                                        dispatch(deletePromo(prom));
-                                        dispatch(showChargeAction());
-                                      }}
-                                    >
-                                      Borrar Promoción
-                                    </button>
-                                  </div>
+                                <div>
+                                  <h4>Descripción: </h4>
+                                  <p> {prom.description}</p>
+                                  <h4>Precio: $ {priceCop}</h4>
+                                </div>
+                              </div>
+                              <div className={styles.contents__buttons}>
+                                <Link href={`/promotion/${prom._id}`}>
+                                  <button>Ver Promoción</button>
+                                </Link>
+                                <div className={styles.buttons__delete}>
+                                  <button
+                                    onClick={() => {
+                                      dispatch(deletePromo(prom));
+                                      dispatch(showChargeAction());
+                                    }}
+                                  >
+                                    Borrar Promoción
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                          )
+                          </div>
                         );
                       })}
                     </div>
