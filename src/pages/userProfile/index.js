@@ -605,7 +605,7 @@ export default function userProfile({ dataRoomsHotel }) {
           onClose={() => dispatch(showBookingAdminAction())}
           size={largeScreen ? "50%" : "90%"}
         >
-          <BookingAdmin />
+          <BookingAdmin dataRoom={dataRoom} />
         </PublicModal>
         <PublicModal
           opened={showBookingData}
