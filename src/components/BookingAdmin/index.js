@@ -15,11 +15,11 @@ const dayOfYear = require("dayjs/plugin/dayOfYear");
 
 dayjs.extend(dayOfYear);
 
-export default function Register() {
+export default function RBookingAdmin({ dataRoom }) {
   const { dates } = useSelector((state) => state.dateReducer);
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
-  const [dataRoom, setDataRooms] = useState([]);
+  // const [dataRoom, setDataRooms] = useState([]);
 
   const firstDay = dayjs(dates[0]).dayOfYear();
   const secondDay = dayjs(dates[1]).dayOfYear();
@@ -36,7 +36,6 @@ export default function Register() {
     bookingDays: dates,
     reservedDays,
     reservedStatus: 1,
-
   };
 
   const [formData, setFormData] = useState({
@@ -68,21 +67,21 @@ export default function Register() {
     // dispatch(hiddeRegisterForm());
   };
 
-  useEffect(() => {
-    const fetchDataRooms = async () => {
-      await fetch("/api/rooms", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setDataRooms(data);
-        });
-    };
-    fetchDataRooms();
-  }, []);
+  // useEffect(() => {
+  //   const fetchDataRooms = async () => {
+  //     await fetch("/api/rooms", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //       .then((resp) => resp.json())
+  //       .then((data) => {
+  //         setDataRooms(data);
+  //       });
+  //   };
+  //   fetchDataRooms();
+  // }, []);
 
   return (
     rooms && (
