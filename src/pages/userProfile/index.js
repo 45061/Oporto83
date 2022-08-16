@@ -92,74 +92,74 @@ export default function userProfile({ dataRoomsHotel }) {
   useEffect(() => {
     setLoading(true);
 
-    if (user.bookings) {
-      try {
-        const fetchData = async () => {
-          await Promise.all(
-            await user.bookings.map(async (booking) => {
-              const serieBooking = { bookingId: booking };
-              const response = await fetch("/api/booking/bookinguser", {
-                method: "POST",
-                body: JSON.stringify(serieBooking),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
+    // if (user.bookings) {
+    try {
+      // const fetchData = async () => {
+      //   await Promise.all(
+      //     await user.bookings.map(async (booking) => {
+      //       const serieBooking = { bookingId: booking };
+      //       const response = await fetch("/api/booking/bookinguser", {
+      //         method: "POST",
+      //         body: JSON.stringify(serieBooking),
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //       });
 
-              const data = await response.json();
-              return data;
-            })
-          ).then((data) => {
-            setRoomsBooking(data);
+      //       const data = await response.json();
+      //       return data;
+      //     })
+      //   ).then((data) => {
+      //     setRoomsBooking(data);
+      //   });
+      // };
+      // fetchData();
+
+      const fetchBooking = async () => {
+        await fetch("/api/booking", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setDataBookings(data);
           });
-        };
-        fetchData();
+      };
+      fetchBooking();
 
-        const fetchBooking = async () => {
-          await fetch("/api/booking", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((resp) => resp.json())
-            .then((data) => {
-              setDataBookings(data);
-            });
-        };
-        fetchBooking();
+      const fetchDataRooms = async () => {
+        await fetch("/api/rooms", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setDataRooms(data);
+          });
+      };
+      fetchDataRooms();
 
-        const fetchDataRooms = async () => {
-          await fetch("/api/rooms", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((resp) => resp.json())
-            .then((data) => {
-              setDataRooms(data);
-            });
-        };
-        fetchDataRooms();
-
-        const fetchDataPromos = async () => {
-          await fetch("/api/promo", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((resp) => resp.json())
-            .then((data) => {
-              setDataPromo(data);
-            });
-        };
-        fetchDataPromos();
-      } catch (error) {
-        setError(error);
-      }
+      const fetchDataPromos = async () => {
+        await fetch("/api/promo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setDataPromo(data);
+          });
+      };
+      fetchDataPromos();
+    } catch (error) {
+      setError(error);
     }
+    // }
     setLoading(false);
   }, [loading, user, error2, charge]);
 
@@ -187,9 +187,8 @@ export default function userProfile({ dataRoomsHotel }) {
         }
       }
       const status = reserveStatus();
-
       return (
-        <tr key={element}>
+        <tr key={element._id}>
           <td>{element.roomId.roomNumer}</td>
           <td>{element.checkIn}</td>
           <td>{element.checkOut}</td>
@@ -322,7 +321,10 @@ export default function userProfile({ dataRoomsHotel }) {
                           room.price
                         );
                         return (
-                          <div className={styles.promo__container} key={room}>
+                          <div
+                            className={styles.promo__container}
+                            key={room._id}
+                          >
                             <div>
                               <Link href={`/rooms/${room._id}`}>
                                 <h3>{room.roomNumer}</h3>
@@ -385,7 +387,10 @@ export default function userProfile({ dataRoomsHotel }) {
                           prom.price
                         );
                         return (
-                          <div className={styles.promo__container} key={prom}>
+                          <div
+                            className={styles.promo__container}
+                            key={prom._id}
+                          >
                             <div>
                               <Link href={`/promotion/${prom._id}`}>
                                 <h3>{prom.namePromo}</h3>
@@ -472,7 +477,7 @@ export default function userProfile({ dataRoomsHotel }) {
                 </span>
               </div>
               <div>
-                {roomsBooking.map((roomData) => {
+                {/* {roomsBooking.map((roomData) => {
                   const precioCop = new Intl.NumberFormat("es-MX").format(
                     roomData.booking.reservedDays * roomData.room.price
                   );
@@ -539,7 +544,7 @@ export default function userProfile({ dataRoomsHotel }) {
                       </div>
                     </div>
                   );
-                })}
+                })} */}
               </div>
             </div>
           )}
