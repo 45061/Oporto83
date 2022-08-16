@@ -188,41 +188,46 @@ export default function userProfile({ dataRoomsHotel }) {
       }
       const status = reserveStatus();
       return (
-        <tr key={element._id}>
-          <td>{element.roomId.roomNumer}</td>
-          <td>{element.checkIn}</td>
-          <td>{element.checkOut}</td>
-          {element.userBookingId ? (
+        dataBookings.bookings && (
+          <tr key={element._id}>
+            <td>{element.roomId.roomNumer}</td>
+            <td>{element.checkIn}</td>
+            <td>{element.checkOut}</td>
+            {element.userBookingId ? (
+              <td>
+                {element.userBookingId.firstName}{" "}
+                {element.userBookingId.lastName}
+              </td>
+            ) : (
+              <td>
+                {element.userId.firstName} {element.userId.lastName}
+              </td>
+            )}
+
+            {element.userId ? (
+              <td>{element.userId.numer}</td>
+            ) : (
+              <td>{element.userBookingId.numer}</td>
+            )}
+            {element.userBookingId ? (
+              <td>{element.userBookingId.email}</td>
+            ) : (
+              <td>{element.userId.email} </td>
+            )}
+            <td>{element.reservedDays}</td>
+            {element.userBookingId.price ? (
+              <td>$ {dinerCopAdmin}</td>
+            ) : (
+              <td>$ {dinerCopUser}</td>
+            )}
             <td>
-              {element.userBookingId.firstName} {element.userBookingId.lastName}
+              {element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}
             </td>
-          ) : (
             <td>
               {element.userId.firstName} {element.userId.lastName}
             </td>
-          )}
-
-          {element.userId ? (
-            <td>{element.userId.numer}</td>
-          ) : (
-            <td>{element.userBookingId.numer}</td>
-          )}
-          {element.userBookingId ? (
-            <td>{element.userBookingId.email}</td>
-          ) : (
-            <td>{element.userId.email} </td>
-          )}
-          <td>{element.reservedDays}</td>
-          {element.userBookingId.price ? (
-            <td>$ {dinerCopAdmin}</td>
-          ) : (
-            <td>$ {dinerCopUser}</td>
-          )}
-          <td>{element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}</td>
-          <td>
-            {element.userId.firstName} {element.userId.lastName}
-          </td>
-        </tr>
+          </tr>
+        )
       );
     })
     .reverse();
@@ -267,7 +272,7 @@ export default function userProfile({ dataRoomsHotel }) {
   }
 
   return (
-    roomsBooking && (
+    dataBookings.bookings && (
       <>
         <div className={styles.container}>
           <div className={styles.header__container}>
@@ -321,56 +326,61 @@ export default function userProfile({ dataRoomsHotel }) {
                           room.price
                         );
                         return (
-                          <div
-                            className={styles.promo__container}
-                            key={room._id}
-                          >
-                            <div>
-                              <Link href={`/rooms/${room._id}`}>
-                                <h3>{room.roomNumer}</h3>
-                              </Link>
-                            </div>
-                            <div className={styles.container__contents}>
-                              <div className={styles.contents__contain}>
-                                <div className={styles.contain__slideshow}>
-                                  <Slideshow
-                                    autoplay
-                                    velocidad="5000"
-                                    intervalo="7000"
-                                  >
-                                    {room.images.map((image) => (
-                                      <div
-                                        className={styles.slideshow__slide}
-                                        key={image}
-                                      >
-                                        <img src={image} alt="room Oporto 83" />
-                                      </div>
-                                    ))}
-                                  </Slideshow>
-                                </div>
-                                <div>
-                                  <h4>Descripción: </h4>
-                                  <p> {room.description}</p>
-                                  <h4>Precio: $ {priceCop}</h4>
-                                </div>
-                              </div>
-                              <div className={styles.contents__buttons}>
+                          rooms && (
+                            <div
+                              className={styles.promo__container}
+                              key={room._id}
+                            >
+                              <div>
                                 <Link href={`/rooms/${room._id}`}>
-                                  <button>Ver Habitación</button>
+                                  <h3>{room.roomNumer}</h3>
                                 </Link>
-                                <div className={styles.buttons__delete}>
-                                  <button
-                                    onClick={() => {
-                                      dispatch(deleteRoomPick(room));
-                                      dispatch(showChargeAction());
-                                    }}
-                                  >
-                                    Borrar Habitación
-                                  </button>
+                              </div>
+                              <div className={styles.container__contents}>
+                                <div className={styles.contents__contain}>
+                                  <div className={styles.contain__slideshow}>
+                                    <Slideshow
+                                      autoplay
+                                      velocidad="5000"
+                                      intervalo="7000"
+                                    >
+                                      {room.images.map((image) => (
+                                        <div
+                                          className={styles.slideshow__slide}
+                                          key={image}
+                                        >
+                                          <img
+                                            src={image}
+                                            alt="room Oporto 83"
+                                          />
+                                        </div>
+                                      ))}
+                                    </Slideshow>
+                                  </div>
+                                  <div>
+                                    <h4>Descripción: </h4>
+                                    <p> {room.description}</p>
+                                    <h4>Precio: $ {priceCop}</h4>
+                                  </div>
+                                </div>
+                                <div className={styles.contents__buttons}>
+                                  <Link href={`/rooms/${room._id}`}>
+                                    <button>Ver Habitación</button>
+                                  </Link>
+                                  <div className={styles.buttons__delete}>
+                                    <button
+                                      onClick={() => {
+                                        dispatch(deleteRoomPick(room));
+                                        dispatch(showChargeAction());
+                                      }}
+                                    >
+                                      Borrar Habitación
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          )
                         );
                       })}
                     </div>
@@ -387,56 +397,61 @@ export default function userProfile({ dataRoomsHotel }) {
                           prom.price
                         );
                         return (
-                          <div
-                            className={styles.promo__container}
-                            key={prom._id}
-                          >
-                            <div>
-                              <Link href={`/promotion/${prom._id}`}>
-                                <h3>{prom.namePromo}</h3>
-                              </Link>
-                            </div>
-                            <div className={styles.container__contents}>
-                              <div className={styles.contents__contain}>
-                                <div className={styles.contain__slideshow}>
-                                  <Slideshow
-                                    autoplay
-                                    velocidad="5000"
-                                    intervalo="7000"
-                                  >
-                                    {prom.images.map((image) => (
-                                      <div
-                                        className={styles.slideshow__slide}
-                                        key={image}
-                                      >
-                                        <img src={image} alt="room Oporto 83" />
-                                      </div>
-                                    ))}
-                                  </Slideshow>
-                                </div>
-                                <div>
-                                  <h4>Descripción: </h4>
-                                  <p> {prom.description}</p>
-                                  <h4>Precio: $ {priceCop}</h4>
-                                </div>
-                              </div>
-                              <div className={styles.contents__buttons}>
+                          promos && (
+                            <div
+                              className={styles.promo__container}
+                              key={prom._id}
+                            >
+                              <div>
                                 <Link href={`/promotion/${prom._id}`}>
-                                  <button>Ver Promoción</button>
+                                  <h3>{prom.namePromo}</h3>
                                 </Link>
-                                <div className={styles.buttons__delete}>
-                                  <button
-                                    onClick={() => {
-                                      dispatch(deletePromo(prom));
-                                      dispatch(showChargeAction());
-                                    }}
-                                  >
-                                    Borrar Promoción
-                                  </button>
+                              </div>
+                              <div className={styles.container__contents}>
+                                <div className={styles.contents__contain}>
+                                  <div className={styles.contain__slideshow}>
+                                    <Slideshow
+                                      autoplay
+                                      velocidad="5000"
+                                      intervalo="7000"
+                                    >
+                                      {prom.images.map((image) => (
+                                        <div
+                                          className={styles.slideshow__slide}
+                                          key={image}
+                                        >
+                                          <img
+                                            src={image}
+                                            alt="room Oporto 83"
+                                          />
+                                        </div>
+                                      ))}
+                                    </Slideshow>
+                                  </div>
+                                  <div>
+                                    <h4>Descripción: </h4>
+                                    <p> {prom.description}</p>
+                                    <h4>Precio: $ {priceCop}</h4>
+                                  </div>
+                                </div>
+                                <div className={styles.contents__buttons}>
+                                  <Link href={`/promotion/${prom._id}`}>
+                                    <button>Ver Promoción</button>
+                                  </Link>
+                                  <div className={styles.buttons__delete}>
+                                    <button
+                                      onClick={() => {
+                                        dispatch(deletePromo(prom));
+                                        dispatch(showChargeAction());
+                                      }}
+                                    >
+                                      Borrar Promoción
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          )
                         );
                       })}
                     </div>
