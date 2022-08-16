@@ -5,6 +5,8 @@ import { dbConnect } from "../../../utils/mongoose";
 import Room from "../../../models/room.model";
 import User from "../../../models/user.model";
 import RoomPick from "../../../models/roompicks.model";
+import Booking from "../../../models/booking.model";
+
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
