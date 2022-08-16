@@ -181,7 +181,29 @@ export const deleteBooking = (deleteData) => async (dispatch) => {
     });
     const data = await response.json();
     if (response.status === 201) {
-      dispatch({ type: USER_SUCCESS, payload: data.user });
+      dispatch(showChargeAction());
+    }
+    toast.success("Reserva eliminada con exito");
+  } catch (error) {
+    toast.error("error al eliminar la reserva");
+  }
+};
+
+export const deleteBookingAdmin = (deleteData) => async (dispatch) => {
+  try {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+
+    const response = await fetch("/api/booking/bookingadmin", {
+      method: "DELETE",
+      body: JSON.stringify(deleteData),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (response.status === 201) {
       dispatch(showChargeAction());
     }
     toast.success("Reserva eliminada con exito");

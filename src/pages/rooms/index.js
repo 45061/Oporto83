@@ -21,7 +21,7 @@ export default function Rooms({ dataRoom }) {
       {rooms.map((room) => {
         const priceCop = new Intl.NumberFormat("es-MX").format(room.price);
         return (
-          <div className={styles.container} key={room}>
+          <div className={styles.container} key={room._id}>
             <Link href={`/rooms/${room._id}`}>
               <h2>{room.roomNumer}</h2>
             </Link>
