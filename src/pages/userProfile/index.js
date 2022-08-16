@@ -92,74 +92,74 @@ export default function userProfile({ dataRoomsHotel }) {
   useEffect(() => {
     setLoading(true);
 
-    // if (user.bookings) {
-    try {
-      // const fetchData = async () => {
-      //   await Promise.all(
-      //     await user.bookings.map(async (booking) => {
-      //       const serieBooking = { bookingId: booking };
-      //       const response = await fetch("/api/booking/bookinguser", {
-      //         method: "POST",
-      //         body: JSON.stringify(serieBooking),
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //       });
+    if (user.bookings) {
+      try {
+        const fetchData = async () => {
+          await Promise.all(
+            await user.bookings.map(async (booking) => {
+              const serieBooking = { bookingId: booking };
+              const response = await fetch("/api/booking/bookinguser", {
+                method: "POST",
+                body: JSON.stringify(serieBooking),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
 
-      //       const data = await response.json();
-      //       return data;
-      //     })
-      //   ).then((data) => {
-      //     setRoomsBooking(data);
-      //   });
-      // };
-      // fetchData();
-
-      const fetchBooking = async () => {
-        await fetch("/api/booking", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            setDataBookings(data);
+              const data = await response.json();
+              return data;
+            })
+          ).then((data) => {
+            setRoomsBooking(data);
           });
-      };
-      fetchBooking();
+        };
+        fetchData();
 
-      const fetchDataRooms = async () => {
-        await fetch("/api/rooms", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            setDataRooms(data);
-          });
-      };
-      fetchDataRooms();
+        const fetchBooking = async () => {
+          await fetch("/api/booking", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataBookings(data);
+            });
+        };
+        fetchBooking();
 
-      const fetchDataPromos = async () => {
-        await fetch("/api/promo", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            setDataPromo(data);
-          });
-      };
-      fetchDataPromos();
-    } catch (error) {
-      setError(error);
+        const fetchDataRooms = async () => {
+          await fetch("/api/rooms", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataRooms(data);
+            });
+        };
+        fetchDataRooms();
+
+        const fetchDataPromos = async () => {
+          await fetch("/api/promo", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => {
+              setDataPromo(data);
+            });
+        };
+        fetchDataPromos();
+      } catch (error) {
+        setError(error);
+      }
     }
-    // }
     setLoading(false);
   }, [loading, user, error2, charge]);
 
@@ -272,7 +272,7 @@ export default function userProfile({ dataRoomsHotel }) {
   }
 
   return (
-    dataRoom && (
+    user.bookings && (
       <>
         <div className={styles.container}>
           <div className={styles.header__container}>
@@ -482,7 +482,7 @@ export default function userProfile({ dataRoomsHotel }) {
                 </span>
               </div>
               <div>
-                {/* {roomsBooking.map((roomData) => {
+                {roomsBooking.map((roomData) => {
                   const precioCop = new Intl.NumberFormat("es-MX").format(
                     roomData.booking.reservedDays * roomData.room.price
                   );
@@ -549,7 +549,7 @@ export default function userProfile({ dataRoomsHotel }) {
                       </div>
                     </div>
                   );
-                })} */}
+                })}
               </div>
             </div>
           )}

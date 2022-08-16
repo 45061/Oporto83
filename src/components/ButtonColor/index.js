@@ -34,11 +34,11 @@ export default function ButtonColor(props) {
         data={[
           {
             value: "1",
-            label: "Reserva Activa",
+            label: "Reserva",
           },
           {
             value: "2",
-            label: "Habitación Ocupada",
+            label: "Check In",
           },
           {
             value: "3",
