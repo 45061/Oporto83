@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import {
   changeBookingDates,
   changeBookingRoom,
-  deleteBooking,
+  deleteBookingAdmin,
   showChargeAction,
 } from "../../store/actions/dateAction";
 import { showBookingDataAction } from "../../store/actions/modalAction";
@@ -34,9 +34,8 @@ export default function BookingData({ data }) {
 
   function handleClick(event) {
     event.preventDefault();
-    dispatch(deleteBooking(dataBooking));
+    dispatch(deleteBookingAdmin(dataBooking));
     dispatch(showBookingDataAction());
-    dispatch(showChargeAction());
   }
 
   function handleClick2(event) {

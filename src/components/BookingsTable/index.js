@@ -136,6 +136,7 @@ export default function BookingsTable(props) {
             firstDay={firstDay}
             dataBooking={index}
             room={room}
+            key={room.bookings[0]._id}
           />
         );
       }
@@ -204,7 +205,7 @@ export default function BookingsTable(props) {
   const handleclick = () => {};
 
   const nameRooms = rooms.map((room) => (
-    <div className={styles.rooms__dataDays}>
+    <div className={styles.rooms__dataDays} key={room.roomNumer}>
       <p>{room.roomNumer}</p>
     </div>
   ));
@@ -212,7 +213,7 @@ export default function BookingsTable(props) {
   const dataRooms = rooms.map((room) => {
     const roomDataBooking = Occupation2(room);
     return (
-      <div className={styles.mounth_room}>
+      <div className={styles.mounth_room} key={room.roomNumer}>
         <div className={styles.room__table}>{daysOfTableInThisMounth}</div>
         <div className={styles.room__data}>{roomDataBooking}</div>
       </div>

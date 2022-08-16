@@ -22,7 +22,7 @@ export default function Promotion({ dataPromo }) {
       {promos.map((prom) => {
         const priceCop = new Intl.NumberFormat("es-MX").format(prom.price);
         return (
-          <div className={styles.container} key={prom}>
+          <div className={styles.container} key={prom._id}>
             <Link href={`/promotion/${prom._id}`}>
               <h2>{prom.namePromo}</h2>
             </Link>
