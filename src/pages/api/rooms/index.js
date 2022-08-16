@@ -6,6 +6,7 @@ import Room from "../../../models/room.model";
 import User from "../../../models/user.model";
 import RoomPick from "../../../models/roompicks.model";
 import Booking from "../../../models/booking.model";
+import Userbooking from "../../../models/userbooking.model";
 
 const cloudinary = require("cloudinary").v2;
 
