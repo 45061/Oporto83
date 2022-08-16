@@ -188,41 +188,46 @@ export default function userProfile({ dataRoomsHotel }) {
       }
       const status = reserveStatus();
       return (
-        <tr key={element._id}>
-          <td>{element.roomId.roomNumer}</td>
-          <td>{element.checkIn}</td>
-          <td>{element.checkOut}</td>
-          {element.userBookingId ? (
+        dataBookings.bookings && (
+          <tr key={element._id}>
+            <td>{element.roomId.roomNumer}</td>
+            <td>{element.checkIn}</td>
+            <td>{element.checkOut}</td>
+            {element.userBookingId ? (
+              <td>
+                {element.userBookingId.firstName}{" "}
+                {element.userBookingId.lastName}
+              </td>
+            ) : (
+              <td>
+                {element.userId.firstName} {element.userId.lastName}
+              </td>
+            )}
+
+            {element.userId ? (
+              <td>{element.userId.numer}</td>
+            ) : (
+              <td>{element.userBookingId.numer}</td>
+            )}
+            {element.userBookingId ? (
+              <td>{element.userBookingId.email}</td>
+            ) : (
+              <td>{element.userId.email} </td>
+            )}
+            <td>{element.reservedDays}</td>
+            {element.userBookingId.price ? (
+              <td>$ {dinerCopAdmin}</td>
+            ) : (
+              <td>$ {dinerCopUser}</td>
+            )}
             <td>
-              {element.userBookingId.firstName} {element.userBookingId.lastName}
+              {element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}
             </td>
-          ) : (
             <td>
               {element.userId.firstName} {element.userId.lastName}
             </td>
-          )}
-
-          {element.userId ? (
-            <td>{element.userId.numer}</td>
-          ) : (
-            <td>{element.userBookingId.numer}</td>
-          )}
-          {element.userBookingId ? (
-            <td>{element.userBookingId.email}</td>
-          ) : (
-            <td>{element.userId.email} </td>
-          )}
-          <td>{element.reservedDays}</td>
-          {element.userBookingId.price ? (
-            <td>$ {dinerCopAdmin}</td>
-          ) : (
-            <td>$ {dinerCopUser}</td>
-          )}
-          <td>{element.reservedStatus ? <p>{status}</p> : <p>Cancelada</p>}</td>
-          <td>
-            {element.userId.firstName} {element.userId.lastName}
-          </td>
-        </tr>
+          </tr>
+        )
       );
     })
     .reverse();
@@ -267,7 +272,7 @@ export default function userProfile({ dataRoomsHotel }) {
   }
 
   return (
-    roomsBooking && (
+    dataRoom && (
       <>
         <div className={styles.container}>
           <div className={styles.header__container}>
