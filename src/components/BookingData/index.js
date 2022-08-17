@@ -21,6 +21,7 @@ import Calendar from "../Calendar";
 
 export default function BookingData({ data }) {
   const { clientName, dataBooking, room, lengthArray } = data;
+  console.log("este es room", room);
 
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
@@ -135,6 +136,10 @@ export default function BookingData({ data }) {
                   dataBooking.userBookingId.price * lengthArray
                 )}
               </p>
+            </div>
+            <div className={styles.container__text}>
+              <h3>Lugar de Reserva: </h3>
+              <p> {dataBooking.userBookingId.bookingOfPlace}</p>
             </div>
           </div>
           <div className={styles.container__movebooking}>
