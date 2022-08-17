@@ -14,6 +14,11 @@ export async function getPostsRooms() {
   return rooms;
 }
 
+export async function getPostsRoomsData() {
+  const rooms = await Room.find().populate("bookings");
+  return rooms;
+}
+
 export async function getPostsPromo() {
   const promos = await Promo.find();
   return promos;

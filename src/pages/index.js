@@ -19,7 +19,7 @@ import Calendar from "../components/Calendar";
 import PublicModal from "../components/PublicModal";
 import Login from "../components/LoginForm";
 import { postBooking, showChargeAction } from "../store/actions/dateAction";
-import { getPostsRooms } from "./api/getPosts";
+import { getPostsRoomsData } from "./api/getPosts";
 
 const dayOfYear = require("dayjs/plugin/dayOfYear");
 
@@ -37,6 +37,8 @@ export default function Home({ dataRoom }) {
   const firstDay = dayjs(dates[0]).dayOfYear();
   const secondDay = dayjs(dates[1]).dayOfYear();
   const reservedDays = secondDay - firstDay;
+
+  const thisDay = dayjs().$D - 1;
 
   const handelclick = (event) => {
     event.preventDefault();
@@ -61,7 +63,7 @@ export default function Home({ dataRoom }) {
     event.preventDefault();
     dispatch(showLoginForm());
   };
-
+  console.log("esto es value", value);
   return (
     <div>
       <div className={styles.booking}>
@@ -78,7 +80,13 @@ export default function Home({ dataRoom }) {
             label: `${item.roomNumer}`,
           }))}
         />
-        <Calendar room={value} />
+        <Calendar
+          room={value}
+          initialDay={dayjs(new Date())
+            .startOf("month")
+            .add(thisDay, "days")
+            .toDate()}
+        />
         <div className={styles.booking__button}>
           {isAuth ? (
             <button onClick={handelclick}>Realiza tu Reserva</button>
@@ -276,7 +284,7 @@ export default function Home({ dataRoom }) {
 }
 
 export async function getServerSideProps() {
-  const rooms = await getPostsRooms();
+  const rooms = await getPostsRoomsData();
 
   const dataRoom = JSON.stringify(rooms);
   return { props: { dataRoom } };
