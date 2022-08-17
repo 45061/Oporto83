@@ -45,6 +45,7 @@ export default function RBookingAdmin({ dataRoom }) {
     numer: "",
     numerOfPeople: "",
     price: "",
+    bookingOfPlace: "",
   });
   const { rooms } = dataRoom;
 
@@ -153,6 +154,16 @@ export default function RBookingAdmin({ dataRoom }) {
             placeholder="Valor Reserva"
             onChange={onChange}
             errorMessage="Numero no debe estar vacio"
+            required
+          />
+          <InputValidator
+            name="bookingOfPlace"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder="Lugar de Reserva"
+            onChange={onChange}
+            errorMessage="No debe estar vacio"
             required
           />
         </div>

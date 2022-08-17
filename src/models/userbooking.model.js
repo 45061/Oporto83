@@ -25,6 +25,10 @@ const userbookingSchema = new Schema(
       required: true,
       type: String,
     },
+    bookingOfPlace: {
+      required: true,
+      type: String,
+    },
   },
   {
     timestamps: true,

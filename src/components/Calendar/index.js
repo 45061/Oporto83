@@ -11,7 +11,7 @@ import { setDataDate } from "../../store/actions/dateAction";
 import style from "../../styles/components/CollapseCalendar.module.scss";
 
 export default function Calendar(props) {
-  const { room } = props;
+  const { room, initialDay } = props;
   const dispatch = useDispatch();
 
   const thisDay = dayjs().$D - 1;
@@ -144,10 +144,7 @@ export default function Calendar(props) {
         <RangeCalendar
           value={value}
           onChange={setValue}
-          minDate={dayjs(new Date())
-            .startOf("month")
-            .add(thisDay, "days")
-            .toDate()}
+          minDate={initialDay}
           excludeDate={(date) =>
             newBookingDates.some(
               (dates) => date.getTime() === new Date(dates).getTime()
