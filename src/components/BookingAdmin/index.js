@@ -46,6 +46,8 @@ export default function RBookingAdmin({ dataRoom }) {
     numerOfPeople: "",
     price: "",
     bookingOfPlace: "",
+    breakfast: "",
+    parking: "",
   });
   const { rooms } = dataRoom;
 
@@ -162,6 +164,26 @@ export default function RBookingAdmin({ dataRoom }) {
             type="text"
             classname={styles.register__input}
             placeholder="Lugar de Reserva"
+            onChange={onChange}
+            errorMessage="No debe estar vacio"
+            required
+          />
+          <InputValidator
+            name="breakfast"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder="Desayuno"
+            onChange={onChange}
+            errorMessage="No debe estar vacio"
+            required
+          />
+          <InputValidator
+            name="parking"
+            value={formData.name}
+            type="text"
+            classname={styles.register__input}
+            placeholder="Parqueadero"
             onChange={onChange}
             errorMessage="No debe estar vacio"
             required

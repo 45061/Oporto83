@@ -29,6 +29,14 @@ const userbookingSchema = new Schema(
       required: true,
       type: String,
     },
+    breakfast: {
+      required: true,
+      type: String,
+    },
+    parking: {
+      required: true,
+      type: String,
+    },
   },
   {
     timestamps: true,
