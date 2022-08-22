@@ -10,7 +10,8 @@ import { colors } from "../../styles/theme";
 export default function BookingsDay(props) {
   const dispatch = useDispatch();
   const { clientName, lengthArray, firstDay, dataBooking } = props;
-  const { numer, email, price, numerOfPeople } = dataBooking.userBookingId;
+  const { numer, email, price, numerOfPeople, parking, breakfast } =
+    dataBooking.userBookingId;
   const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
     price * lengthArray
   );
@@ -87,6 +88,14 @@ export default function BookingsDay(props) {
           <span>
             <h4>Valor Noches:</h4>
             <h5>${dinerCopAdmin}</h5>
+          </span>
+          <span>
+            <h4>Parqueadero:</h4>
+            <h5>{parking}</h5>
+          </span>
+          <span>
+            <h4>Desayuno:</h4>
+            <h5>{breakfast}</h5>
           </span>
         </Popover>
       </div>
