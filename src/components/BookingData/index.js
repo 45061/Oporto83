@@ -113,6 +113,10 @@ export default function BookingData({ data }) {
               <h3>Numero Contacto: </h3>
               <p> {dataBooking.userBookingId.numer}</p>
             </div>
+            <div className={styles.container__text}>
+              <h3>Parqueadero: </h3>
+              <p> {dataBooking.userBookingId.parking}</p>
+            </div>
           </div>
           <div className={styles.container}>
             <div className={styles.container__text}>
@@ -140,6 +144,10 @@ export default function BookingData({ data }) {
             <div className={styles.container__text}>
               <h3>Lugar de Reserva: </h3>
               <p> {dataBooking.userBookingId.bookingOfPlace}</p>
+            </div>
+            <div className={styles.container__text}>
+              <h3>Desayuno: </h3>
+              <p> {dataBooking.userBookingId.breakfast}</p>
             </div>
           </div>
           <div className={styles.container__movebooking}>
