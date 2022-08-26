@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 /* eslint-disable react/jsx-props-no-spreading */
 import { Provider, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -11,6 +12,7 @@ import AppLayout from "../components/AppLayout";
 import NavBar from "../components/Navbar";
 import "../styles/globals.scss";
 import { getUerData } from "../store/actions/authAction";
+import { getBoxData } from "../store/actions/boxAction";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,9 +21,11 @@ function MyApp({ Component, pageProps }) {
 
   const cookies = new Cookies();
   const token = cookies.get("token");
+  const boxActivity = cookies.get("boxActivity");
   useEffect(() => {
     if (token) {
       dispatch(getUerData(token));
+      dispatch(getBoxData(boxActivity));
     }
   }, [token, dispatch]);
   return (

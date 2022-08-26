@@ -1,10 +1,13 @@
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 import { colors } from "../../styles/theme";
 
 import MenuNavbar from "../MenuNavbar";
+import MenuCaja from "../MenuCaja";
 
 export default function NavBar() {
+  const { user } = useSelector((state) => state.authReducer);
   return (
     <>
       <navbar>
@@ -19,21 +22,13 @@ export default function NavBar() {
             </Link>
           </logo>
           <div>
+            {user?.typeUser ? <MenuCaja /> : ""}
             <Link href="/rooms">
               <h3>Habitaciones</h3>
             </Link>
             <Link href="/promotion">
               <h3>Ofertas</h3>
             </Link>
-            {/* <Link href="/rooms">
-              <h3>Cosas por hacer</h3>
-            </Link>
-            <Link href="/rooms">
-              <h3>Contactanos</h3>
-            </Link>
-            <Link href="/rooms">
-              <h3>Empresarial</h3>
-            </Link> */}
             <MenuNavbar />
           </div>
         </nav>

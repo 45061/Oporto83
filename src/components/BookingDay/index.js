@@ -21,7 +21,7 @@ export default function BookingsDay(props) {
   const colorsStatus = {
     1: "green",
     2: "red",
-    3: "blue",
+    3: "#00d3ff",
     4: "purple",
   };
 

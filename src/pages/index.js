@@ -63,7 +63,6 @@ export default function Home({ dataRoom }) {
     event.preventDefault();
     dispatch(showLoginForm());
   };
-  console.log("esto es value", value);
   return (
     <div>
       <div className={styles.booking}>
@@ -198,17 +197,17 @@ export default function Home({ dataRoom }) {
             <CardTourism
               title="Centro Histórico La Candelaria"
               body="La Candelaria es el centro vibrante de Bogotá, con lugares icónicos como una catedral de la época colonial y el Capitolio neoclásico que flanquea la Plaza Bolívar. Estrechas calles llenas de tiendas que venden esmeraldas y artesanías conducen a lugares de interés cultural."
-              image="/centro.jpg"
+              image="https://res.cloudinary.com/dtwhiptf2/image/upload/v1658603368/centro_ibwkg7.jpg"
             />
             <CardTourism
               title="Monserrate"
               body="El cerro de Monserrate es el más conocido de los cerros Orientales de Bogotá. Junto a Guadalupe es uno de los cerros tutelares de la ciudad. Monserrate tiene una altitud de 3152 m y se ubica sobre la cordillera oriental."
-              image="/monserrate.jpg"
+              image="https://res.cloudinary.com/dtwhiptf2/image/upload/v1658601112/monserrate_y93g3n.jpg"
             />
             <CardTourism
               title="Museo del Oro"
               body="El Museo del Oro del Banco de la República de Colombia es una institución pública la cual su fin es la adquisición, conservación y exposición de piezas de orfebrería y alfarería de culturas indígenas del periodo precolombino de la actual Colombia."
-              image="/museo.jpg"
+              image="https://res.cloudinary.com/dtwhiptf2/image/upload/v1658608756/museo_iq8j7b.jpg"
             />
             <CardTourism
               title="Parque Mirador de los Nevados"

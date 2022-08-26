@@ -62,8 +62,8 @@ export default async function theBookingData(req, res) {
       } catch (error) {
         return res.status(400).json({ error: error.message });
       }
-      
-      case "DELETE":
+
+    case "DELETE":
       try {
         const { authorization } = req.headers;
         const token = authorization.split(" ")[1];
@@ -77,9 +77,9 @@ export default async function theBookingData(req, res) {
         }
 
         const { roomId, userId, _id } = body;
-       
-          const bookingId = await Booking.findById(_id);
-       if ( roomId ) {
+
+        const bookingId = await Booking.findById(_id);
+        if (roomId) {
           const extractId = bookingId._id;
 
           const string = extractId.toString();
@@ -98,10 +98,9 @@ export default async function theBookingData(req, res) {
         return res.status(201).json({
           message: "Los datos fueron borrados",
         });
-        }catch (error) {
+      } catch (error) {
         return res.status(400).json({ error: error.message });
       }
-        
 
     default:
       return res.status(400).json({ msg: "this method is not supported" });
