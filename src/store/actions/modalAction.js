@@ -11,6 +11,10 @@ import {
   SHOW_BOOKING_DATA,
   SHOW_TEXTAREA_DATA,
   SHOW_ROOMPICK_UPLOAD,
+  SHOW_BOX_CREATED,
+  SHOW_SELECT_BOX,
+  SHOW_ADD_CASH,
+  SHOW_WITHDRAW_CASH,
 } from "../types";
 
 const actionBody = (type, payload = null) => ({ type, payload });
@@ -27,6 +31,10 @@ export const showBookingAdminAction = () => actionBody(SHOW_BOOKINGADMIN);
 export const showBookingDataAction = () => actionBody(SHOW_BOOKING_DATA);
 export const showTextAreaAction = () => actionBody(SHOW_TEXTAREA_DATA);
 export const showRoomPickAction = () => actionBody(SHOW_ROOMPICK_UPLOAD);
+export const showBoxCreatedAction = () => actionBody(SHOW_BOX_CREATED);
+export const showBoxSelectAction = () => actionBody(SHOW_SELECT_BOX);
+export const showAddCashAction = () => actionBody(SHOW_ADD_CASH);
+export const showWithdrawCashAction = () => actionBody(SHOW_WITHDRAW_CASH);
 
 // export const showFormAction = () => async (dispatch) => {
 //   dispatch({

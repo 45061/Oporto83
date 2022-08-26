@@ -11,6 +11,10 @@ import {
   SHOW_BOOKING_DATA,
   SHOW_TEXTAREA_DATA,
   SHOW_ROOMPICK_UPLOAD,
+  SHOW_BOX_CREATED,
+  SHOW_SELECT_BOX,
+  SHOW_ADD_CASH,
+  SHOW_WITHDRAW_CASH,
 } from "../types";
 
 const initialState = {
@@ -23,6 +27,10 @@ const initialState = {
   showBookingData: false,
   showTextArea: false,
   showRoomPick: false,
+  showBoxCreated: false,
+  showBoxSelect: false,
+  showAdd: false,
+  showWitdraw: false,
 };
 
 function modalReducer(state = initialState, action = null) {
@@ -95,6 +103,27 @@ function modalReducer(state = initialState, action = null) {
         ...state,
         showRecoverPassword: false,
       };
+    case SHOW_BOX_CREATED:
+      return {
+        ...state,
+        showBoxCreated: !state.showBoxCreated,
+      };
+    case SHOW_SELECT_BOX:
+      return {
+        ...state,
+        showBoxSelect: !state.showBoxSelect,
+      };
+    case SHOW_ADD_CASH:
+      return {
+        ...state,
+        showAdd: !state.showAdd,
+      };
+    case SHOW_WITHDRAW_CASH:
+      return {
+        ...state,
+        showWitdraw: !state.showWitdraw,
+      };
+
     default:
       return state;
   }

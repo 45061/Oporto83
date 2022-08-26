@@ -1,44 +1,39 @@
-/* eslint-disable consistent-return */
 import { Menu, Divider } from "@mantine/core";
-import { UserCheck, UserOff, User } from "tabler-icons-react";
+import { CashBanknote, CashOff, Cash } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 
 import { useMediaQuery } from "@mantine/hooks";
 import {
-  hiddeRegisterForm,
-  showLoginForm,
   hiddeLoginForm,
   hiddeRecoverPassword,
+  showBoxSelectAction,
 } from "../../store/actions/modalAction";
-import { logout } from "../../store/actions/authAction";
 import { colors } from "../../styles/theme";
 import PublicModal from "../PublicModal";
 import GetEmail from "../GetEmail";
-import Register from "../RegisterForm";
 import Login from "../LoginForm";
+import SelectBox from "../SelectBox";
 import { closedBox } from "../../store/actions/boxAction";
 
-export default function MenuNavbar() {
+export default function MenuCaja() {
+  const router = useRouter();
   const dispatch = useDispatch();
+
   const thisDay = dayjs().$d.toString().substr(0, 24);
 
   const largeScreen = useMediaQuery("(min-width: 1024px)");
-  const { isAuth } = useSelector((state) => state.authReducer);
-  const { showingRegisterForm, showingLoginForm, showRecoverPassword } =
-    useSelector((state) => state.modalReducer);
-  const { boxActive, balance } = useSelector((state) => state.boxReducer);
+  const { showBoxSelect, showingLoginForm, showRecoverPassword } = useSelector(
+    (state) => state.modalReducer
+  );
+  const { boxActive, isActivedBox, balance } = useSelector(
+    (state) => state.boxReducer
+  );
 
   const handleClick = (event) => {
     event.preventDefault();
-    dispatch(showLoginForm());
-  };
-  const handleClick2 = (event) => {
-    event.preventDefault();
-    if (!boxActive) {
-      return dispatch(logout());
-    }
     const dataBox = boxActive._id;
     const dataClosed = {
       lastClosing: thisDay,
@@ -46,43 +41,46 @@ export default function MenuNavbar() {
       balanceClosed: balance,
     };
     dispatch(closedBox(dataClosed));
-    dispatch(logout());
+    router.push("/box");
+  };
+  const handleClick2 = (event) => {
+    event.preventDefault();
+    dispatch(showBoxSelectAction());
   };
   return (
     <>
-      <Menu control={<button type="button">Perfil</button>}>
-        <Menu.Label>User</Menu.Label>
-        {isAuth ? (
-          <Menu.Item onClick={handleClick2} icon={<UserOff size={14} />}>
-            Logout
-          </Menu.Item>
-        ) : (
-          <Menu.Item onClick={handleClick} icon={<UserCheck size={14} />}>
-            Login
-          </Menu.Item>
-        )}
-        <Divider />
-        {isAuth ? (
-          <Link href="/userProfile">
-            <Menu.Item icon={<User size={14} />}>Perfil</Menu.Item>
+      <Menu control={<button type="button">Caja</button>}>
+        <Menu.Label>Caja</Menu.Label>
+        {isActivedBox ? (
+          <Link href={`/box/${boxActive._id}`}>
+            <Menu.Item icon={<Cash size={14} />}>Ir a Caja</Menu.Item>
           </Link>
         ) : (
-          <Menu.Item onClick={handleClick} icon={<User size={14} />}>
-            Perfil
+          <Menu.Item onClick={handleClick2} icon={<Cash size={14} />}>
+            Abrir Caja
           </Menu.Item>
         )}
+
+        <Menu.Item onClick={handleClick} icon={<CashOff size={14} />}>
+          Cerrar Caja
+        </Menu.Item>
+
+        <Divider />
+        <Link href="/box">
+          <Menu.Item icon={<CashBanknote size={14} />}>Crear Caja</Menu.Item>
+        </Link>
       </Menu>
       <PublicModal
-        opened={showingRegisterForm}
-        onClose={() => dispatch(hiddeRegisterForm())}
+        opened={showBoxSelect}
+        onClose={() => dispatch(showBoxSelectAction())}
         size={largeScreen ? "50%" : "90%"}
       >
-        <Register />
+        <SelectBox />
       </PublicModal>
       <PublicModal
         opened={showingLoginForm}
         onClose={() => dispatch(hiddeLoginForm())}
-        size={largeScreen ? "30%" : "90%"}
+        size={largeScreen ? "20%" : "60%"}
       >
         <Login />
       </PublicModal>
