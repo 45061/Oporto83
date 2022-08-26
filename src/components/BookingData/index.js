@@ -21,7 +21,6 @@ import Calendar from "../Calendar";
 
 export default function BookingData({ data }) {
   const { clientName, dataBooking, room, lengthArray } = data;
-  console.log("este es room", room);
 
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
