@@ -204,13 +204,13 @@ export default function BookingsTable(props) {
   }
   const handleclick = () => {};
 
-  const nameRooms = rooms.map((room) => (
+  const nameRooms = rooms?.map((room) => (
     <div className={styles.rooms__dataDays} key={room.roomNumer}>
       <p>{room.roomNumer}</p>
     </div>
   ));
 
-  const dataRooms = rooms.map((room) => {
+  const dataRooms = rooms?.map((room) => {
     const roomDataBooking = Occupation2(room);
     return (
       <div className={styles.mounth_room} key={room.roomNumer}>
