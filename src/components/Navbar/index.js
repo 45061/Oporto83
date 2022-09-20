@@ -22,6 +22,13 @@ export default function NavBar() {
             </Link>
           </logo>
           <div>
+            {user?.typeUser ? (
+              <Link href="/calendar">
+                <h3>Calendario</h3>
+              </Link>
+            ) : (
+              ""
+            )}
             {user?.typeUser ? <MenuCaja /> : ""}
             <Link href="/rooms">
               <h3>Habitaciones</h3>
