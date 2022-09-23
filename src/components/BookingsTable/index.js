@@ -112,7 +112,14 @@ export default function BookingsTable(props) {
         )
         .map((item) => dayjs(item).$D);
 
-      const lengthArray = dates.length - 1;
+      let lengthArray = 0;
+      if (dates.length === 1) {
+        lengthArray = 0.5;
+      }
+      if (dates.length !== 1) {
+        lengthArray = dates.length - 1;
+      }
+
       const firstDay = dates[0];
       if (dates.length != 0) {
         const clientNameArray = [];
