@@ -166,10 +166,10 @@ export default function userProfile({ dataRoomsHotel }) {
   const rows = dataBookings.bookings
     ?.map((element) => {
       const dinerCopAdmin = new Intl.NumberFormat("es-MX").format(
-        element.reservedDays * element.userBookingId.price
+        element.reservedDays * element.userBookingId?.price
       );
       const dinerCopUser = new Intl.NumberFormat("es-MX").format(
-        element.reservedDays * element.roomId.price
+        element.reservedDays * element.roomId?.price
       );
 
       function reserveStatus() {
@@ -215,7 +215,7 @@ export default function userProfile({ dataRoomsHotel }) {
               <td>{element.userId.email} </td>
             )}
             <td>{element.reservedDays}</td>
-            {element.userBookingId.price ? (
+            {element.userBookingId?.price ? (
               <td>$ {dinerCopAdmin}</td>
             ) : (
               <td>$ {dinerCopUser}</td>
