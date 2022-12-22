@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-return-await */
 /* eslint-disable react/button-has-type */
+/* eslint-disable no-unsafe-optional-chaining */
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Link from "next/link";
