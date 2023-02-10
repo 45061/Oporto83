@@ -66,9 +66,12 @@ export default async function thePayment(req, res) {
 
     case "GET":
       try {
-        const payment = await Payment.find().populate({
-          path: "userId boxId roomId",
-        });
+        const payment = await Payment.find()
+          .populate("userId", "firstName")
+          .populate("roomId", "roomNumer")
+          .populate({
+            path: "boxId",
+          });
 
         return res.status(201).json({
           message: "Los datos llegaron",
