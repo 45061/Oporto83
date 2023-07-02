@@ -288,7 +288,7 @@ export default function BookingsTable(props) {
           },
         ]}
       />
-      <ScrollArea style={{ width: 1500, height: 400, marginTop: 20 }}>
+      <ScrollArea style={{ width: 1500, height: 680, marginTop: 20 }}>
         <div className={styles.calendar}>
           <div className={styles.calendar__rooms}>{nameRooms}</div>
           <div className={styles.calendar__mounth}>

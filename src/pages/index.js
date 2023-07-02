@@ -72,7 +72,7 @@ export default function Home({ dataRoom }) {
           icon={<BrandBooking size={14} />}
           value={value}
           onChange={setValue}
-          label="Selecciona la habitación a reservar"
+          label="Selecciona la habitación y observa disponibilidad"
           placeholder={value.roomNumer}
           data={rooms.map((item) => ({
             value: item,
@@ -88,11 +88,9 @@ export default function Home({ dataRoom }) {
         />
         <div className={styles.booking__button}>
           {isAuth ? (
-            <button onClick={handelclick}>Realiza tu Reserva</button>
+            <button>Llama y Realiza tu Reserva</button>
           ) : (
-            <button onClick={handelclick2}>
-              Para realizar tu Reserva has Login
-            </button>
+            <button>Llama y Realiza tu Reserva</button>
           )}
         </div>
       </div>
